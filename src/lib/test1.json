@@ -1,0 +1,1218 @@
+{
+  "invoices": [
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Customer/6736e47b0036bc6b25fd_tax_invoice_KMvxzYW_Customer.pdf",
+      "jobCardId": "6736e47b0036bc6b25fd",
+      "carNumber": "JH05A0001",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 116,
+      "isInsuranceInvoice": false,
+      "isUpdatedInvoice": false,
+      "invoiceSeries": "BDS",
+      "invoiceCode": "BDS/116",
+      "insuranceInvoiceType": "Customer",
+      "$id": "673c4c32003a52b7bffc",
+      "$createdAt": "2024-11-19T08:28:35.563+00:00",
+      "$updatedAt": "2024-11-19T08:28:35.563+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "19-11-2024",
+      "jobCardDetails": {
+        "carId": "6736e40f000eeae1c5b2",
+        "diagnosis": ["one", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "JH05A0001",
+        "jobCardStatus": 5,
+        "customerName": "Omkar",
+        "customerPhone": "9470302380",
+        "parts": [
+          {
+            "partId": "6735a93d00159b1e594b",
+            "partName": "1285 QU DOOR KNOB EACH QUALIS",
+            "partNumber": "1285 Q",
+            "mrp": 31.25,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 47,
+            "subTotal": 440.62,
+            "cgstAmt": 54.29,
+            "sgstAmt": 54.29,
+            "totalTax": 108.58,
+            "amount": 496.32,
+            "discountPercentage": 12,
+            "discountAmt": 52.88
+          },
+          {
+            "partId": "6735a93d001186dbdacb",
+            "partName": "11710M65L00 MOUNTING ENG RR",
+            "partNumber": "11710M65L00",
+            "mrp": 612.69,
+            "gst": 28,
+            "hsn": "87089900",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 3,
+            "subTotal": 551.42,
+            "cgstAmt": 73.34,
+            "sgstAmt": 73.34,
+            "totalTax": 146.68,
+            "amount": 670.53,
+            "discountPercentage": 5,
+            "discountAmt": 27.57
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 5,
+            "subTotal": 2250,
+            "cgstAmt": 118.8,
+            "sgstAmt": 118.8,
+            "totalTax": 237.6,
+            "amount": 2217.6,
+            "discountPercentage": 12,
+            "discountAmt": 270
+          }
+        ],
+        "jobCardNumber": 28,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/aruU039_ftffUJCGR.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/aruU039_ftffUJCGR.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/2RiW81I_onpW6NnelG.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/2RiW81I_onpW6NnelG.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "12345",
+        "customerAddress": "TESTING ADDRESS",
+        "insuranceDetails": "{\"policyProvider\":\"Kotak Mahindra General Insurance Co. Ltd.\",\"policyProviderAddress\":\"A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)\",\"policyProviderGST\":\"27AAFCK7016C1ZT\",\"policyNumber\":\"6854848645\"}",
+        "subTotal": 3242.04,
+        "discountAmt": 538.15,
+        "amount": 3384.45,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 127.63
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 127.63
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 118.8
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 118.8
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Bodyshop",
+        "serviceAdvisorID": null,
+        "gstin": null,
+        "$id": "6736e47b0036bc6b25fd",
+        "$createdAt": "2024-11-15T06:04:45.223+00:00",
+        "$updatedAt": "2024-11-19T12:36:47.870+00:00",
+        "$permissions": [
+          "read(\"user:67319fde000c79442abc\")",
+          "update(\"user:67319fde000c79442abc\")",
+          "delete(\"user:67319fde000c79442abc\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 350.45,
+        "totalTax": 492.86,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Insurance/6736e47b0036bc6b25fd_tax_invoice_WnmIUer_Insurance.pdf",
+      "jobCardId": "6736e47b0036bc6b25fd",
+      "carNumber": "JH05A0001",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 117,
+      "isInsuranceInvoice": true,
+      "isUpdatedInvoice": false,
+      "invoiceSeries": "BDS",
+      "invoiceCode": "BDS/117",
+      "insuranceInvoiceType": "Insurance",
+      "$id": "673c4c330016636ce1bf",
+      "$createdAt": "2024-11-19T08:28:35.989+00:00",
+      "$updatedAt": "2024-11-19T08:28:35.989+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "19-11-2024",
+      "jobCardDetails": {
+        "carId": "6736e40f000eeae1c5b2",
+        "diagnosis": ["one", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "JH05A0001",
+        "jobCardStatus": 5,
+        "customerName": "Kotak Mahindra General Insurance Co. Ltd.",
+        "customerPhone": "",
+        "parts": [
+          {
+            "partId": "6735a93d00159b1e594b",
+            "partName": "1285 QU DOOR KNOB EACH QUALIS",
+            "partNumber": "1285 Q",
+            "mrp": 31.25,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 47,
+            "subTotal": 1028.13,
+            "cgstAmt": 126.66,
+            "sgstAmt": 126.66,
+            "totalTax": 253.32,
+            "amount": 1158.08,
+            "discountPercentage": 12,
+            "discountAmt": 123.37
+          },
+          {
+            "partId": "6735a93d001186dbdacb",
+            "partName": "11710M65L00 MOUNTING ENG RR",
+            "partNumber": "11710M65L00",
+            "mrp": 612.69,
+            "gst": 28,
+            "hsn": "87089900",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 3,
+            "subTotal": 1286.65,
+            "cgstAmt": 171.12,
+            "sgstAmt": 171.12,
+            "totalTax": 342.24,
+            "amount": 1564.56,
+            "discountPercentage": 5,
+            "discountAmt": 64.33
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 5,
+            "subTotal": 0,
+            "cgstAmt": 0,
+            "sgstAmt": 0,
+            "totalTax": 0,
+            "amount": 0,
+            "discountPercentage": 12,
+            "discountAmt": 0
+          }
+        ],
+        "jobCardNumber": 28,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/aruU039_ftffUJCGR.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/aruU039_ftffUJCGR.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/2RiW81I_onpW6NnelG.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/2RiW81I_onpW6NnelG.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "12345",
+        "customerAddress": "A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)",
+        "insuranceDetails": "{\"policyProvider\":\"Kotak Mahindra General Insurance Co. Ltd.\",\"policyProviderAddress\":\"A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)\",\"policyProviderGST\":\"27AAFCK7016C1ZT\",\"policyNumber\":\"6854848645\"}",
+        "subTotal": 2314.78,
+        "discountAmt": 538.15,
+        "amount": 2722.64,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 297.78
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 297.78
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 0
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 0
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Bodyshop",
+        "serviceAdvisorID": null,
+        "gstin": "27AAFCK7016C1ZT",
+        "$id": "6736e47b0036bc6b25fd",
+        "$createdAt": "2024-11-15T06:04:45.223+00:00",
+        "$updatedAt": "2024-11-19T12:36:47.870+00:00",
+        "$permissions": [
+          "read(\"user:67319fde000c79442abc\")",
+          "update(\"user:67319fde000c79442abc\")",
+          "delete(\"user:67319fde000c79442abc\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 187.7,
+        "totalTax": 595.56,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Customer/6736e47b0036bc6b25fd_tax_invoice_eQmSFby_Customer.pdf",
+      "jobCardId": "6736e47b0036bc6b25fd",
+      "carNumber": "JH05A0001",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 121,
+      "isInsuranceInvoice": false,
+      "isUpdatedInvoice": true,
+      "invoiceSeries": "BDS",
+      "invoiceCode": "BDS/121",
+      "insuranceInvoiceType": "Customer",
+      "$id": "673c80670037b2c13634",
+      "$createdAt": "2024-11-19T12:11:20.857+00:00",
+      "$updatedAt": "2024-11-19T12:11:20.857+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "19-11-2024",
+      "jobCardDetails": {
+        "carId": "6736e40f000eeae1c5b2",
+        "diagnosis": ["one", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "JH05A0001",
+        "jobCardStatus": 5,
+        "customerName": "Omkar",
+        "customerPhone": "9470302380",
+        "parts": [
+          {
+            "partId": "6735a93d00159b1e594b",
+            "partName": "1285 QU DOOR KNOB EACH QUALIS",
+            "partNumber": "1285 Q",
+            "mrp": 31.25,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 47,
+            "subTotal": 440.62,
+            "cgstAmt": 54.29,
+            "sgstAmt": 54.29,
+            "totalTax": 108.58,
+            "amount": 496.32,
+            "discountPercentage": 12,
+            "discountAmt": 52.88
+          },
+          {
+            "partId": "6735a93d001186dbdacb",
+            "partName": "11710M65L00 MOUNTING ENG RR",
+            "partNumber": "11710M65L00",
+            "mrp": 612.69,
+            "gst": 28,
+            "hsn": "87089900",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 3,
+            "subTotal": 551.42,
+            "cgstAmt": 73.34,
+            "sgstAmt": 73.34,
+            "totalTax": 146.68,
+            "amount": 670.53,
+            "discountPercentage": 5,
+            "discountAmt": 27.57
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 5,
+            "subTotal": 2250,
+            "cgstAmt": 118.8,
+            "sgstAmt": 118.8,
+            "totalTax": 237.6,
+            "amount": 2217.6,
+            "discountPercentage": 12,
+            "discountAmt": 270
+          }
+        ],
+        "jobCardNumber": 28,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/aruU039_ftffUJCGR.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/aruU039_ftffUJCGR.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/2RiW81I_onpW6NnelG.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/2RiW81I_onpW6NnelG.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "12345",
+        "customerAddress": "TESTING ADDRESS",
+        "insuranceDetails": "{\"policyProvider\":\"Kotak Mahindra General Insurance Co. Ltd.\",\"policyProviderAddress\":\"A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)\",\"policyProviderGST\":\"27AAFCK7016C1ZT\",\"policyNumber\":\"6854848645\"}",
+        "subTotal": 3242.04,
+        "discountAmt": 538.15,
+        "amount": 3384.45,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 127.63
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 127.63
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 118.8
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 118.8
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Bodyshop",
+        "serviceAdvisorID": null,
+        "gstin": null,
+        "$id": "6736e47b0036bc6b25fd",
+        "$createdAt": "2024-11-15T06:04:45.223+00:00",
+        "$updatedAt": "2024-11-19T12:36:47.870+00:00",
+        "$permissions": [
+          "read(\"user:67319fde000c79442abc\")",
+          "update(\"user:67319fde000c79442abc\")",
+          "delete(\"user:67319fde000c79442abc\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 350.45,
+        "totalTax": 492.86,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Insurance/6736e47b0036bc6b25fd_tax_invoice_LMet1Ao_Insurance.pdf",
+      "jobCardId": "6736e47b0036bc6b25fd",
+      "carNumber": "JH05A0001",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 122,
+      "isInsuranceInvoice": true,
+      "isUpdatedInvoice": true,
+      "invoiceSeries": "BDS",
+      "invoiceCode": "BDS/122",
+      "insuranceInvoiceType": "Insurance",
+      "$id": "673c80680018f40ac969",
+      "$createdAt": "2024-11-19T12:11:21.326+00:00",
+      "$updatedAt": "2024-11-19T12:11:21.326+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "19-11-2024",
+      "jobCardDetails": {
+        "carId": "6736e40f000eeae1c5b2",
+        "diagnosis": ["one", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "JH05A0001",
+        "jobCardStatus": 5,
+        "customerName": "Kotak Mahindra General Insurance Co. Ltd.",
+        "customerPhone": "",
+        "parts": [
+          {
+            "partId": "6735a93d00159b1e594b",
+            "partName": "1285 QU DOOR KNOB EACH QUALIS",
+            "partNumber": "1285 Q",
+            "mrp": 31.25,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 47,
+            "subTotal": 1028.13,
+            "cgstAmt": 126.66,
+            "sgstAmt": 126.66,
+            "totalTax": 253.32,
+            "amount": 1158.08,
+            "discountPercentage": 12,
+            "discountAmt": 123.37
+          },
+          {
+            "partId": "6735a93d001186dbdacb",
+            "partName": "11710M65L00 MOUNTING ENG RR",
+            "partNumber": "11710M65L00",
+            "mrp": 612.69,
+            "gst": 28,
+            "hsn": "87089900",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 3,
+            "subTotal": 1286.65,
+            "cgstAmt": 171.12,
+            "sgstAmt": 171.12,
+            "totalTax": 342.24,
+            "amount": 1564.56,
+            "discountPercentage": 5,
+            "discountAmt": 64.33
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 5,
+            "subTotal": 0,
+            "cgstAmt": 0,
+            "sgstAmt": 0,
+            "totalTax": 0,
+            "amount": 0,
+            "discountPercentage": 12,
+            "discountAmt": 0
+          }
+        ],
+        "jobCardNumber": 28,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/aruU039_ftffUJCGR.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/aruU039_ftffUJCGR.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/2RiW81I_onpW6NnelG.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/2RiW81I_onpW6NnelG.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "12345",
+        "customerAddress": "A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)",
+        "insuranceDetails": "{\"policyProvider\":\"Kotak Mahindra General Insurance Co. Ltd.\",\"policyProviderAddress\":\"A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)\",\"policyProviderGST\":\"27AAFCK7016C1ZT\",\"policyNumber\":\"6854848645\"}",
+        "subTotal": 2314.78,
+        "discountAmt": 538.15,
+        "amount": 2722.64,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 297.78
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 297.78
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 0
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 0
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Bodyshop",
+        "serviceAdvisorID": null,
+        "gstin": "27AAFCK7016C1ZT",
+        "$id": "6736e47b0036bc6b25fd",
+        "$createdAt": "2024-11-15T06:04:45.223+00:00",
+        "$updatedAt": "2024-11-19T12:36:47.870+00:00",
+        "$permissions": [
+          "read(\"user:67319fde000c79442abc\")",
+          "update(\"user:67319fde000c79442abc\")",
+          "delete(\"user:67319fde000c79442abc\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 187.7,
+        "totalTax": 595.56,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Customer/6736e47b0036bc6b25fd_tax_invoice_xeYIiz3_Customer.pdf",
+      "jobCardId": "6736e47b0036bc6b25fd",
+      "carNumber": "JH05A0001",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 126,
+      "isInsuranceInvoice": false,
+      "isUpdatedInvoice": true,
+      "invoiceSeries": "BDS",
+      "invoiceCode": "BDS/126",
+      "insuranceInvoiceType": "Customer",
+      "$id": "673c8665001b3b782877",
+      "$createdAt": "2024-11-19T12:36:54.427+00:00",
+      "$updatedAt": "2024-11-19T12:36:54.427+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "19-11-2024",
+      "jobCardDetails": {
+        "carId": "6736e40f000eeae1c5b2",
+        "diagnosis": ["one", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "JH05A0001",
+        "jobCardStatus": 5,
+        "customerName": "Omkar",
+        "customerPhone": "9470302380",
+        "parts": [
+          {
+            "partId": "6735a93d00159b1e594b",
+            "partName": "1285 QU DOOR KNOB EACH QUALIS",
+            "partNumber": "1285 Q",
+            "mrp": 31.25,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 47,
+            "subTotal": 440.62,
+            "cgstAmt": 54.29,
+            "sgstAmt": 54.29,
+            "totalTax": 108.58,
+            "amount": 496.32,
+            "discountPercentage": 12,
+            "discountAmt": 52.88
+          },
+          {
+            "partId": "6735a93d001186dbdacb",
+            "partName": "11710M65L00 MOUNTING ENG RR",
+            "partNumber": "11710M65L00",
+            "mrp": 612.69,
+            "gst": 28,
+            "hsn": "87089900",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 3,
+            "subTotal": 551.42,
+            "cgstAmt": 73.34,
+            "sgstAmt": 73.34,
+            "totalTax": 146.68,
+            "amount": 670.53,
+            "discountPercentage": 5,
+            "discountAmt": 27.57
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 5,
+            "subTotal": 2250,
+            "cgstAmt": 118.8,
+            "sgstAmt": 118.8,
+            "totalTax": 237.6,
+            "amount": 2217.6,
+            "discountPercentage": 12,
+            "discountAmt": 270
+          }
+        ],
+        "jobCardNumber": 28,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/aruU039_ftffUJCGR.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/aruU039_ftffUJCGR.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/2RiW81I_onpW6NnelG.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/2RiW81I_onpW6NnelG.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "12345",
+        "customerAddress": "TESTING ADDRESS",
+        "insuranceDetails": "{\"policyProvider\":\"Kotak Mahindra General Insurance Co. Ltd.\",\"policyProviderAddress\":\"A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)\",\"policyProviderGST\":\"27AAFCK7016C1ZT\",\"policyNumber\":\"6854848645\"}",
+        "subTotal": 3242.04,
+        "discountAmt": 538.15,
+        "amount": 3384.45,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 127.63
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 127.63
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 118.8
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 118.8
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Bodyshop",
+        "serviceAdvisorID": null,
+        "gstin": null,
+        "$id": "6736e47b0036bc6b25fd",
+        "$createdAt": "2024-11-15T06:04:45.223+00:00",
+        "$updatedAt": "2024-11-19T12:36:47.870+00:00",
+        "$permissions": [
+          "read(\"user:67319fde000c79442abc\")",
+          "update(\"user:67319fde000c79442abc\")",
+          "delete(\"user:67319fde000c79442abc\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 350.45,
+        "totalTax": 492.86,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Insurance/6736e47b0036bc6b25fd_tax_invoice_AxJaibc_Insurance.pdf",
+      "jobCardId": "6736e47b0036bc6b25fd",
+      "carNumber": "JH05A0001",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 127,
+      "isInsuranceInvoice": true,
+      "isUpdatedInvoice": true,
+      "invoiceSeries": "BDS",
+      "invoiceCode": "BDS/127",
+      "insuranceInvoiceType": "Insurance",
+      "$id": "673c8665003a0766ef97",
+      "$createdAt": "2024-11-19T12:36:54.901+00:00",
+      "$updatedAt": "2024-11-19T12:36:54.901+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "19-11-2024",
+      "jobCardDetails": {
+        "carId": "6736e40f000eeae1c5b2",
+        "diagnosis": ["one", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "JH05A0001",
+        "jobCardStatus": 5,
+        "customerName": "Kotak Mahindra General Insurance Co. Ltd.",
+        "customerPhone": "",
+        "parts": [
+          {
+            "partId": "6735a93d00159b1e594b",
+            "partName": "1285 QU DOOR KNOB EACH QUALIS",
+            "partNumber": "1285 Q",
+            "mrp": 31.25,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 47,
+            "subTotal": 1028.13,
+            "cgstAmt": 126.66,
+            "sgstAmt": 126.66,
+            "totalTax": 253.32,
+            "amount": 1158.08,
+            "discountPercentage": 12,
+            "discountAmt": 123.37
+          },
+          {
+            "partId": "6735a93d001186dbdacb",
+            "partName": "11710M65L00 MOUNTING ENG RR",
+            "partNumber": "11710M65L00",
+            "mrp": 612.69,
+            "gst": 28,
+            "hsn": "87089900",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 3,
+            "subTotal": 1286.65,
+            "cgstAmt": 171.12,
+            "sgstAmt": 171.12,
+            "totalTax": 342.24,
+            "amount": 1564.56,
+            "discountPercentage": 5,
+            "discountAmt": 64.33
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 5,
+            "subTotal": 0,
+            "cgstAmt": 0,
+            "sgstAmt": 0,
+            "totalTax": 0,
+            "amount": 0,
+            "discountPercentage": 12,
+            "discountAmt": 0
+          }
+        ],
+        "jobCardNumber": 28,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/aruU039_ftffUJCGR.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/aruU039_ftffUJCGR.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/2RiW81I_onpW6NnelG.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/2RiW81I_onpW6NnelG.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "12345",
+        "customerAddress": "A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)",
+        "insuranceDetails": "{\"policyProvider\":\"Kotak Mahindra General Insurance Co. Ltd.\",\"policyProviderAddress\":\"A.K. Vaidya Marg, 8th floor, Zone IV, Kotak Towers, Bldg No-21, Infiniti IT park, off W.E.Highway, Malad (E)\",\"policyProviderGST\":\"27AAFCK7016C1ZT\",\"policyNumber\":\"6854848645\"}",
+        "subTotal": 2314.78,
+        "discountAmt": 538.15,
+        "amount": 2722.64,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 297.78
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 297.78
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 0
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 0
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Bodyshop",
+        "serviceAdvisorID": null,
+        "gstin": "27AAFCK7016C1ZT",
+        "$id": "6736e47b0036bc6b25fd",
+        "$createdAt": "2024-11-15T06:04:45.223+00:00",
+        "$updatedAt": "2024-11-19T12:36:47.870+00:00",
+        "$permissions": [
+          "read(\"user:67319fde000c79442abc\")",
+          "update(\"user:67319fde000c79442abc\")",
+          "delete(\"user:67319fde000c79442abc\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 187.7,
+        "totalTax": 595.56,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Customer/6734f4a500225e05c5f0_tax_invoice_qSfRFmz_Customer.pdf",
+      "jobCardId": "6734f4a500225e05c5f0",
+      "carNumber": "MH04AB1234",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 32,
+      "isInsuranceInvoice": false,
+      "isUpdatedInvoice": false,
+      "invoiceSeries": "SER",
+      "invoiceCode": "SER/32",
+      "insuranceInvoiceType": "Customer",
+      "$id": "673f342e0038a5a77c98",
+      "$createdAt": "2024-11-21T13:22:56.623+00:00",
+      "$updatedAt": "2024-11-21T13:22:56.623+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "21-11-2024",
+      "jobCardDetails": {
+        "carId": "6734f3b0003983a7ac23",
+        "diagnosis": ["One ", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "MH04AB1234",
+        "jobCardStatus": 5,
+        "customerName": "Omkar TEST",
+        "customerPhone": "9470302380",
+        "parts": [
+          {
+            "partId": "67348cf30017a405fef1",
+            "partName": "06A725851  A/C COMPERSSOR RELIEF VALVE SUPERB",
+            "partNumber": "06A725851",
+            "mrp": 3282,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 6,
+            "subTotal": 9846,
+            "cgstAmt": 1213.02,
+            "sgstAmt": 1213.02,
+            "totalTax": 2426.04,
+            "amount": 11090.53,
+            "discountPercentage": 12,
+            "discountAmt": 1181.52
+          },
+          {
+            "partId": "67348cf30016914ec37a",
+            "partName": "0311AM0020N  FRONT CRANK OIL SEAL SCORPIO",
+            "partNumber": "0311AM0020N",
+            "mrp": 890,
+            "gst": 18,
+            "hsn": "8708",
+            "cgst": 9,
+            "sgst": 9,
+            "quantity": 3,
+            "subTotal": 1335,
+            "cgstAmt": 114.15,
+            "sgstAmt": 114.15,
+            "totalTax": 228.3,
+            "amount": 1496.54,
+            "discountPercentage": 5,
+            "discountAmt": 66.75
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5e670002de100299",
+            "labourName": "labour1",
+            "labourCode": "2187",
+            "mrp": 350,
+            "gst": 18,
+            "hsn": "00000874",
+            "cgst": 9,
+            "sgst": 9,
+            "quantity": 4,
+            "subTotal": 1400,
+            "cgstAmt": 126,
+            "sgstAmt": 126,
+            "totalTax": 252,
+            "amount": 1652
+          },
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 2,
+            "subTotal": 900,
+            "cgstAmt": 54,
+            "sgstAmt": 54,
+            "totalTax": 108,
+            "amount": 1008
+          }
+        ],
+        "jobCardNumber": 27,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/jqv5pbp_alU6Y4EsRW.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/jqv5pbp_alU6Y4EsRW.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/HP7zkpK_bBDe9YHpee.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/HP7zkpK_bBDe9YHpee.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "4567",
+        "customerAddress": "TESTTTTT",
+        "insuranceDetails": "{\"policyProvider\":\"Future Generali General Insurance\",\"policyProviderAddress\":\"Unit  No .801 802,Tower C 247 Embassy Park,LBS Marg\",\"policyProviderGST\":\"27AABCF0191R2Z8\",\"policyNumber\":\"548654865\"}",
+        "subTotal": 13481,
+        "discountAmt": 2496.54,
+        "amount": 15247.07,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 1213.02
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 1213.02
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 9,
+            "taxName": "CGST",
+            "taxAmt": 114.15
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 9,
+            "taxName": "SGST",
+            "taxAmt": 114.15
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 9,
+            "taxName": "CGST",
+            "taxAmt": 126
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 9,
+            "taxName": "SGST",
+            "taxAmt": 126
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 54
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 54
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Running Repair",
+        "serviceAdvisorID": null,
+        "gstin": null,
+        "$id": "6734f4a500225e05c5f0",
+        "$createdAt": "2024-11-13T18:49:13.905+00:00",
+        "$updatedAt": "2024-11-21T13:22:48.414+00:00",
+        "$permissions": [
+          "read(\"user:67319f80002d569e6830\")",
+          "update(\"user:67319f80002d569e6830\")",
+          "delete(\"user:67319f80002d569e6830\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 1248.27,
+        "totalTax": 3014.34,
+        "placeOfSupply": "Maharashtra"
+      }
+    },
+    {
+      "invoiceUrl": "https://ik.imagekit.io/ztq7tvia1/Invoices/Tax/InsuranceInvoices/Insurance/6734f4a500225e05c5f0_tax_invoice_qG5tE1i_Insurance.pdf",
+      "jobCardId": "6734f4a500225e05c5f0",
+      "carNumber": "MH04AB1234",
+      "invoiceType": "Tax Invoice",
+      "invoiceNumber": 33,
+      "isInsuranceInvoice": true,
+      "isUpdatedInvoice": false,
+      "invoiceSeries": "SER",
+      "invoiceCode": "SER/33",
+      "insuranceInvoiceType": "Insurance",
+      "$id": "673f342f0019e7985511",
+      "$createdAt": "2024-11-21T13:22:57.098+00:00",
+      "$updatedAt": "2024-11-21T13:22:57.098+00:00",
+      "$permissions": [],
+      "$databaseId": "66b10c670021dc021477",
+      "$collectionId": "6710ba53003b4b25a23d",
+      "invoiceDate": "21-11-2024",
+      "jobCardDetails": {
+        "carId": "6734f3b0003983a7ac23",
+        "diagnosis": ["One ", "two", "three"],
+        "sendToPartsManager": true,
+        "carNumber": "MH04AB1234",
+        "jobCardStatus": 5,
+        "customerName": "Future Generali General Insurance",
+        "customerPhone": "",
+        "parts": [
+          {
+            "partId": "67348cf30017a405fef1",
+            "partName": "06A725851  A/C COMPERSSOR RELIEF VALVE SUPERB",
+            "partNumber": "06A725851",
+            "mrp": 3282,
+            "gst": 28,
+            "hsn": "8708",
+            "cgst": 14,
+            "sgst": 14,
+            "quantity": 6,
+            "subTotal": 9846,
+            "cgstAmt": 1213.03,
+            "sgstAmt": 1213.03,
+            "totalTax": 2426.06,
+            "amount": 11090.53,
+            "discountPercentage": 12,
+            "discountAmt": 1181.52
+          },
+          {
+            "partId": "67348cf30016914ec37a",
+            "partName": "0311AM0020N  FRONT CRANK OIL SEAL SCORPIO",
+            "partNumber": "0311AM0020N",
+            "mrp": 890,
+            "gst": 18,
+            "hsn": "8708",
+            "cgst": 9,
+            "sgst": 9,
+            "quantity": 3,
+            "subTotal": 1335,
+            "cgstAmt": 114.14,
+            "sgstAmt": 114.14,
+            "totalTax": 228.28,
+            "amount": 1496.54,
+            "discountPercentage": 5,
+            "discountAmt": 66.75
+          }
+        ],
+        "labour": [
+          {
+            "labourId": "66fa5e670002de100299",
+            "labourName": "labour1",
+            "labourCode": "2187",
+            "mrp": 350,
+            "gst": 18,
+            "hsn": "00000874",
+            "cgst": 9,
+            "sgst": 9,
+            "quantity": 4,
+            "subTotal": 0,
+            "cgstAmt": 0,
+            "sgstAmt": 0,
+            "totalTax": 0,
+            "amount": 0,
+            "discountAmt": 0
+          },
+          {
+            "labourId": "66fa5ec8003652cfc8ff",
+            "labourName": "labour3",
+            "labourCode": "68542854",
+            "mrp": 450,
+            "gst": 12,
+            "hsn": "78659967495",
+            "cgst": 6,
+            "sgst": 6,
+            "quantity": 2,
+            "subTotal": 0,
+            "cgstAmt": 0,
+            "sgstAmt": 0,
+            "totalTax": 0,
+            "amount": 0,
+            "discountAmt": 0
+          }
+        ],
+        "jobCardNumber": 27,
+        "images": [
+          "{\"imageType\":\"Fuel\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/jqv5pbp_alU6Y4EsRW.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/jqv5pbp_alU6Y4EsRW.jpg\"}",
+          "{\"imageType\":\"Odometer\",\"thumbnailURL\":\"https://ik.imagekit.io/ztq7tvia1/tr:n-ik_ml_thumbnail/HP7zkpK_bBDe9YHpee.jpg\",\"imageURL\":\"https://ik.imagekit.io/ztq7tvia1/HP7zkpK_bBDe9YHpee.jpg\"}"
+        ],
+        "carFuel": "60%",
+        "carOdometer": "4567",
+        "customerAddress": "Unit  No .801 802,Tower C 247 Embassy Park,LBS Marg",
+        "insuranceDetails": "{\"policyProvider\":\"Future Generali General Insurance\",\"policyProviderAddress\":\"Unit  No .801 802,Tower C 247 Embassy Park,LBS Marg\",\"policyProviderGST\":\"27AABCF0191R2Z8\",\"policyNumber\":\"548654865\"}",
+        "subTotal": 11181,
+        "discountAmt": 2496.54,
+        "amount": 12587.07,
+        "taxes": [
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "CGST",
+            "taxAmt": 1213.03
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 14,
+            "taxName": "SGST",
+            "taxAmt": 1213.03
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 9,
+            "taxName": "CGST",
+            "taxAmt": 114.14
+          },
+          {
+            "taxType": "GOODS",
+            "taxRate": 9,
+            "taxName": "SGST",
+            "taxAmt": 114.14
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 9,
+            "taxName": "CGST",
+            "taxAmt": 0
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 9,
+            "taxName": "SGST",
+            "taxAmt": 0
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "CGST",
+            "taxAmt": 0
+          },
+          {
+            "taxType": "SERVICES",
+            "taxRate": 6,
+            "taxName": "SGST",
+            "taxAmt": 0
+          }
+        ],
+        "jobCardPDF": null,
+        "gatePassPDF": null,
+        "purposeOfVisit": "Running Repair",
+        "serviceAdvisorID": null,
+        "gstin": "27AABCF0191R2Z8",
+        "$id": "6734f4a500225e05c5f0",
+        "$createdAt": "2024-11-13T18:49:13.905+00:00",
+        "$updatedAt": "2024-11-21T13:22:48.414+00:00",
+        "$permissions": [
+          "read(\"user:67319f80002d569e6830\")",
+          "update(\"user:67319f80002d569e6830\")",
+          "delete(\"user:67319f80002d569e6830\")"
+        ],
+        "$databaseId": "66b10c670021dc021477",
+        "$collectionId": "66e80a830013e7a81f31",
+        "totalDiscountAmt": 1248.27,
+        "totalTax": 2654.34,
+        "placeOfSupply": "Maharashtra"
+      }
+    }
+  ]
+}
