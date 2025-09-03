@@ -183,7 +183,7 @@ export const GatePassPDF = ({
               <Text style={styles.tableData}>{car.customerAddress || "-"}</Text>
             </View>
           </View>
-          <View style={styles.tableRow}>
+          {/* <View style={styles.tableRow}>
             <View style={styles.tableCell}>
               <Text style={[styles.tableData, styles.tableDataEmphasized]}>
                 Gate Pass No.:
@@ -192,7 +192,7 @@ export const GatePassPDF = ({
             <View style={styles.tableCell}>
               <Text style={styles.tableData}>GP-{tempCar.$id}</Text>
             </View>
-          </View>
+          </View> */}
         </View>
 
         {/* Vehicle */}
