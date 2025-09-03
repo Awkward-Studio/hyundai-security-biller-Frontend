@@ -37,6 +37,7 @@ import { useEffect, useState } from "react";
 import {
   CarStatus,
   updateTempCarById,
+  updateTempCarField,
   type TempCarRecord,
 } from "@/lib/appwrite";
 import Link from "next/link";
@@ -106,10 +107,10 @@ function SecurityRowActions({ tempCar }: { tempCar: TempCarRecord }) {
     try {
       setLoading(true);
       await updateTempCarById(tempCar.$id as string, CarStatus.EXITED);
+      await updateTempCarField(tempCar.$id as string, "redundant", false);
       window.location.reload();
     } catch (e) {
       console.error(e);
-      // keep it simple here; table context usually lacks toast
       alert("Failed to mark as exited");
     } finally {
       setLoading(false);

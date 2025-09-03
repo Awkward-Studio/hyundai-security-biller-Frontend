@@ -39,14 +39,14 @@ databases = new Databases(client);
 storage = new Storage(client);
 functions = new Functions(client);
 
-/* =========================
-   IMAGEKIT 
-   ========================= */
-export const imagekit = new ImageKit({
-  publicKey: "public_YxeQGi/zYRicR5GdhQu7UwOMAYg=",
-  privateKey: "private_pPkQ38mNRgbbpt9JElST4HPGQfw=",
-  urlEndpoint: "https://ik.imagekit.io/ztq7tvia1",
-});
+// /* =========================
+//    IMAGEKIT
+//    ========================= */
+// export const imagekit = new ImageKit({
+//   publicKey: "public_YxeQGi/zYRicR5GdhQu7UwOMAYg=",
+//   privateKey: "private_pPkQ38mNRgbbpt9JElST4HPGQfw=",
+//   urlEndpoint: "https://ik.imagekit.io/ztq7tvia1",
+// });
 
 /* =========================
    ENV
@@ -54,7 +54,7 @@ export const imagekit = new ImageKit({
 const useDev = false;
 let apiUrl = useDev
   ? "http://localhost:3000"
-  : "https://t3-next-dev.vercel.app";
+  : "https://hyundai-garage-frontend.vercel.app/";
 
 /* =========================
    TABLE SHAPES 
@@ -383,6 +383,23 @@ export const updateCarField = async <K extends keyof CarRecord>(
   id: string,
   fieldName: K,
   fieldValue: CarRecord[K]
+) => {
+  try {
+    const repo = new BaseRepository(config.carsCollectionId);
+    await repo.updateDocumentById(id, { [fieldName]: fieldValue } as any);
+    return true;
+  } catch (error: any) {
+    console.error(
+      `Failed to update field "${String(fieldName)}": ${error.message}`
+    );
+    return null;
+  }
+};
+
+export const updateTempCarField = async <K extends keyof TempCarRecord>(
+  id: string,
+  fieldName: K,
+  fieldValue: TempCarRecord[K]
 ) => {
   try {
     const repo = new BaseRepository(config.carsCollectionId);

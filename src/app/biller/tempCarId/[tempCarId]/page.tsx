@@ -23,12 +23,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import loader from "../../../../../public/assets/t3-loader.gif";
 
-const useDev = true;
+const useDev = false;
 let apiUrl: string;
 if (useDev) {
   apiUrl = "http://localhost:3000";
 } else {
-  apiUrl = "https://t3-next-dev.vercel.app";
+  apiUrl = "https://hyundai-garage-frontend.vercel.app";
 }
 
 type TempCarDoc = any;
