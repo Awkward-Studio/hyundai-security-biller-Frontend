@@ -54,7 +54,7 @@ functions = new Functions(client);
 const useDev = false;
 let apiUrl = useDev
   ? "http://localhost:3000"
-  : "https://hyundai-garage-frontend.vercel.app/";
+  : "https://hyundai-garage-frontend.vercel.app";
 
 /* =========================
    TABLE SHAPES 
