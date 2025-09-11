@@ -120,7 +120,7 @@ function SecurityRowActions({ tempCar }: { tempCar: TempCarRecord }) {
   return (
     <div className="p-2">
       <Button
-        className="bg-red-500 text-white"
+        className="bg-blue-600 text-white"
         onClick={handleExit}
         disabled={loading}
       >

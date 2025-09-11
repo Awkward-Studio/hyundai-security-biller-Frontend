@@ -92,7 +92,7 @@ export function ViewCurrentPartsDataTable<TData, TValue>({
           <span className="font-bold"> I : </span>
           {roundToTwoDecimals(splitAmts.insuranceAmt)}
         </div>
-        <div className="text-red-500">
+        <div className="text-blue-600">
           <span className="font-bold"> C : </span>
           {roundToTwoDecimals(splitAmts.customerAmt)}
         </div>{" "}
@@ -140,7 +140,7 @@ export function ViewCurrentPartsDataTable<TData, TValue>({
                   ) : (
                     <Button
                       variant="outline"
-                      className="border border-red-500 text-red-500"
+                      className="border border-blue-600 text-blue-600"
                       onClick={() => setIsDiscount((prev) => true)}
                       disabled={disable}
                     >
@@ -173,7 +173,7 @@ export function ViewCurrentPartsDataTable<TData, TValue>({
                   ) : (
                     <Button
                       variant="outline"
-                      className="border border-red-500 text-red-500"
+                      className="border border-blue-600 text-blue-600"
                       onClick={() => {
                         if (isInsuranceDetails) {
                           setIsInsurance((prev) => true);

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../public/assets/Logomark.png";
+import logo from "../../public/assets/index_hyundai.svg";
 import loader from "../../public/assets/t3-loader.gif";
 // import { Home01Icon, Layers01Icon, Logout04Icon } from "hugeicons-react";
 import {
@@ -72,7 +72,7 @@ export default function Sidebar({ home }: any) {
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle className="flex justify-center">
-                <Image src={logo} width={50} height={50} alt="Logo" />
+                <Image src={logo} width={100} height={50} alt="Logo" />
               </DrawerTitle>
             </DrawerHeader>
             <DrawerFooter>

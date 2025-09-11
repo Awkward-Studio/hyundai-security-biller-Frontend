@@ -66,7 +66,7 @@ export default function Security({}: Props) {
   return (
     <div className="flex flex-col w-[90%] mt-32">
       <Link
-        className="fixed z-20 bottom-7 right-7 bg-red-500 p-3 rounded-xl border-2 border-black"
+        className="fixed z-20 bottom-7 right-7 bg-blue-600 p-3 rounded-xl border-2 border-black"
         href={`${pathname}/addCar`}
       >
         <Plus size={40} color="white" />

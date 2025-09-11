@@ -89,7 +89,7 @@ const AddDiagnosis = ({ setCarDiagnosis }: any) => {
           {index === tempDiagnosis.length - 1 ? (
             <Button
               onClick={addDiagnosisPoint}
-              className="ml-3 bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition-colors"
+              className="ml-3 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition-colors"
             >
               <Plus />
             </Button>

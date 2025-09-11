@@ -2,7 +2,7 @@
 
 import React, { use, useState } from "react";
 import Image from "next/image";
-import T3_Full from "../../public/assets/t3_cars_full_logo.png";
+import T3_Full from "../../public/assets/index_hyundai.svg";
 import loader from "../../public/assets/loader.png";
 import { setCookie, deleteCookie } from "cookies-next";
 // import { loginUser, listSessions, logoutUser } from "@/lib/appwrite";
@@ -83,7 +83,7 @@ function Login({}: Props) {
           <Image src={loader} width={100} height={100} alt="Loading" />
         </div>
       )} */}
-      <Image src={T3_Full} width={200} height={200} alt="Logo" />
+      <Image src={T3_Full} width={600} height={200} alt="Logo" />
       <div className="flex flex-col justify-center items-center space-y-5 mt-10">
         <div className="text-gray-800 font-semibold text-3xl">
           Login to your Account

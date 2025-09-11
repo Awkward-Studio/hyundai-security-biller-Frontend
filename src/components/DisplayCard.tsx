@@ -34,7 +34,7 @@ export function DisplayAdvisorJobCards({
         <div>{advisorEmail}</div>
       </div>
       <div className="font-semibold mt-4 text-gray-500">
-        <span className="text-3xl font-semibold text-red-500 mr-2">
+        <span className="text-3xl font-semibold text-blue-600 mr-2">
           {completedCars}
         </span>{" "}
         Cars completed of{" "}
