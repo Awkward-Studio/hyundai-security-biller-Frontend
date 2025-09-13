@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
@@ -53,6 +53,17 @@ export default function TempCarPage({
   const [customerPhone, setCustomerPhone] = useState<string>("");
   const [customerEmail, setCustomerEmail] = useState<string>("");
   const [customerAddress, setCustomerAddress] = useState<string>("");
+  const originalsRef = useRef<{
+    customerName: string;
+    customerPhone: string;
+    customerEmail: string;
+    customerAddress: string;
+  }>({
+    customerName: "",
+    customerPhone: "",
+    customerEmail: "",
+    customerAddress: "",
+  });
 
   // Field errors
   const [errName, setErrName] = useState<string>("");
@@ -65,31 +76,31 @@ export default function TempCarPage({
   const [busy, setBusy] = useState<boolean>(false);
   const [status, setStatus] = useState<CarStatus>(CarStatus.ENTERED);
 
-  // ---------- validation helpers ----------
+  // ---------- validation helpers (ALL FIELDS CAN BE EMPTY) ----------
   const validateName = (v: string) => {
     const val = v.trim();
-    if (!val) return "Name is required";
+    if (!val) return ""; // empty allowed
     if (val.length < 2) return "Name must be at least 2 characters";
     return "";
   };
 
   const validatePhone = (v: string) => {
     const digits = v.replace(/\D+/g, "");
-    if (!digits) return "Phone is required";
+    if (!digits) return ""; // empty allowed
     if (digits.length !== 10) return "Phone must be 10 digits";
     return "";
   };
 
   const validateEmail = (v: string) => {
     const val = v.trim();
-    if (!val) return ""; // optional
+    if (!val) return ""; // empty allowed
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
     return ok ? "" : "Enter a valid email";
   };
 
   const validateAddress = (v: string) => {
     const val = v.trim();
-    if (!val) return ""; // optional
+    if (!val) return ""; // empty allowed
     if (val.length < 5) return "Address must be at least 5 characters";
     return "";
   };
@@ -125,21 +136,28 @@ export default function TempCarPage({
         }
         setCar(c);
 
-        const n = c.customerName || "";
-        const p = c.customerPhone || "";
-        const e = c.customerEmail || "";
-        const a = c.customerAddress || "";
+        const n = c.customerName ?? "";
+        const p = c.customerPhone ?? "";
+        const e = c.customerEmail ?? "";
+        const a = c.customerAddress ?? "";
 
         setCustomerName(n);
         setCustomerPhone(p);
         setCustomerEmail(e);
         setCustomerAddress(a);
 
-        // prime validation states
+        // prime validation states (will be empty = valid)
         setErrName(validateName(n));
         setErrPhone(validatePhone(p));
         setErrEmail(validateEmail(e));
         setErrAddress(validateAddress(a));
+
+        originalsRef.current = {
+          customerName: n,
+          customerPhone: p,
+          customerEmail: e,
+          customerAddress: a,
+        };
       } catch (err) {
         console.error("Load error:", err);
         toast.error("Failed to load car details");
@@ -174,6 +192,17 @@ export default function TempCarPage({
     [errName, errPhone, errEmail, errAddress]
   );
 
+  const isDirty = useMemo(() => {
+    const t = (s: string) => (s ?? "").trim();
+    const o = originalsRef.current;
+    return (
+      t(customerName) !== t(o.customerName) ||
+      t(customerPhone) !== t(o.customerPhone) ||
+      t(customerEmail) !== t(o.customerEmail) ||
+      t(customerAddress) !== t(o.customerAddress)
+    );
+  }, [customerName, customerPhone, customerEmail, customerAddress]);
+
   const povDescriptions: string[] = useMemo(() => {
     const codeToDesc = new Map<number, string>(
       purposeOfVisits.map((p) => [p.code, p.description])
@@ -192,7 +221,7 @@ export default function TempCarPage({
   const saveCustomerFields = async () => {
     if (!car) return;
 
-    // final guard
+    // final guard (all fields may be empty; only validate format/length when non-empty)
     const eName = validateName(customerName);
     const ePhone = validatePhone(customerPhone);
     const eEmail = validateEmail(customerEmail);
@@ -215,10 +244,75 @@ export default function TempCarPage({
       await updateCarField(car.$id, "customerEmail", customerEmail.trim());
       await updateCarField(car.$id, "customerAddress", customerAddress.trim());
 
+      // sync originals so blur-save compares correctly
+      originalsRef.current = {
+        customerName: customerName.trim(),
+        customerPhone: customerPhone.trim(),
+        customerEmail: customerEmail.trim(),
+        customerAddress: customerAddress.trim(),
+      };
+
+      setCar((prev: any) =>
+        prev
+          ? {
+              ...prev,
+              customerName: customerName.trim(),
+              customerPhone: customerPhone.trim(),
+              customerEmail: customerEmail.trim(),
+              customerAddress: customerAddress.trim(),
+            }
+          : prev
+      );
+
       toast.success("Customer details saved");
     } catch (err) {
       console.error("Save error:", err);
       toast.error("Failed to save customer details");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const saveSingleCustomerField = async (
+    field:
+      | "customerName"
+      | "customerPhone"
+      | "customerEmail"
+      | "customerAddress",
+    value: string,
+    validate: (v: string) => string,
+    setErr: (s: string) => void
+  ) => {
+    if (!car) return;
+
+    const trimmed = value.trim();
+    const original = (originalsRef.current[field] ?? "").trim();
+
+    // If nothing actually changed, do nothing
+    if (trimmed === original) return;
+
+    // All fields can be empty; only validate when non-empty
+    const err = validate(trimmed);
+    setErr(err);
+    if (err) {
+      toast.warning("Please fix the field before saving");
+      return;
+    }
+
+    const payloadValue = trimmed; // allow "", Appwrite-safe for string fields
+
+    try {
+      setBusy(true);
+      await updateCarField(car.$id, field, payloadValue);
+
+      // keep originals in sync with what's actually stored
+      originalsRef.current[field] = String(payloadValue);
+      setCar((prev: any) => (prev ? { ...prev, [field]: payloadValue } : prev));
+
+      toast.success("Saved");
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to save");
     } finally {
       setBusy(false);
     }
@@ -259,6 +353,13 @@ export default function TempCarPage({
 
   const generateGatePass = async () => {
     if (!tempCar || !car) return;
+    if (tempCar.inParking) {
+      toast.warning(
+        "Car is in parking. Retrieve it from parking before generating a Gate Pass."
+      );
+      return;
+    }
+
     try {
       setBusy(true);
       const res = await fetch(`${apiUrl}${pathname}/gatePass`, {
@@ -301,6 +402,7 @@ export default function TempCarPage({
 
   // Top bar buttons change by status (no dropdown)
   const renderProgressButtons = () => {
+    const isParked = !!tempCar?.inParking;
     switch (status) {
       case CarStatus.ENTERED:
         return (
@@ -308,7 +410,7 @@ export default function TempCarPage({
             variant="outline"
             className="px-8 py-2 bg-red-500 text-white hover:bg-red-400"
             onClick={markInProgress}
-            disabled={busy}
+            disabled={busy || isParked}
           >
             Start Work
           </Button>
@@ -319,7 +421,7 @@ export default function TempCarPage({
             variant="outline"
             className="px-8 py-2 bg-red-500 text-white hover:bg-red-400"
             onClick={markDone}
-            disabled={busy}
+            disabled={busy || isParked}
           >
             Mark Done
           </Button>
@@ -330,7 +432,7 @@ export default function TempCarPage({
             variant="outline"
             className="px-8 py-2 bg-red-500 text-white hover:bg-red-400"
             onClick={generateGatePass}
-            disabled={busy}
+            disabled={busy || isParked}
           >
             Generate Gate Pass
           </Button>
@@ -392,9 +494,18 @@ export default function TempCarPage({
             {car ? `(${car.carMake} ${car.carModel})` : ""}
           </span>
         </div>
+        {/* purpose indicator */}
         {povDescriptions.length > 0 && (
           <div className="mt-1 text-sm text-gray-600">
             Purpose(s): {povDescriptions.join(", ")}
+          </div>
+        )}
+        {/* 🚗 parking indicator */}
+        {tempCar?.inParking && (
+          <div className="mt-1">
+            <span className="px-2 py-1 rounded-md border border-red-600 text-red-700 bg-red-50 text-sm">
+              In Parking
+            </span>
           </div>
         )}
       </div>
@@ -410,6 +521,14 @@ export default function TempCarPage({
               <Input
                 value={customerName}
                 onChange={(e) => onNameChange(e.target.value)}
+                onBlur={() =>
+                  saveSingleCustomerField(
+                    "customerName",
+                    customerName,
+                    validateName,
+                    setErrName
+                  )
+                }
                 aria-invalid={!!errName}
               />
               {errName && (
@@ -420,8 +539,19 @@ export default function TempCarPage({
               <div className="text-sm text-gray-600 mb-1">Phone</div>
               <Input
                 value={customerPhone}
-                onChange={(e) => onPhoneChange(e.target.value)}
-                inputMode="tel"
+                onChange={(e) =>
+                  setCustomerPhone(e.target.value.replace(/\D/g, ""))
+                }
+                onBlur={() =>
+                  saveSingleCustomerField(
+                    "customerPhone",
+                    customerPhone,
+                    validatePhone,
+                    setErrPhone
+                  )
+                }
+                pattern="\d*"
+                type="number"
                 aria-invalid={!!errPhone}
               />
               {errPhone && (
@@ -433,6 +563,14 @@ export default function TempCarPage({
               <Input
                 value={customerEmail}
                 onChange={(e) => onEmailChange(e.target.value)}
+                onBlur={() =>
+                  saveSingleCustomerField(
+                    "customerEmail",
+                    customerEmail,
+                    validateEmail,
+                    setErrEmail
+                  )
+                }
                 type="email"
                 aria-invalid={!!errEmail}
               />
@@ -445,6 +583,14 @@ export default function TempCarPage({
               <Input
                 value={customerAddress}
                 onChange={(e) => onAddressChange(e.target.value)}
+                onBlur={() =>
+                  saveSingleCustomerField(
+                    "customerAddress",
+                    customerAddress,
+                    validateAddress,
+                    setErrAddress
+                  )
+                }
                 aria-invalid={!!errAddress}
               />
               {errAddress && (
@@ -457,7 +603,7 @@ export default function TempCarPage({
                 variant="outline"
                 className="px-8 py-2 bg-red-500 text-white hover:bg-red-400"
                 onClick={saveCustomerFields}
-                disabled={busy || hasErrors}
+                disabled={busy || hasErrors || !isDirty}
               >
                 Save Customer Details
               </Button>
@@ -495,6 +641,19 @@ export default function TempCarPage({
                   : status === CarStatus.EXITED
                   ? "Exited"
                   : "Unknown"}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-gray-600">Parking</span>
+              <span className="font-medium">
+                {tempCar?.inParking ? (
+                  <span className="px-2 py-1 rounded-md border border-red-600 text-red-700 bg-red-50 text-xs">
+                    In Parking
+                  </span>
+                ) : (
+                  "Not in Parking"
+                )}
               </span>
             </div>
           </div>

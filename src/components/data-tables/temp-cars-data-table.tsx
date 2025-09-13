@@ -102,12 +102,21 @@ export function mapPovCodesToDescriptions(codes: unknown): string[] {
    ========================= */
 function SecurityRowActions({ tempCar }: { tempCar: TempCarRecord }) {
   const [loading, setLoading] = useState(false);
+  const [inParking, setInParking] = useState<boolean>(!!tempCar.inParking);
+
+  const canExit =
+    tempCar.carStatus === CarStatus.GATEPASS_GENERATED && !inParking;
 
   const handleExit = async () => {
+    if (!canExit) return;
     try {
       setLoading(true);
-      await updateTempCarById(tempCar.$id as string, CarStatus.EXITED);
-      await updateTempCarField(tempCar.$id as string, "redundant", false);
+      await updateTempCarField(
+        tempCar.$id as string,
+        "carStatus",
+        CarStatus.EXITED
+      );
+      await updateTempCarField(tempCar.$id as string, "redundant", true);
       window.location.reload();
     } catch (e) {
       console.error(e);
@@ -117,12 +126,50 @@ function SecurityRowActions({ tempCar }: { tempCar: TempCarRecord }) {
     }
   };
 
+  const sendToParking = async () => {
+    try {
+      setLoading(true);
+      await updateTempCarField(tempCar.$id as string, "inParking", true);
+      setInParking(true);
+    } catch (e) {
+      console.error(e);
+      alert("Failed to send to parking");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const retrieveFromParking = async () => {
+    try {
+      setLoading(true);
+      await updateTempCarField(tempCar.$id as string, "inParking", false);
+      setInParking(false);
+    } catch (e) {
+      console.error(e);
+      alert("Failed to retrieve from parking");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="p-2">
+    <div className="p-2 flex items-center gap-2">
+      {/* Parking controls (security-only) */}
+      {!inParking ? (
+        <Button onClick={sendToParking} disabled={loading}>
+          Send to Parking
+        </Button>
+      ) : (
+        <Button onClick={retrieveFromParking} disabled={loading}>
+          Retrieve from Parking
+        </Button>
+      )}
+
+      {/* Exit (disabled if in parking, or not gatepass-ready) */}
       <Button
         className="bg-red-500 text-white"
         onClick={handleExit}
-        disabled={loading}
+        disabled={loading || !canExit}
       >
         Exit Car
       </Button>
@@ -131,51 +178,8 @@ function SecurityRowActions({ tempCar }: { tempCar: TempCarRecord }) {
 }
 
 function BillerRowActions({ tempCar }: { tempCar: TempCarRecord }) {
-  const [status, setStatus] = useState<CarStatus>(
-    tempCar.carStatus ?? CarStatus.ENTERED
-  );
-  const [updating, setUpdating] = useState(false);
-
-  const updateStatus = async (newStatus: CarStatus) => {
-    try {
-      setUpdating(true);
-      await updateTempCarById(tempCar.$id as string, newStatus);
-      setStatus(newStatus);
-    } catch (e) {
-      console.error(e);
-      alert("Failed to update status");
-    } finally {
-      setUpdating(false);
-    }
-  };
-
-  const options: { label: string; value: CarStatus }[] = [
-    { label: "Entered", value: CarStatus.ENTERED },
-    { label: "In Progress", value: CarStatus.IN_PROGRESS },
-    { label: "Done", value: CarStatus.DONE },
-    { label: "Gatepass Generated", value: CarStatus.GATEPASS_GENERATED },
-  ];
-
   return (
     <div className="flex items-center gap-3">
-      <div>
-        <Select
-          value={String(status)}
-          onValueChange={(val) => updateStatus(val as CarStatus)}
-          disabled={updating}
-        >
-          <SelectTrigger className="w-52">
-            <SelectValue placeholder="Set Status" />
-          </SelectTrigger>
-          <SelectContent>
-            {options.map((opt) => (
-              <SelectItem key={opt.value} value={String(opt.value)}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
       <div>
         <Link
           href={`/biller/tempCarId/${tempCar.$id}`}
@@ -196,9 +200,7 @@ function RowActions({ tempCar }: { tempCar: TempCarRecord }) {
       const parsed = JSON.parse(String(token));
       userAccess = parsed?.labels?.[0] ?? "";
     }
-  } catch {
-    // ignore
-  }
+  } catch {}
 
   if (userAccess === "security")
     return <SecurityRowActions tempCar={tempCar} />;
@@ -249,13 +251,9 @@ export const tempCarsColumns: ColumnDef<TempCarRecord>[] = [
     header: "Status",
     cell: ({ row }) => <StatusPill status={row.original.carStatus} />,
     filterFn: (row, columnId, filterValue) => {
-      if (
-        filterValue === undefined ||
-        filterValue === null ||
-        filterValue === ""
-      )
-        return true;
-      return Number(row.getValue(columnId)) === Number(filterValue);
+      if (!filterValue) return true;
+      const val = String(row.getValue(columnId));
+      return val === String(filterValue);
     },
   },
 ];
@@ -293,9 +291,7 @@ export function TempCarsDataTable({
   useEffect(() => {
     table
       .getColumn("carStatus")
-      ?.setFilterValue(
-        statusFilter === "ALL" ? undefined : Number(statusFilter)
-      );
+      ?.setFilterValue(statusFilter === "ALL" ? undefined : statusFilter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
 

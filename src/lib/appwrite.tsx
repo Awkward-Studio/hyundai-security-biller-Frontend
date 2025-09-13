@@ -85,6 +85,7 @@ export interface TempCarRecord {
   purposesOfVisit: string[];
   redundant?: boolean;
   gatePassPDF?: string | null;
+  inParking?: boolean;
 }
 
 export enum CarStatus {
@@ -244,6 +245,7 @@ export const createTempCar = async (payload: TempCarRecord) => {
       purposesOfVisit: (payload.purposesOfVisit ?? []).map(String),
       redundant: payload.redundant ?? false,
       gatePassPDF: payload.gatePassPDF ?? null,
+      inParking: payload.inParking ?? false,
     };
 
     const result = await baseRepo.createDocument(doc);
@@ -271,6 +273,7 @@ export const createCarWithTemp = async (
     purposesOfVisit: car.purposesOfVisit,
     redundant: false,
     gatePassPDF: null,
+    inParking: false,
   });
 
   return { car: newCar, tempCar: temp };
@@ -402,7 +405,7 @@ export const updateTempCarField = async <K extends keyof TempCarRecord>(
   fieldValue: TempCarRecord[K]
 ) => {
   try {
-    const repo = new BaseRepository(config.carsCollectionId);
+    const repo = new BaseRepository(config.tempCarsCollectionId);
     await repo.updateDocumentById(id, { [fieldName]: fieldValue } as any);
     return true;
   } catch (error: any) {
@@ -529,4 +532,32 @@ export const fetchCarMakeAndModels = async () => {
   const repo = new BaseRepository(config.carModelsCollectionId);
   const res = await repo.listDocuments([Query.limit(999999)]);
   return res;
+};
+
+export const getAllActiveTempCars = async (statuses?: CarStatus[]) => {
+  const finalQuery: any[] = [
+    Query.equal("redundant", [false]),
+    Query.orderDesc("$createdAt"),
+    Query.limit(999999),
+  ];
+
+  if (statuses && statuses.length) {
+    if (statuses.length > 1) {
+      const orClauses = statuses.map((s) => Query.equal("carStatus", [s]));
+      finalQuery.push(Query.or(orClauses));
+    } else {
+      finalQuery.push(Query.equal("carStatus", [statuses[0]]));
+    }
+  }
+
+  try {
+    return await databases.listDocuments(
+      config.databaseId,
+      config.tempCarsCollectionId,
+      finalQuery
+    );
+  } catch (error: any) {
+    console.log(error.message);
+    return null;
+  }
 };

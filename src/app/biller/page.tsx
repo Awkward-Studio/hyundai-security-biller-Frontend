@@ -7,7 +7,7 @@ import {
   TempCarsDataTable,
   tempCarsColumns,
 } from "@/components/data-tables/temp-cars-data-table";
-import { getAllTempCars, CarStatus, TempCarRecord } from "@/lib/appwrite";
+import { CarStatus, TempCarRecord, getAllActiveTempCars } from "@/lib/appwrite";
 
 export default function Biller() {
   const [name, setName] = useState("");
@@ -21,16 +21,14 @@ export default function Biller() {
         if (!token) return;
         const parsed = JSON.parse(String(token));
         setName(parsed?.name ?? "");
-      } catch {
-        // ignore
-      }
+      } catch {}
     };
 
     const loadCars = async () => {
       try {
-        const res = await getAllTempCars();
+        const res = await getAllActiveTempCars();
         const docs = (res?.documents ?? []) as unknown as TempCarRecord[];
-        // For biller: show everything that hasn’t exited
+
         setTempCars(docs.filter((c) => c.carStatus !== CarStatus.EXITED));
       } finally {
         setLoading(false);

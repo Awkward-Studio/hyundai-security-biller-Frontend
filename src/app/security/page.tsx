@@ -12,7 +12,11 @@ import {
   tempCarsColumns,
 } from "@/components/data-tables/temp-cars-data-table";
 
-import { getAllTempCars, CarStatus, type TempCarRecord } from "@/lib/appwrite";
+import {
+  CarStatus,
+  type TempCarRecord,
+  getAllActiveTempCars,
+} from "@/lib/appwrite";
 
 type Props = {};
 
@@ -23,7 +27,7 @@ export default function Security({}: Props) {
   const [loading, setLoading] = useState(true);
 
   const [inGarageCount, setInGarageCount] = useState<number>(0);
-  const [carsToExit, setCarsToExit] = useState<TempCarRecord[]>([]);
+  const [tempCars, setTempCars] = useState<TempCarRecord[]>([]);
 
   useEffect(() => {
     const getUser = () => {
@@ -32,26 +36,19 @@ export default function Security({}: Props) {
         if (!token) return;
         const parsed = JSON.parse(String(token));
         setName(parsed?.name ?? "");
-      } catch {
-        // ignore bad/missing cookie
-      }
+      } catch {}
     };
 
     const loadTempCars = async () => {
       try {
-        // Fetch all temp cars once
-        const res = await getAllTempCars();
+        const res = await getAllActiveTempCars();
         const docs = (res?.documents ?? []) as unknown as TempCarRecord[];
 
-        // In Garage = everything not EXITED
         setInGarageCount(
           docs.filter((c) => c.carStatus !== CarStatus.EXITED).length
         );
 
-        // Cars to Exit = those with GATEPASS_GENERATED
-        setCarsToExit(
-          docs.filter((c) => c.carStatus === CarStatus.GATEPASS_GENERATED)
-        );
+        setTempCars(docs);
       } finally {
         setLoading(false);
       }
@@ -82,8 +79,8 @@ export default function Security({}: Props) {
       </div>
 
       <div className="flex flex-col mt-16">
-        <div className="font-semibold text-2xl mb-5">Cars to Exit</div>
-        <TempCarsDataTable columns={tempCarsColumns} data={carsToExit} />
+        <div className="font-semibold text-2xl mb-5">All Cars</div>{" "}
+        <TempCarsDataTable columns={tempCarsColumns} data={tempCars} />
       </div>
     </div>
   );
