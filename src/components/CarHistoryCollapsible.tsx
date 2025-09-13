@@ -54,7 +54,7 @@ export function CarHistoryCollapsible({
         }`}
       >
         {current && (
-          <div className="text-white font-semibold text-sm py-2 px-4 bg-red-500 rounded-full w-fit">
+          <div className="text-white font-semibold text-sm py-2 px-4 bg-blue-600 rounded-full w-fit">
             Current
           </div>
         )}

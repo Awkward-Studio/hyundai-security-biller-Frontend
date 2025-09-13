@@ -167,7 +167,7 @@ function SecurityRowActions({ tempCar }: { tempCar: TempCarRecord }) {
 
       {/* Exit (disabled if in parking, or not gatepass-ready) */}
       <Button
-        className="bg-red-500 text-white"
+        className="bg-blue-600 text-white"
         onClick={handleExit}
         disabled={loading || !canExit}
       >

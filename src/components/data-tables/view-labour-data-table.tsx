@@ -113,7 +113,7 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
           <span className="font-bold"> I : </span>
           {Math.round(splitAmts.insuranceAmt * 100) / 100}
         </div>
-        <div className="text-red-500">
+        <div className="text-blue-600">
           <span className="font-bold"> C : </span>
           {Math.round(splitAmts.customerAmt * 100) / 100}
         </div>{" "}

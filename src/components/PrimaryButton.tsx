@@ -9,7 +9,7 @@ type Props = {};
 function PrimaryButton({ title, handleButtonPress, isLoading }: any) {
   return (
     <button
-      className={`bg-red-500 rounded-xl h-14 flex flex-row justify-center items-center w-1/4 text-white font-bold ${
+      className={`bg-blue-600 rounded-xl h-14 flex flex-row justify-center items-center w-1/4 text-white font-bold ${
         isLoading ? "opacity-50" : ""
       }`}
       onClick={handleButtonPress}
