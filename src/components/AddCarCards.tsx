@@ -59,6 +59,7 @@ export default function AddCarCards({}: Props) {
         );
         if (!mounted) return;
         setCarMakeModels(formatted);
+        setCarMake("Hyundai");
         console.log(formatted);
         const found = formatted.find((m) => m.company === "Hyundai");
         const nextModels = found?.models ?? [];
