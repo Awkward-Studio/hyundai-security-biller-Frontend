@@ -69,7 +69,7 @@ export function CurrentCarsPie({ tempCars }: CurrentCarsPieProps) {
   }, [tempCars]);
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col w-[25%]">
       <CardHeader className="items-center pb-0">
         <CardTitle>Current Cars</CardTitle>
       </CardHeader>
