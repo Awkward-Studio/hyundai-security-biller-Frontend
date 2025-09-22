@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
+  CardDescription,
 } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -71,7 +72,6 @@ export function CurrentCarsPie({ tempCars }: CurrentCarsPieProps) {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Current Cars</CardTitle>
-        <CardDescription>At Present</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
