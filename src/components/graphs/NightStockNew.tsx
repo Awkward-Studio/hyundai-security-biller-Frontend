@@ -18,8 +18,10 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect } from "react";
+import { TempCar } from "@/lib/definitions";
+import { TempCarRecord } from "@/lib/appwrite";
 
-const TOTAL_PARKING_SPACE = 100;
+const TOTAL_PARKING_SPACE = 400;
 
 let carsBeingWorkedOn = 0;
 let gatePassGenerated = 0;
@@ -43,47 +45,49 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function NightStockNew({ jobCards, tempCars }: any) {
-  let totalCars = jobCards.length;
+export function NightStockNew({ tempCars }: { tempCars: TempCarRecord[] }) {
+  let totalCars = tempCars.length;
   const emptySpace = TOTAL_PARKING_SPACE - totalCars;
   chartData[0].empty = emptySpace;
 
   useEffect(() => {
-    carsBeingWorkedOn = 0;
-    gatePassGenerated = 0;
+    let carsBeingWorkedOnCount = 0;
+    let gatePassGeneratedCount = 0;
 
-    const statusCounts = jobCards.reduce((acc: any, curr: any) => {
-      acc[curr.jobCardStatus] = (acc[curr.jobCardStatus] || 0) + 1;
+    const statusCounts = tempCars.reduce((acc: any, curr: any) => {
+      // Use carStatus from TempCarRecord
+      acc[curr.carStatus] = (acc[curr.carStatus] || 0) + 1;
       return acc;
     }, {});
 
     // Create the formatted dataset
     const formattedDataset = Object.entries(statusCounts).map(
       ([status, count]) => ({
-        jobCardStatus: parseInt(status, 10),
+        carStatus: status, // Keep status as string for comparison with enum
         carCount: count,
       })
     );
 
-    // Update the chart data
-
     formattedDataset.forEach((data: any) => {
-      if (data.jobCardStatus <= 5) {
-        carsBeingWorkedOn += data.carCount;
-      }
-      if (data.jobCardStatus === 6) {
-        gatePassGenerated += data.carCount;
+      if (
+        data.carStatus === "ENTERED" ||
+        data.carStatus === "IN_PROGRESS" ||
+        data.carStatus === "DONE"
+      ) {
+        carsBeingWorkedOnCount += data.carCount;
+      } else if (data.carStatus === "GATEPASS_GENERATED") {
+        gatePassGeneratedCount += data.carCount;
       }
     });
 
-    totalCars = carsBeingWorkedOn + gatePassGenerated;
+    const totalCars = carsBeingWorkedOnCount + gatePassGeneratedCount;
+    const emptySpace = TOTAL_PARKING_SPACE - totalCars;
 
-    chartData[0].carsBeingWorkedOn = carsBeingWorkedOn;
-    chartData[0].gatePassGenerated = gatePassGenerated;
-    chartData[0].empty = TOTAL_PARKING_SPACE - totalCars;
-
-    console.log(chartData[0]);
-  }, [jobCards]);
+    //
+    chartData[0].carsBeingWorkedOn = carsBeingWorkedOnCount;
+    chartData[0].gatePassGenerated = gatePassGeneratedCount;
+    chartData[0].empty = emptySpace;
+  }, [tempCars]);
 
   return (
     <Card className="flex flex-col">

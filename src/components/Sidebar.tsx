@@ -215,7 +215,7 @@ export default function Sidebar({ home }: any) {
               </HoverCard>
             )}
 
-            {home == "/admin" && (
+            {/* {home == "/admin" && (
               <>
                 <HoverCard>
                   <HoverCardTrigger asChild>
@@ -288,7 +288,7 @@ export default function Sidebar({ home }: any) {
                   </HoverCardContent>
                 </HoverCard>
               </>
-            )}
+            )} */}
 
             {home == "/security" && (
               <HoverCard>

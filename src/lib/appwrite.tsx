@@ -561,3 +561,24 @@ export const getAllActiveTempCars = async (statuses?: CarStatus[]) => {
     return null;
   }
 };
+
+export const getTempCarsBetween = async (from: Date, to: Date) => {
+  try {
+    const newFrom = from.toISOString();
+    const newTo = to.toISOString();
+
+    let result = await databases.listDocuments(
+      config.databaseId,
+      config.tempCarsCollectionId,
+      [
+        Query.limit(9999),
+        Query.greaterThanEqual("$createdAt", newFrom),
+        Query.lessThanEqual("$createdAt", newTo),
+      ]
+    );
+    return result;
+  } catch (error: any) {
+    console.log(error.message);
+    return null;
+  }
+};
