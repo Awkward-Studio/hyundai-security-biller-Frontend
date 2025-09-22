@@ -1,15 +1,14 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { useMemo } from "react";
 import { Pie, PieChart } from "recharts";
 
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -17,49 +16,55 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { TempCarRecord } from "@/lib/appwrite";
 
-export const description = "A simple pie chart";
-
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
-
-const chartConfig = {
+// Chart configuration for the pie chart
+export const chartConfig = {
   visitors: {
-    label: "Visitors",
+    label: "Cars",
   },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
+  workshop: {
+    label: "Workshop",
+    color: "hsl(var(--chart-2))",
   },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
+  parking: {
+    label: "Parking Lot",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-export function ParkingSplitPie() {
+export function ParkingSplitPie({ tempCars }: { tempCars: TempCarRecord[] }) {
+  const chartData = useMemo(() => {
+    let inParkingCount = 0;
+    let inWorkshopCount = 0;
+
+    tempCars.forEach((car) => {
+      if (car.inParking) {
+        inParkingCount++;
+      } else {
+        inWorkshopCount++;
+      }
+    });
+
+    return [
+      {
+        browser: "workshop",
+        visitors: inWorkshopCount,
+        fill: "var(--color-workshop)",
+      },
+      {
+        browser: "parking",
+        visitors: inParkingCount,
+        fill: "var(--color-parking)",
+      },
+    ];
+  }, [tempCars]);
+
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col w-[25%]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Parking Split</CardTitle>
+        <CardDescription>At Present</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -75,14 +80,6 @@ export function ParkingSplitPie() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

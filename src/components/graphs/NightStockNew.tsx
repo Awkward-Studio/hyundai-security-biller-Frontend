@@ -90,7 +90,7 @@ export function NightStockNew({ tempCars }: { tempCars: TempCarRecord[] }) {
   }, [tempCars]);
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col  w-[25%]">
       <CardHeader className="items-center pb-0">
         <CardTitle>Parking Space Utilized</CardTitle>
         <CardDescription>At Present</CardDescription>

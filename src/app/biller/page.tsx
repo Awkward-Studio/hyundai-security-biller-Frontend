@@ -11,6 +11,7 @@ import { CarStatus, TempCarRecord, getAllActiveTempCars } from "@/lib/appwrite";
 import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
 import { TempCar } from "@/lib/definitions";
+import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 
 export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
   const [name, setName] = useState("");
@@ -51,9 +52,10 @@ export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
         <div className="font-medium">T3, Mira Road</div>
       </div>
       {isAdmin && (
-        <div className="flex mt-16">
-          {/* <ParkingSplitPie /> */}
+        <div className="flex mt-16 justify-evenly">
+          <ParkingSplitPie tempCars={tempCars as TempCarRecord[]} />
           <NightStockNew tempCars={tempCars as TempCarRecord[]} />
+          <CurrentCarsPie tempCars={tempCars as TempCarRecord[]} />
         </div>
       )}
 
