@@ -23,14 +23,7 @@ export const chartConfig = {
     label: "Entered",
     color: "hsl(var(--chart-1))",
   },
-  [CarStatus.IN_PROGRESS]: {
-    label: "In Progress",
-    color: "hsl(var(--chart-2))",
-  },
-  [CarStatus.DONE]: {
-    label: "Done",
-    color: "hsl(var(--chart-3))",
-  },
+
   [CarStatus.GATEPASS_GENERATED]: {
     label: "Gate Pass Generated",
     color: "hsl(var(--chart-4))",
