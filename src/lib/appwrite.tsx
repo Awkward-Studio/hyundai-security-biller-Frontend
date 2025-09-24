@@ -90,8 +90,6 @@ export interface TempCarRecord {
 
 export enum CarStatus {
   ENTERED = "ENTERED", // security created car
-  IN_PROGRESS = "IN_PROGRESS", // biller set WIP
-  DONE = "DONE", // work completed
   GATEPASS_GENERATED = "GATEPASS_GENERATED", // gatepass generated
   EXITED = "EXITED", // exited by security
 }
@@ -580,5 +578,25 @@ export const getTempCarsBetween = async (from: Date, to: Date) => {
   } catch (error: any) {
     console.log(error.message);
     return null;
+  }
+};
+
+/** Returns the earliest Temp Car created date. */
+export const getFirstTempCarDate = async (): Promise<Date> => {
+  try {
+    const res = await databases.listDocuments(
+      config.databaseId,
+      config.tempCarsCollectionId,
+      [Query.orderAsc("$createdAt"), Query.limit(1)]
+    );
+
+    const doc = res?.documents?.[0];
+    if (doc?.$createdAt) return new Date(doc.$createdAt);
+
+    // No docs found
+    return new Date();
+  } catch (error: any) {
+    console.log("getFirstTempCarDate ERROR - ", error.message);
+    return new Date();
   }
 };

@@ -115,15 +115,6 @@ export default function Sidebar({ home }: any) {
                 <DrawerClose>
                   <Button
                     className="flex justify-between p-4 border-b w-full"
-                    onClick={() => router.push(`${home}/manage-jobcards`)}
-                    variant={"link"}
-                  >
-                    <ClipboardList />
-                    <div>Manage Jobcards</div>
-                  </Button>
-
-                  <Button
-                    className="flex justify-between p-4 border-b w-full"
                     onClick={() => router.push(`${home}/reports`)}
                     variant={"link"}
                   >
@@ -137,14 +128,6 @@ export default function Sidebar({ home }: any) {
                   >
                     <CarFront />
                     <div>Add Car Model</div>
-                  </Button>
-                  <Button
-                    className="flex justify-between p-4 border-b w-full"
-                    onClick={() => router.push(`${home}/add-insuranceProvider`)}
-                    variant={"link"}
-                  >
-                    <UmbrellaIcon />
-                    <div>Add Policy Provider</div>
                   </Button>
                 </DrawerClose>
               )}
@@ -215,24 +198,8 @@ export default function Sidebar({ home }: any) {
               </HoverCard>
             )}
 
-            {/* {home == "/admin" && (
+            {home == "/admin" && (
               <>
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <div
-                      className="border-2 rounded-md shadow-md p-3 cursor-pointer"
-                      onClick={() =>
-                        handleNavigation(`${home}/manage-jobcards`)
-                      }
-                    >
-                      <ClipboardList />
-                    </div>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
-                    Manage Jobcards
-                  </HoverCardContent>
-                </HoverCard>
-
                 <HoverCard>
                   <HoverCardTrigger asChild>
                     <div
@@ -246,49 +213,8 @@ export default function Sidebar({ home }: any) {
                     Download Reports
                   </HoverCardContent>
                 </HoverCard>
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <div
-                      className="border-2 rounded-md shadow-md p-3 cursor-pointer"
-                      onClick={() => handleNavigation(`${home}/add-car`)}
-                    >
-                      <CarFront />
-                    </div>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
-                    Add Car Model
-                  </HoverCardContent>
-                </HoverCard>
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <div
-                      className="border-2 rounded-md shadow-md p-3 cursor-pointer"
-                      onClick={() =>
-                        handleNavigation(`${home}/add-insuranceProvider`)
-                      }
-                    >
-                      <UmbrellaIcon />
-                    </div>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
-                    Add Insurance Provider
-                  </HoverCardContent>
-                </HoverCard>
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <div
-                      className="border-2 rounded-md shadow-md p-3 cursor-pointer"
-                      onClick={() => handleNavigation(`${home}/viewChanges`)}
-                    >
-                      <HistoryIcon />
-                    </div>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
-                    View Change History
-                  </HoverCardContent>
-                </HoverCard>
               </>
-            )} */}
+            )}
 
             {home == "/security" && (
               <HoverCard>

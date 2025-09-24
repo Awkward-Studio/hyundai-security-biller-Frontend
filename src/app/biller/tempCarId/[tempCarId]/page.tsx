@@ -318,39 +318,6 @@ export default function TempCarPage({
     }
   };
 
-  // progression handlers (no dropdown)
-  const markInProgress = async () => {
-    if (!tempCar) return;
-    try {
-      setBusy(true);
-      await updateTempCarById(tempCar.$id, CarStatus.IN_PROGRESS);
-      setStatus(CarStatus.IN_PROGRESS);
-      setTempCar((p: any) => ({ ...p, carStatus: CarStatus.IN_PROGRESS }));
-      toast.success("Marked as In Progress");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update status");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const markDone = async () => {
-    if (!tempCar) return;
-    try {
-      setBusy(true);
-      await updateTempCarById(tempCar.$id, CarStatus.DONE);
-      setStatus(CarStatus.DONE);
-      setTempCar((p: any) => ({ ...p, carStatus: CarStatus.DONE }));
-      toast.success("Marked as Done");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update status");
-    } finally {
-      setBusy(false);
-    }
-  };
-
   const generateGatePass = async () => {
     if (!tempCar || !car) return;
     if (tempCar.inParking) {
@@ -405,28 +372,6 @@ export default function TempCarPage({
     const isParked = !!tempCar?.inParking;
     switch (status) {
       case CarStatus.ENTERED:
-        return (
-          <Button
-            variant="outline"
-            className="px-8 py-2 bg-red-500 text-white hover:bg-red-400"
-            onClick={markInProgress}
-            disabled={busy || isParked}
-          >
-            Start Work
-          </Button>
-        );
-      case CarStatus.IN_PROGRESS:
-        return (
-          <Button
-            variant="outline"
-            className="px-8 py-2 bg-red-500 text-white hover:bg-red-400"
-            onClick={markDone}
-            disabled={busy || isParked}
-          >
-            Mark Done
-          </Button>
-        );
-      case CarStatus.DONE:
         return (
           <Button
             variant="outline"
@@ -540,7 +485,7 @@ export default function TempCarPage({
               <Input
                 value={customerPhone}
                 onChange={(e) =>
-                  setCustomerPhone(e.target.value.replace(/\D/g, ""))
+                  onPhoneChange(e.target.value.replace(/\D/g, ""))
                 }
                 onBlur={() =>
                   saveSingleCustomerField(
@@ -632,10 +577,6 @@ export default function TempCarPage({
               <span className="font-medium">
                 {status === CarStatus.ENTERED
                   ? "Entered"
-                  : status === CarStatus.IN_PROGRESS
-                  ? "In Progress"
-                  : status === CarStatus.DONE
-                  ? "Done"
                   : status === CarStatus.GATEPASS_GENERATED
                   ? "Gatepass Generated"
                   : status === CarStatus.EXITED

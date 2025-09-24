@@ -49,10 +49,6 @@ import { purposeOfVisits } from "@/lib/helper";
 const statusLabel = (s: CarStatus) =>
   s === CarStatus.ENTERED
     ? "Entered"
-    : s === CarStatus.IN_PROGRESS
-    ? "In Progress"
-    : s === CarStatus.DONE
-    ? "Done"
     : s === CarStatus.GATEPASS_GENERATED
     ? "Gatepass Generated"
     : s === CarStatus.EXITED
@@ -62,10 +58,6 @@ const statusLabel = (s: CarStatus) =>
 const statusDotClass = (s: CarStatus) =>
   s === CarStatus.ENTERED
     ? "bg-[#0040c1]"
-    : s === CarStatus.IN_PROGRESS
-    ? "bg-[#1849a9]"
-    : s === CarStatus.DONE
-    ? "bg-[#065986]"
     : s === CarStatus.GATEPASS_GENERATED
     ? "bg-[#107569]"
     : s === CarStatus.EXITED
@@ -345,10 +337,7 @@ export function TempCarsDataTable({
                 <SelectItem value={String(CarStatus.ENTERED)}>
                   Entered
                 </SelectItem>
-                <SelectItem value={String(CarStatus.IN_PROGRESS)}>
-                  In Progress
-                </SelectItem>
-                <SelectItem value={String(CarStatus.DONE)}>Done</SelectItem>
+
                 <SelectItem value={String(CarStatus.GATEPASS_GENERATED)}>
                   Gatepass Generated
                 </SelectItem>
