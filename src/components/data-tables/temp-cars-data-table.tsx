@@ -222,6 +222,19 @@ export const tempCarsColumns: ColumnDef<TempCarRecord>[] = [
     },
   },
   {
+    accessorKey: "$craetedAt",
+    header: "In Date Time",
+    cell: ({ row }) => {
+      const tc = row.original;
+      return (
+        <div className="flex flex-col items-start">
+          {tc.$createdAt?.split("T")[0]},{" "}
+          {tc.$createdAt?.split("T")[1].split(".")[0]}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "purposesOfVisit",
     header: "Purpose(s)",
     cell: ({ row }) => {
