@@ -15,10 +15,11 @@ import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 import DisplayCard from "@/components/DisplayCard";
 import { Wrench, ArrowRightToLine, ArrowLeftFromLine } from "lucide-react";
 
-export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
+export default function Biller() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
   const [tempCars, setTempCars] = useState<TempCarRecord[]>([]);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const [inGarageCount, setInGarageCount] = useState<number>(0);
   const [todayInCount, setTodayInCount] = useState<number>(0);
@@ -30,6 +31,9 @@ export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
         const token = getCookie("user");
         if (!token) return;
         const parsed = JSON.parse(String(token));
+        const labels = Array.isArray(parsed?.labels) ? parsed.labels : [];
+        const role = typeof labels[0] === "string" ? labels[0] : null;
+        setIsAdmin(role === "admin");
         setName(parsed?.name ?? "");
       } catch {}
     };
@@ -60,8 +64,6 @@ export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
                 new Date().toISOString().split("T")[0]
           ).length
         );
-
-        console.log(docs);
 
         setTempCars(docs.filter((c) => c.carStatus !== CarStatus.EXITED));
       } finally {

@@ -4,7 +4,7 @@ import Biller from "../biller/page";
 type Props = {};
 
 const Admin = (props: Props) => {
-  return <Biller isAdmin />;
+  return <Biller />;
 };
 
 export default Admin;
