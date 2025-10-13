@@ -6,7 +6,12 @@ import React, { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import DisplayCard from "@/components/DisplayCard";
 import PartsPageSkeleton from "@/components/skeletons/PartsPageSkeleton";
-import { Wrench, Plus } from "lucide-react";
+import {
+  Wrench,
+  Plus,
+  ArrowRightToLine,
+  ArrowLeftFromLine,
+} from "lucide-react";
 import {
   TempCarsDataTable,
   tempCarsColumns,
@@ -17,6 +22,9 @@ import {
   type TempCarRecord,
   getAllActiveTempCars,
 } from "@/lib/appwrite";
+import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
+import { NightStockNew } from "@/components/graphs/NightStockNew";
+import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 
 type Props = {};
 
@@ -27,6 +35,8 @@ export default function Security({}: Props) {
   const [loading, setLoading] = useState(true);
 
   const [inGarageCount, setInGarageCount] = useState<number>(0);
+  const [todayInCount, setTodayInCount] = useState<number>(0);
+  const [todayOutCount, setTodayOutCount] = useState<number>(0);
   const [tempCars, setTempCars] = useState<TempCarRecord[]>([]);
 
   useEffect(() => {
@@ -47,6 +57,26 @@ export default function Security({}: Props) {
         setInGarageCount(
           docs.filter((c) => c.carStatus !== CarStatus.EXITED).length
         );
+
+        setTodayInCount(
+          docs.filter(
+            (c) =>
+              // c.carStatus === CarStatus.ENTERED &&
+              c.$createdAt?.split("T")[0] ===
+              new Date().toISOString().split("T")[0]
+          ).length
+        );
+
+        setTodayOutCount(
+          docs.filter(
+            (c) =>
+              c.carStatus === CarStatus.EXITED &&
+              c.$updatedAt?.split("T")[0] ===
+                new Date().toISOString().split("T")[0]
+          ).length
+        );
+
+        console.log(docs);
 
         setTempCars(docs);
       } finally {
@@ -74,8 +104,24 @@ export default function Security({}: Props) {
         <div className="font-medium">T3, Mira Road</div>
       </div>
 
+      <div className="flex mt-16 justify-evenly">
+        <ParkingSplitPie tempCars={tempCars as TempCarRecord[]} />
+        <NightStockNew tempCars={tempCars as TempCarRecord[]} />
+        {/* <CurrentCarsPie tempCars={tempCars as TempCarRecord[]} /> */}
+      </div>
+
       <div className="flex flex-row space-x-8 mt-16 w-full justify-center lg:justify-normal">
         <DisplayCard icon={<Wrench />} desc="In Garage" value={inGarageCount} />
+        <DisplayCard
+          icon={<ArrowRightToLine />}
+          desc="In Today"
+          value={todayInCount}
+        />
+        <DisplayCard
+          icon={<ArrowLeftFromLine />}
+          desc="Out Today"
+          value={todayOutCount}
+        />
       </div>
 
       <div className="flex flex-col mt-16">

@@ -12,11 +12,18 @@ import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
 import { TempCar } from "@/lib/definitions";
 import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
+import DisplayCard from "@/components/DisplayCard";
+import { Wrench, ArrowRightToLine, ArrowLeftFromLine } from "lucide-react";
 
-export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
+export default function Biller() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
   const [tempCars, setTempCars] = useState<TempCarRecord[]>([]);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  const [inGarageCount, setInGarageCount] = useState<number>(0);
+  const [todayInCount, setTodayInCount] = useState<number>(0);
+  const [todayOutCount, setTodayOutCount] = useState<number>(0);
 
   useEffect(() => {
     const getUser = () => {
@@ -24,6 +31,9 @@ export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
         const token = getCookie("user");
         if (!token) return;
         const parsed = JSON.parse(String(token));
+        const labels = Array.isArray(parsed?.labels) ? parsed.labels : [];
+        const role = typeof labels[0] === "string" ? labels[0] : null;
+        setIsAdmin(role === "admin");
         setName(parsed?.name ?? "");
       } catch {}
     };
@@ -32,6 +42,28 @@ export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
       try {
         const res = await getAllActiveTempCars();
         const docs = (res?.documents ?? []) as unknown as TempCarRecord[];
+
+        setInGarageCount(
+          docs.filter((c) => c.carStatus !== CarStatus.EXITED).length
+        );
+
+        setTodayInCount(
+          docs.filter(
+            (c) =>
+              // c.carStatus === CarStatus.ENTERED &&
+              c.$createdAt?.split("T")[0] ===
+              new Date().toISOString().split("T")[0]
+          ).length
+        );
+
+        setTodayOutCount(
+          docs.filter(
+            (c) =>
+              c.carStatus === CarStatus.EXITED &&
+              c.$updatedAt?.split("T")[0] ===
+                new Date().toISOString().split("T")[0]
+          ).length
+        );
 
         setTempCars(docs.filter((c) => c.carStatus !== CarStatus.EXITED));
       } finally {
@@ -58,6 +90,19 @@ export default function Biller({ isAdmin = false }: { isAdmin?: boolean }) {
           <CurrentCarsPie tempCars={tempCars as TempCarRecord[]} />
         </div>
       )}
+      <div className="flex flex-row space-x-8 mt-16 w-full justify-center lg:justify-normal">
+        <DisplayCard icon={<Wrench />} desc="In Garage" value={inGarageCount} />
+        <DisplayCard
+          icon={<ArrowRightToLine />}
+          desc="In Today"
+          value={todayInCount}
+        />
+        <DisplayCard
+          icon={<ArrowLeftFromLine />}
+          desc="Out Today"
+          value={todayOutCount}
+        />
+      </div>
 
       <div className="flex flex-col mt-16">
         <div className="font-semibold text-2xl mb-5">Cars in Garage</div>

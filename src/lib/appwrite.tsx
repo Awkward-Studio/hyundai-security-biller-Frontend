@@ -86,6 +86,8 @@ export interface TempCarRecord {
   redundant?: boolean;
   gatePassPDF?: string | null;
   inParking?: boolean;
+  $createdAt?: string;
+  $updatedAt?: string;
 }
 
 export enum CarStatus {
