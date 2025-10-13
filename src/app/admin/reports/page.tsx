@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
+import Image from "next/image";
+import loader from "../../../../public/assets/t3-loader.gif";
 
 import { DateRangePicker } from "@/components/DateRangePicker";
 import PrimaryButton from "@/components/PrimaryButton";
-import PartsPageSkeleton from "@/components/skeletons/PartsPageSkeleton";
 import {
   Select,
   SelectContent,
@@ -16,34 +17,41 @@ import {
 } from "@/components/ui/select";
 
 import { getFirstTempCarDate, getTempCarsBetween } from "@/lib/appwrite";
-
 import {
   adminReportTimelineDrop,
   createDateExpandedObj,
   purposeOfVisits,
 } from "@/lib/helper";
 
-type Props = {};
-
-export default function Reports({}: Props) {
+export default function Reports() {
   const [loading, setLoading] = useState(false);
-  const [isMakingReport, setIsMakingReport] = useState(false);
-
+  const [showOnlyInParking, setShowOnlyInParking] = useState(false);
   const [customDateRange, setCustomDateRange] = useState<DateRange>();
   const [currentSelectedTimeline, setCurrentSelectedTimeline] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  // Initialize default range: first temp car -> today
+  const TIMELINE_PRESETS = useMemo(() => {
+    const base = [
+      ...adminReportTimelineDrop,
+      { key: "thisQuarter", value: "This Quarter" },
+      { key: "lastSixMonths", value: "Last 6 Months" },
+      { key: "lastYear", value: "Last Year" },
+      { key: "custom", value: "Custom" },
+    ];
+    const map = new Map<string, { key: string; value: string }>();
+    for (const it of base) if (!map.has(it.key)) map.set(it.key, it);
+    return Array.from(map.values());
+  }, []);
+
   useEffect(() => {
     (async () => {
       setLoading(true);
       try {
         const first = await getFirstTempCarDate();
         setCustomDateRange({ from: first, to: new Date() });
-        setCurrentSelectedTimeline("custom"); // still shows presets; default is the full span
+        setCurrentSelectedTimeline("custom");
         setShowDatePicker(true);
-      } catch (e) {
-        // Fallback if there’s no data yet
+      } catch {
         const today = new Date();
         setCustomDateRange({ from: today, to: today });
       } finally {
@@ -54,78 +62,43 @@ export default function Reports({}: Props) {
 
   const modifyReportsTimeline = async (timeline: string) => {
     setShowDatePicker(false);
-    const todaysDate = await createDateExpandedObj(new Date());
+    const today = await createDateExpandedObj(new Date());
+    const y = Number(today.year);
+    const m = Number(today.month) - 1;
 
     switch (timeline) {
       case "thisQuarter": {
-        const m = Number(todaysDate.month) - 1;
         const qStartMonth = m - (m % 3);
         setCustomDateRange({
-          from: new Date(Number(todaysDate.year), qStartMonth, 1),
+          from: new Date(y, qStartMonth, 1),
           to: new Date(),
         });
         break;
       }
-      case "lastSixMonths": {
-        const y = Number(todaysDate.year);
-        const m = Number(todaysDate.month) - 1;
-        const from = new Date(y, m - 5, 1);
-        setCustomDateRange({ from, to: new Date() });
+      case "lastSixMonths":
+        setCustomDateRange({ from: new Date(y, m - 5, 1), to: new Date() });
         break;
-      }
-      case "lastYear": {
+      case "lastYear":
         setCustomDateRange({
-          from: new Date(
-            Number(todaysDate.year) - 1,
-            Number(todaysDate.month) - 1,
-            1
-          ),
-          to: new Date(
-            Number(todaysDate.year),
-            Number(todaysDate.month) - 1,
-            0
-          ),
+          from: new Date(y - 1, 0, 1),
+          to: new Date(y - 1, 11, 31),
         });
         break;
-      }
-      case "custom": {
+      case "custom":
         setShowDatePicker(true);
         break;
-      }
-      default: {
-        // keep your existing keys working too
-        if (timeline === "thisMonth") {
-          setCustomDateRange({
-            from: new Date(
-              Number(todaysDate.year),
-              Number(todaysDate.month) - 1,
-              1
-            ),
-            to: new Date(),
-          });
-        } else if (timeline === "lastMonth") {
-          if (Number(todaysDate.month) !== 1) {
-            setCustomDateRange({
-              from: new Date(
-                Number(todaysDate.year),
-                Number(todaysDate.month) - 2,
-                1
-              ),
-              to: new Date(
-                Number(todaysDate.year),
-                Number(todaysDate.month) - 1,
-                0
-              ),
-            });
-          } else {
-            setCustomDateRange({
-              from: new Date(Number(todaysDate.year) - 1, 11, 1),
-              to: new Date(Number(todaysDate.year) - 1, 12, 0),
-            });
-          }
-        }
+      case "thisMonth":
+        setCustomDateRange({ from: new Date(y, m, 1), to: new Date() });
         break;
-      }
+      case "lastMonth":
+        setCustomDateRange(
+          m === 0
+            ? { from: new Date(y - 1, 11, 1), to: new Date(y - 1, 11, 31) }
+            : { from: new Date(y, m - 1, 1), to: new Date(y, m, 0) }
+        );
+        break;
+      default:
+        break;
     }
     setCurrentSelectedTimeline(timeline);
   };
@@ -135,14 +108,17 @@ export default function Reports({}: Props) {
       toast("Please select a date range");
       return;
     }
-    setIsMakingReport(true);
+
     setLoading(true);
     try {
       const res = await getTempCarsBetween(
         customDateRange.from,
         customDateRange.to
       );
-      const docs = res?.documents ?? [];
+      let docs = res?.documents ?? [];
+
+      if (showOnlyInParking)
+        docs = docs.filter((d: any) => d?.inParking === true);
 
       if (docs.length === 0) {
         toast("No data in this range");
@@ -150,14 +126,15 @@ export default function Reports({}: Props) {
       }
 
       const rows: ReportRow[] = docs.map((d: any) => {
-        // Pull only what we want, map PoVs, and rename dates
-        const inDate = d?.$createdAt
-          ? new Date(d.$createdAt).toISOString()
-          : "";
-        const outDate =
-          d?.redundant === true && d?.$updatedAt
-            ? new Date(d.$updatedAt).toISOString()
-            : "";
+        const inDateObj = d?.$createdAt ? new Date(d.$createdAt) : null;
+
+        // show out-date/time ONLY when truly exited (explicit)
+        const status = String(d?.carStatus ?? "")
+          .trim()
+          .toUpperCase();
+        const isExited = status === "EXITED";
+        const outDateObj =
+          isExited && d?.$updatedAt ? new Date(d.$updatedAt) : null;
 
         return {
           carNumber: d?.carNumber ?? "",
@@ -168,9 +145,11 @@ export default function Reports({}: Props) {
           purposesOfVisit: mapPurposes(d?.purposesOfVisit ?? []),
           carStatus: d?.carStatus ?? "",
           gatePassPDF: d?.gatePassPDF ?? "",
-          inParking: Boolean(d?.inParking ?? false),
-          "in-date": inDate,
-          "out-date": outDate, // always in header, blank if not eligible
+          inParking: d?.inParking ? "Yes" : "No",
+          "in-date": formatDate(inDateObj),
+          "in-time": formatTime(inDateObj),
+          "out-date": isExited ? formatDate(outDateObj) : "",
+          "out-time": isExited ? formatTime(outDateObj) : "",
         };
       });
 
@@ -184,123 +163,102 @@ export default function Reports({}: Props) {
       console.error(e);
       toast("Could not generate report");
     } finally {
-      setIsMakingReport(false);
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col w-[90%] mt-20">
-      <div>
-        <div className="font-semibold text-3xl">Reports</div>
+    <>
+      {/* FULL-PAGE LOADER OVERLAY */}
+      {loading && (
+        <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm grid place-items-center">
+          <Image
+            src={loader}
+            width={120}
+            height={120}
+            alt="Loading..."
+            priority
+          />
+        </div>
+      )}
 
-        <div className="mt-5">
-          <Select onValueChange={(v) => modifyReportsTimeline(v)}>
-            <SelectTrigger className="w-full mb-10">
-              <SelectValue placeholder="Select Reports Timeline" />
-            </SelectTrigger>
-            <SelectContent>
-              {adminReportTimelineDrop.map((item) => (
-                <SelectItem key={item.key} value={item.key}>
-                  <div className="flex space-x-5 items-center">
-                    <div>{item.value}</div>
-                    {currentSelectedTimeline === item.key && (
-                      <div className="text-xs font-semibold text-red-500">
-                        Current
-                      </div>
-                    )}
-                  </div>
-                </SelectItem>
-              ))}
+      <div className="flex flex-col w-[90%] mt-20">
+        <div>
+          <div className="font-semibold text-3xl">Reports</div>
 
-              {/* Ensure quarter/six months/year presets are present */}
-              <SelectItem value="thisQuarter">This Quarter</SelectItem>
-              <SelectItem value="lastSixMonths">Last 6 Months</SelectItem>
-              <SelectItem value="lastYear">Last Year</SelectItem>
-              <SelectItem value="custom">Custom</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="mt-5">
+            <Select onValueChange={(v) => modifyReportsTimeline(v)}>
+              <SelectTrigger className="w-full mb-10">
+                <SelectValue placeholder="Select Reports Timeline" />
+              </SelectTrigger>
+              <SelectContent>
+                {TIMELINE_PRESETS.map((item) => (
+                  <SelectItem key={item.key} value={item.key}>
+                    <div className="flex space-x-5 items-center">
+                      <div>{item.value}</div>
+                      {currentSelectedTimeline === item.key && (
+                        <div className="text-xs font-semibold text-red-500">
+                          Current
+                        </div>
+                      )}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {currentSelectedTimeline === "custom" && showDatePicker && (
+            <DateRangePicker
+              dateRange={customDateRange}
+              setCustomDateRange={setCustomDateRange}
+            />
+          )}
         </div>
 
-        {currentSelectedTimeline === "custom" && showDatePicker && (
-          <DateRangePicker
-            dateRange={customDateRange}
-            setCustomDateRange={setCustomDateRange}
-          />
-        )}
-      </div>
-
-      <div className="flex flex-row mt-10 justify-evenly items-center h-fit mb-10">
-        {loading ? (
-          <PartsPageSkeleton />
-        ) : (
-          currentSelectedTimeline && (
-            <PrimaryButton
-              title={"Download Reports"}
-              handleButtonPress={downloadTempCarsReport}
-              isLoading={isMakingReport}
+        {/* Checkbox + button row */}
+        <div className="flex items-center w-full mt-10">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={showOnlyInParking}
+              onChange={(e) => setShowOnlyInParking(e.target.checked)}
             />
-          )
-        )}
+            <span>Show only cars currently in parking</span>
+          </label>
+        </div>
+        <div className="flex w-full justify-end mt-10">
+          <div className="w-full max-w-sm">
+            <PrimaryButton
+              title="Download Reports"
+              handleButtonPress={downloadTempCarsReport}
+              disabled={loading}
+              className="w-full"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
-/** ---------- helpers (same style as your snippet) ---------- */
-
-const convertArrayToCSV = (array: any[]) => {
-  const header = Object.keys(array[0]).join(",") + "\n";
-  const rows = array
-    .map((item: any) =>
-      Object.values(item)
-        .map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`)
-        .join(",")
-    )
-    .join("\n");
-  return header + rows;
-};
-
-const downloadCSV = (csvContent: string, fileName: string) => {
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-  if (link.download !== undefined) {
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", fileName);
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-};
-
-const formatRangeForName = (range: DateRange) => {
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const f = range.from!;
-  const t = range.to!;
-  const fmt = (d: Date) =>
-    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-  return `${fmt(f)}_to_${fmt(t)}`;
-};
+/* ------------------ helpers ------------------ */
 
 const povMap = new Map<number, string>(
   purposeOfVisits.map((p) => [p.code, p.description])
 );
 
 const mapPurposes = (arr: unknown): string => {
-  // Accept numbers, numeric strings, or plain strings
   if (!Array.isArray(arr)) return "";
   const labels = arr.map((v) => {
     if (typeof v === "number") return povMap.get(v) ?? String(v);
     if (typeof v === "string") {
       const n = Number(v);
       if (!Number.isNaN(n) && povMap.has(n)) return povMap.get(n)!;
-      return v; // already a label
+      return v;
     }
     return String(v ?? "");
   });
-  // Join with " | " to avoid CSV comma collisions
   return labels.join(" | ");
 };
 
@@ -315,7 +273,9 @@ const REPORT_HEADERS = [
   "gatePassPDF",
   "inParking",
   "in-date",
+  "in-time",
   "out-date",
+  "out-time",
 ] as const;
 
 type ReportRow = Record<
@@ -334,4 +294,27 @@ const convertArrayToCSVWithHeaders = (rows: ReportRow[]) => {
     )
     .join("\n");
   return headerLine + body;
+};
+
+const downloadCSV = (csvContent: string, fileName: string) => {
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute("download", fileName);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const pad2 = (n: number) => String(n).padStart(2, "0");
+const formatDate = (d: Date | null) =>
+  d ? `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}` : "";
+const formatTime = (d: Date | null) =>
+  d ? `${pad2(d.getHours())}:${pad2(d.getMinutes())}` : "";
+
+const formatRangeForName = (range: DateRange) => {
+  const f = range.from!;
+  const t = range.to!;
+  return `${formatDate(f)}_to_${formatDate(t)}`;
 };
