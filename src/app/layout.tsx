@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "T3 Cars",
+  title: "Index Security",
   description: "Awkward Studios",
 };
 
