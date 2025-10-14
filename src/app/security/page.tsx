@@ -21,6 +21,7 @@ import {
   CarStatus,
   type TempCarRecord,
   getAllActiveTempCars,
+  getAllTempCarsToday,
 } from "@/lib/appwrite";
 import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
@@ -52,6 +53,9 @@ export default function Security({}: Props) {
     const loadTempCars = async () => {
       try {
         const res = await getAllActiveTempCars();
+        const todayRes = await getAllTempCarsToday();
+        const todayTrueInCars = (todayRes?.documents ??
+          []) as unknown as TempCarRecord[];
         const docs = (res?.documents ?? []) as unknown as TempCarRecord[];
 
         setInGarageCount(
@@ -59,16 +63,15 @@ export default function Security({}: Props) {
         );
 
         setTodayInCount(
-          docs.filter(
+          todayTrueInCars.filter(
             (c) =>
-              // c.carStatus === CarStatus.ENTERED &&
               c.$createdAt?.split("T")[0] ===
               new Date().toISOString().split("T")[0]
           ).length
         );
 
         setTodayOutCount(
-          docs.filter(
+          todayTrueInCars.filter(
             (c) =>
               c.carStatus === CarStatus.EXITED &&
               c.$updatedAt?.split("T")[0] ===
