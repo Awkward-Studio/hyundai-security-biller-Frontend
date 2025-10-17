@@ -13,7 +13,7 @@ import { BaseRepository } from "./BaseRepo";
 /* =========================
    CONFIG
    ========================= */
-export const config = {
+/*export const config = {
   endpoint: "https://cloud.appwrite.io/v1",
   projectId: "68b88b40001f2371960a",
   databaseId: "68b88c630024ee6a3634",
@@ -24,6 +24,21 @@ export const config = {
   invoiceStorageBucketId: "68b88fb6001a35f16231",
   imageStorageBucketId: "67053962002be8598a04",
 };
+*/
+
+export const config = {
+  endpoint: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
+  projectId: process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!,
+  databaseId: process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+  carsCollectionId: process.env.NEXT_PUBLIC_APPWRITE_CARS_COLLECTION_ID!,
+  tempCarsCollectionId: process.env.NEXT_PUBLIC_APPWRITE_TEMP_CARS_COLLECTION_ID!,
+  carModelsCollectionId: process.env.NEXT_PUBLIC_APPWRITE_MODELS_COLLECTION_ID!,
+  pdfStorageBucketId: process.env.NEXT_PUBLIC_APPWRITE_PDF_BUCKET_ID!,
+  invoiceStorageBucketId: process.env.NEXT_PUBLIC_APPWRITE_INVOICE_BUCKET_ID!,
+  imageStorageBucketId: process.env.NEXT_PUBLIC_APPWRITE_IMAGE_BUCKET_ID!,
+};
+
+
 
 export let client: Client;
 export let account: Account;
