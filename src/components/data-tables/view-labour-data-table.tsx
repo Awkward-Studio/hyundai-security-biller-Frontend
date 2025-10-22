@@ -146,9 +146,9 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </TableHead>
                       );
                     }
@@ -184,7 +184,7 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
                   {row.getValue("labourCode") == MISCELLANEOUS_LABOUR_CODE ? (
                     <>
                       <TableRow
-                        key={row.id + Math.random()}
+                        key={row.id}
                         data-state={row.getIsSelected() && "selected"}
                       >
                         <TableCell

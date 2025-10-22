@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { ChevronsUpDown, Wrench, ChevronUp, ChevronDown } from "lucide-react";
 
@@ -14,9 +14,15 @@ import { convertStringsToArray } from "@/lib/helper";
 
 export default function JobDetailsCard({ data, jobCardTotal, diagnosis }: any) {
   const [isOpen, setIsOpen] = useState(false);
+  const [formattedDate, setFormattedDate] = useState("");
   const purposeOfVisitAndAdvisors = convertStringsToArray(
     data.car.purposeOfVisitAndAdvisors
   );
+
+  useEffect(() => {
+    const date = new Date(data.jobCard.$createdAt);
+    setFormattedDate(date.toLocaleString("en-GB", { timeZone: "UTC" }));
+  }, [data.jobCard.$createdAt]);
 
   return (
     <div className="flex flex-col min-h-[175px] h-fit min-w-[420px] w-max border-2 border-gray-200 rounded-lg shadow-sm p-4">
@@ -30,7 +36,7 @@ export default function JobDetailsCard({ data, jobCardTotal, diagnosis }: any) {
             {data.jobCard.purposeOfVisit}
           </div>
           <div className="font-semibold text-gray-500">
-            {new Date(data.jobCard.$createdAt).toLocaleString()}
+            {formattedDate}
           </div>
           <div className="text-2xl font-bold text-black mb-4">
             &#8377;{jobCardTotal}

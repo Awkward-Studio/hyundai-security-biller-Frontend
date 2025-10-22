@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
 import PartsPageSkeleton from "@/components/skeletons/PartsPageSkeleton";
 import {
   TempCarsDataTable,
@@ -14,34 +13,23 @@ import { TempCar } from "@/lib/definitions";
 import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 import DisplayCard from "@/components/DisplayCard";
 import { Wrench, ArrowRightToLine, ArrowLeftFromLine } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Biller() {
-  const [name, setName] = useState("");
+  const { user, isLoading: authLoading, isAdmin } = useAuth();
   const [loading, setLoading] = useState(true);
   const [tempCars, setTempCars] = useState<TempCarRecord[]>([]);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const [inGarageCount, setInGarageCount] = useState<number>(0);
   const [todayInCount, setTodayInCount] = useState<number>(0);
   const [todayOutCount, setTodayOutCount] = useState<number>(0);
 
   useEffect(() => {
-    const getUser = () => {
-      try {
-        const token = getCookie("user");
-        if (!token) return;
-        const parsed = JSON.parse(String(token));
-        const labels = Array.isArray(parsed?.labels) ? parsed.labels : [];
-        const role = typeof labels[0] === "string" ? labels[0] : null;
-        setIsAdmin(role === "admin");
-        setName(parsed?.name ?? "");
-      } catch {}
-    };
-
     const loadCars = async () => {
       try {
         const res = await getAllActiveTempCars();
         const docs = (res?.documents ?? []) as unknown as TempCarRecord[];
+        const today = new Date().toISOString().split("T")[0];
 
         setInGarageCount(
           docs.filter((c) => c.carStatus !== CarStatus.EXITED).length
@@ -51,8 +39,7 @@ export default function Biller() {
           docs.filter(
             (c) =>
               // c.carStatus === CarStatus.ENTERED &&
-              c.$createdAt?.split("T")[0] ===
-              new Date().toISOString().split("T")[0]
+              c.$createdAt?.split("T")[0] === today
           ).length
         );
 
@@ -60,8 +47,7 @@ export default function Biller() {
           docs.filter(
             (c) =>
               c.carStatus === CarStatus.EXITED &&
-              c.$updatedAt?.split("T")[0] ===
-                new Date().toISOString().split("T")[0]
+              c.$updatedAt?.split("T")[0] === today
           ).length
         );
 
@@ -71,16 +57,15 @@ export default function Biller() {
       }
     };
 
-    getUser();
     loadCars();
   }, []);
 
-  if (loading) return <PartsPageSkeleton />;
+  if (loading || authLoading) return <PartsPageSkeleton />;
 
   return (
     <div className="flex flex-col w-[90%] mt-10">
       <div>
-        <div className="font-semibold text-3xl">Hello {name || "Biller"}!</div>
+        <div className="font-semibold text-3xl">Hello {user?.name || "Biller"}!</div>
         <div className="font-medium">T3, Mira Road</div>
       </div>
       {isAdmin && (

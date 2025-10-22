@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import Image from "next/image";
 import T3_Full from "../../public/assets/index_hyundai.svg";
 import loader from "../../public/assets/loader.png";
@@ -14,13 +14,19 @@ import { account, listAllUsers, loginUser, logoutUser } from "@/lib/appwrite";
 
 type Props = {};
 
-function Login({}: Props) {
+function Login({ }: Props) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [isUserPresent, setIsUserPresent] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !isSigningIn && email && password) {
+      login();
+    }
+  };
 
   const login = async () => {
     setIsSigningIn(true);
@@ -94,22 +100,24 @@ function Login({}: Props) {
       </div>
       <div className="flex flex-col w-full justify-center items-center mt-10 space-y-5">
         <input
-          // value={Props.name}
+          value={email}
           type="text"
           id="email"
           name="email"
           placeholder="Enter your Email"
           className="border-2 border-gray-400 bg-transparent placeholder-gray-400 p-3 w-[80%] lg:w-1/4 rounded-xl"
           onChange={(e) => setEmail(e.target.value)}
+          onKeyPress={handleKeyPress}
         ></input>
         <input
-          // value={Props.name}
+          value={password}
           type="password"
           id="password"
           name="password"
           placeholder="Enter your Password"
           className="border-2 border-gray-400 bg-transparent placeholder-gray-400 p-3 w-[80%] lg:w-1/4 rounded-xl"
           onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handleKeyPress}
         ></input>
       </div>
       <div className="flex flex-col justify-center items-center w-full mt-10 space-y-4">

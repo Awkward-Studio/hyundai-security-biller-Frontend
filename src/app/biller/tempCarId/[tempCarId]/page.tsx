@@ -4,9 +4,9 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-import { getCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 import {
   getTempCarById,
@@ -40,9 +40,7 @@ export default function TempCarPage({
   params: { tempCarId: string };
 }) {
   const pathname = usePathname();
-
-  // user
-  const [name, setName] = useState<string>("");
+  const { user } = useAuth();
 
   // docs
   const [tempCar, setTempCar] = useState<TempCarDoc | null>(null);
@@ -109,15 +107,6 @@ export default function TempCarPage({
   useEffect(() => {
     const load = async () => {
       try {
-        const token = getCookie("user");
-        if (token) {
-          try {
-            const parsed = JSON.parse(String(token));
-            setName(parsed?.name ?? "");
-          } catch {
-            // ignore cookie parse issues
-          }
-        }
 
         const t: any = await getTempCarById(params.tempCarId);
         if (!t) {
@@ -255,12 +244,12 @@ export default function TempCarPage({
       setCar((prev: any) =>
         prev
           ? {
-              ...prev,
-              customerName: customerName.trim(),
-              customerPhone: customerPhone.trim(),
-              customerEmail: customerEmail.trim(),
-              customerAddress: customerAddress.trim(),
-            }
+            ...prev,
+            customerName: customerName.trim(),
+            customerPhone: customerPhone.trim(),
+            customerEmail: customerEmail.trim(),
+            customerAddress: customerAddress.trim(),
+          }
           : prev
       );
 
@@ -578,10 +567,10 @@ export default function TempCarPage({
                 {status === CarStatus.ENTERED
                   ? "Entered"
                   : status === CarStatus.GATEPASS_GENERATED
-                  ? "Gatepass Generated"
-                  : status === CarStatus.EXITED
-                  ? "Exited"
-                  : "Unknown"}
+                    ? "Gatepass Generated"
+                    : status === CarStatus.EXITED
+                      ? "Exited"
+                      : "Unknown"}
               </span>
             </div>
 
