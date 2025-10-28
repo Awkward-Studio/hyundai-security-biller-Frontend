@@ -73,14 +73,14 @@ const SearchComponent = ({
     let currentPartObj = createTempPartObj(item);
 
     if (currentParts && currentPartObj) {
-      let findIndex = currentParts?.findIndex(
+      const findIndex = currentParts?.findIndex(
         (part) => part.partId == item.$id
       );
       // console.log(findIndex);
 
       if (findIndex != -1) {
-        let arrayFirstHalf = currentParts.slice(0, findIndex);
-        let arraySecondHalf = currentParts.slice(findIndex + 1);
+        const arrayFirstHalf = currentParts.slice(0, findIndex);
+        const arraySecondHalf = currentParts.slice(findIndex + 1);
 
         currentPartObj = updateTempPartObjQuantity(currentPartObj, 1);
 

@@ -84,13 +84,13 @@ export function CurrentLabourDataTable<TData, TValue>({
 
 
   useEffect(() => {
-    let foundIndexDisc = currentLabours?.findIndex(
+    const foundIndexDisc = currentLabours?.findIndex(
       (work) => work.discountPercentage && work.discountPercentage != 0
     );
     console.log("FOUND INDEX", foundIndexDisc);
     setIsAlreadyDiscount(foundIndexDisc != -1);
 
-    let foundIndexInsurance = currentLabours?.findIndex(
+    const foundIndexInsurance = currentLabours?.findIndex(
       (work) => work.insurancePercentage && work.insurancePercentage != 0
     );
     console.log("FOUND INDEX", foundIndexInsurance);
@@ -98,16 +98,16 @@ export function CurrentLabourDataTable<TData, TValue>({
   }, [currentLabours]);
 
   const deleteRow = (row: any) => {
-    let arrayFirstHalf = currentLabours!.slice(0, row.index);
-    let arraySecondHalf = currentLabours!.slice(row.index + 1);
+    const arrayFirstHalf = currentLabours!.slice(0, row.index);
+    const arraySecondHalf = currentLabours!.slice(row.index + 1);
 
     setCurrentLabour([...arrayFirstHalf, ...arraySecondHalf]);
     setIsEdited(true);
   };
 
   const handleQuantityUpdate = (row: any, toUpdate: number) => {
-    let arrayFirstHalf = currentLabours!.slice(0, row.index);
-    let arraySecondHalf = currentLabours!.slice(row.index + 1);
+    const arrayFirstHalf = currentLabours!.slice(0, row.index);
+    const arraySecondHalf = currentLabours!.slice(row.index + 1);
 
     const labourCode = row.getValue("labourCode");
     const prevQty = row.getValue("quantity");
@@ -116,7 +116,7 @@ export function CurrentLabourDataTable<TData, TValue>({
       return deleteRow(row);
     }
 
-    let toUpdateQty = currentLabours?.find(
+    const toUpdateQty = currentLabours?.find(
       (labour, index) => labour.labourCode === labourCode && row.index == index
     );
 
@@ -165,7 +165,7 @@ export function CurrentLabourDataTable<TData, TValue>({
   };
 
   const removeAllDiscount = () => {
-    let newArr: CurrentLabour[] = [];
+    const newArr: CurrentLabour[] = [];
     currentLabours?.map((part: CurrentLabour) => {
       const updatedPartObj = removeTempLabourObjDiscount(part);
       newArr.push(updatedPartObj!);
@@ -182,7 +182,7 @@ export function CurrentLabourDataTable<TData, TValue>({
     }
 
     const labourCode = row.getValue("labourCode");
-    let toUpdateDisc = currentLabours?.find(
+    const toUpdateDisc = currentLabours?.find(
       (labour, index) => labour.labourCode === labourCode && row.index == index
     );
 
@@ -215,7 +215,7 @@ export function CurrentLabourDataTable<TData, TValue>({
   };
 
   const getAmountSplit = (amount: number, insurance: string) => {
-    let splitAmts = splitInsuranceAmt(amount, Number(insurance));
+    const splitAmts = splitInsuranceAmt(amount, Number(insurance));
 
     return (
       <div className="flex flex-col space-y-4">
@@ -235,19 +235,19 @@ export function CurrentLabourDataTable<TData, TValue>({
     if (insurance > 100) {
       toast("Insurance percentage cannot exceed 100%");
     } else {
-      let arrayFirstHalf = currentLabours!.slice(0, row.index);
-      let arraySecondHalf = currentLabours!.slice(row.index + 1);
+      const arrayFirstHalf = currentLabours!.slice(0, row.index);
+      const arraySecondHalf = currentLabours!.slice(row.index + 1);
 
       const labourCode = row.getValue("labourCode");
 
-      let toUpdateInsurance = currentLabours?.find(
+      const toUpdateInsurance = currentLabours?.find(
         (labour, index) =>
           labour.labourCode === labourCode && row.index == index
       );
 
       if (toUpdateInsurance) {
         toUpdateInsurance.insurancePercentage = Number(insurance);
-        let newTaxAmt = taxAmtHelper(
+        const newTaxAmt = taxAmtHelper(
           toUpdateInsurance.mrp,
           toUpdateInsurance.quantity,
           toUpdateInsurance.gst,
@@ -255,7 +255,7 @@ export function CurrentLabourDataTable<TData, TValue>({
           "value"
         );
 
-        let splitAmts = splitInsuranceAmt(Number(newTaxAmt), Number(insurance));
+        const splitAmts = splitInsuranceAmt(Number(newTaxAmt), Number(insurance));
 
         toUpdateInsurance.customerAmt = splitAmts.customerAmt;
         toUpdateInsurance.insuranceAmt = splitAmts.insuranceAmt;
@@ -272,7 +272,7 @@ export function CurrentLabourDataTable<TData, TValue>({
   };
 
   const removeAllInsurance = () => {
-    let tempObj = currentLabours;
+    const tempObj = currentLabours;
 
     tempObj!.map((part) => {
       part.insurancePercentage = undefined;
@@ -289,12 +289,12 @@ export function CurrentLabourDataTable<TData, TValue>({
       toast("Insurance more than 100% is not allowed");
       return;
     }
-    let tempObj = currentLabours;
+    const tempObj = currentLabours;
     console.log("ALL insurance - ", insurance);
     tempObj!.map((labour: CurrentLabour) => {
       labour.insurancePercentage = Number(insurance);
       // console.log(splitInsuranceAmt(part.amount, Number(insurance)));
-      let splitAmts = splitInsuranceAmt(
+      const splitAmts = splitInsuranceAmt(
         Number(
           taxAmtHelper(
             labour.mrp,
@@ -331,12 +331,12 @@ export function CurrentLabourDataTable<TData, TValue>({
   const handleMRPUpdate = (row: any, mrp: number) => {
     let updatedObj;
 
-    let arrayFirstHalf = currentLabours!.slice(0, row.index);
-    let arraySecondHalf = currentLabours!.slice(row.index + 1);
+    const arrayFirstHalf = currentLabours!.slice(0, row.index);
+    const arraySecondHalf = currentLabours!.slice(row.index + 1);
 
     const labourCode = row.getValue("labourCode");
 
-    let toUpdateMRP = currentLabours?.find(
+    const toUpdateMRP = currentLabours?.find(
       (labour, index) => labour.labourCode === labourCode && row.index == index
     );
 
@@ -374,12 +374,12 @@ export function CurrentLabourDataTable<TData, TValue>({
     console.log("THIS IS THE ROW - ", row);
     let updatedObj;
 
-    let arrayFirstHalf = currentLabours!.slice(0, row.index);
-    let arraySecondHalf = currentLabours!.slice(row.index + 1);
+    const arrayFirstHalf = currentLabours!.slice(0, row.index);
+    const arraySecondHalf = currentLabours!.slice(row.index + 1);
 
     const labourCode = row.getValue("labourCode");
 
-    let toUpdateLabourName = currentLabours?.find(
+    const toUpdateLabourName = currentLabours?.find(
       (labour, index) => labour.labourCode === labourCode && row.index == index
     );
 

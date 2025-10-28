@@ -56,9 +56,9 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
 
   useEffect(() => {
     const refreshData = async () => {
-      let numberOfJobCards = 0;
+      const numberOfJobCards = 0;
 
-      let chartTotal = {
+      const chartTotal = {
         parts: new Decimal(0),
         labour: new Decimal(0),
         total: new Decimal(0),
@@ -84,7 +84,7 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
         return acc;
       }, {});
 
-      let newChartData: {
+      const newChartData: {
         date: string;
         parts: Number;
         labour: Number;

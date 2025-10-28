@@ -563,7 +563,7 @@ export const InsuranceinvoiceTypes = [
 ];
 
 export const getAllCarMakes = () => {
-  let makes: string[] = [];
+  const makes: string[] = [];
 
   carMakeModels.map((make) => makes.push(make.company));
 
@@ -610,13 +610,13 @@ export const amtHelperWithoutTax = (
 };
 
 export const objToStringArr = (obj: any[]) => {
-  let newArr: string[] = [];
+  const newArr: string[] = [];
   obj.map((a) => newArr.push(JSON.stringify(a)));
   return newArr;
 };
 
 export const stringToObj = (strings: string[]) => {
-  let newObjArr: any[] = [];
+  const newObjArr: any[] = [];
 
   try {
     strings.map((a) => newObjArr.push(JSON.parse(a)));
@@ -689,8 +689,8 @@ export const getUserAccess = (user: UserType) => {
 
 export const splitInsuranceAmt = (amount: number, insurance: number) => {
   // console.log("USER ACCESS - ", user);
-  let insuranceAmt = (insurance / 100) * amount;
-  let customerAmt = amount - insuranceAmt;
+  const insuranceAmt = (insurance / 100) * amount;
+  const customerAmt = amount - insuranceAmt;
 
   return { insuranceAmt, customerAmt };
 };
@@ -726,11 +726,11 @@ export const getDiscount = (subTotal: number, rate: number) => {
 
 export const createTempPartObj = (item: Part) => {
   if (item) {
-    let tempSubTotal = roundToTwoDecimals(getSubTotal(item.mrp, 1));
-    let tempCgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.cgst));
-    let tempSgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.sgst));
+    const tempSubTotal = roundToTwoDecimals(getSubTotal(item.mrp, 1));
+    const tempCgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.cgst));
+    const tempSgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.sgst));
 
-    let returnObj: CurrentPart = {
+    const returnObj: CurrentPart = {
       partId: item.$id,
       partName: item.partName,
       partNumber: item.partNumber,
@@ -796,11 +796,11 @@ export const changeMiscName = (item: CurrentLabour, labourName: string) => {
 
 export const createTempLabourObj = (item: Labour) => {
   if (item) {
-    let tempSubTotal = roundToTwoDecimals(getSubTotal(item.mrp, 1));
-    let tempCgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.cgst));
-    let tempSgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.sgst));
+    const tempSubTotal = roundToTwoDecimals(getSubTotal(item.mrp, 1));
+    const tempCgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.cgst));
+    const tempSgstAmt = roundToTwoDecimals(getTaxAmount(tempSubTotal, item.sgst));
 
-    let returnObj: CurrentLabour = {
+    const returnObj: CurrentLabour = {
       labourId: item.$id,
       labourName: item.labourName,
       labourCode: item.labourCode,
@@ -873,7 +873,7 @@ export const updateTempPartObjQuantity = (
       actualSubTotal = roundToTwoDecimals(
         getSubTotal(currentPartObj.mrp, newQuantity)
       );
-      let discountAmt = roundToTwoDecimals(
+      const discountAmt = roundToTwoDecimals(
         getDiscount(actualSubTotal, currentPartObj.discountPercentage)
       );
 
@@ -885,10 +885,10 @@ export const updateTempPartObjQuantity = (
       );
       tempSubTotal = actualSubTotal;
     }
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.sgst)
     );
 
@@ -924,7 +924,7 @@ export const updateTempPartObjMRP = (
       actualSubTotal = roundToTwoDecimals(
         getSubTotal(mrp, currentPartObj.quantity)
       );
-      let discountAmt = roundToTwoDecimals(
+      const discountAmt = roundToTwoDecimals(
         getDiscount(actualSubTotal, currentPartObj.discountPercentage)
       );
 
@@ -936,10 +936,10 @@ export const updateTempPartObjMRP = (
       );
       tempSubTotal = actualSubTotal;
     }
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.sgst)
     );
 
@@ -976,7 +976,7 @@ export const updateTempLabourObjMRP = (
       actualSubTotal = roundToTwoDecimals(
         getSubTotal(mrp, currentLabourObj.quantity)
       );
-      let discountAmt = roundToTwoDecimals(
+      const discountAmt = roundToTwoDecimals(
         getDiscount(actualSubTotal, currentLabourObj.discountPercentage)
       );
 
@@ -988,10 +988,10 @@ export const updateTempLabourObjMRP = (
       );
       tempSubTotal = actualSubTotal;
     }
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.sgst)
     );
 
@@ -1036,7 +1036,7 @@ export const updateTempLabourObjQuantity = (
       actualSubTotal = roundToTwoDecimals(
         getSubTotal(currentLabourObj.mrp, newQuantity)
       );
-      let discountAmt = roundToTwoDecimals(
+      const discountAmt = roundToTwoDecimals(
         getDiscount(actualSubTotal, currentLabourObj.discountPercentage)
       );
 
@@ -1048,10 +1048,10 @@ export const updateTempLabourObjQuantity = (
       );
       tempSubTotal = actualSubTotal;
     }
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.sgst)
     );
 
@@ -1073,16 +1073,16 @@ export const updateTempPartObjDiscount = (
   discountPercentage: number
 ) => {
   if (currentPartObj && discountPercentage) {
-    let discountAmt = roundToTwoDecimals(
+    const discountAmt = roundToTwoDecimals(
       getDiscount(currentPartObj.subTotal, discountPercentage)
     );
-    let tempSubTotal = roundToTwoDecimals(
+    const tempSubTotal = roundToTwoDecimals(
       currentPartObj.subTotal - discountAmt
     );
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.sgst)
     );
 
@@ -1104,16 +1104,16 @@ export const updateTempLabourObjDiscount = (
   discountPercentage: number
 ) => {
   if (currentLabourObj && discountPercentage) {
-    let discountAmt = roundToTwoDecimals(
+    const discountAmt = roundToTwoDecimals(
       getDiscount(currentLabourObj.subTotal, discountPercentage)
     );
-    let tempSubTotal = roundToTwoDecimals(
+    const tempSubTotal = roundToTwoDecimals(
       currentLabourObj.subTotal - discountAmt
     );
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.sgst)
     );
 
@@ -1132,11 +1132,11 @@ export const updateTempLabourObjDiscount = (
 
 export const removeTempPartObjDiscount = (currentPartObj: CurrentPart) => {
   if (currentPartObj) {
-    let tempSubTotal = currentPartObj.subTotal;
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempSubTotal = currentPartObj.subTotal;
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentPartObj.sgst)
     );
 
@@ -1157,11 +1157,11 @@ export const removeTempLabourObjDiscount = (
   currentLabourObj: CurrentLabour
 ) => {
   if (currentLabourObj) {
-    let tempSubTotal = currentLabourObj.subTotal;
-    let tempCgstAmt = roundToTwoDecimals(
+    const tempSubTotal = currentLabourObj.subTotal;
+    const tempCgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.cgst)
     );
-    let tempSgstAmt = roundToTwoDecimals(
+    const tempSgstAmt = roundToTwoDecimals(
       getTaxAmount(tempSubTotal, currentLabourObj.sgst)
     );
 
@@ -1213,14 +1213,14 @@ export const createTaxObj = (
     // if(part.cgst == 14){
     //   console.log("PARTS - ", part)
     // }
-    let foundCgstObjIndex = taxes.findIndex(
+    const foundCgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "CGST" &&
         obj.taxRate == part.cgst &&
         obj.taxType == "GOODS"
     );
 
-    let foundSgstObjIndex = taxes.findIndex(
+    const foundSgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "SGST" &&
         obj.taxRate == part.sgst &&
@@ -1228,8 +1228,8 @@ export const createTaxObj = (
     );
 
     if (foundCgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
 
       if (
         isInsurance &&
@@ -1315,7 +1315,7 @@ export const createTaxObj = (
         }
       }
 
-      let cgstObj = {
+      const cgstObj = {
         taxType: "GOODS",
         taxRate: part.cgst,
         taxName: "CGST",
@@ -1328,8 +1328,8 @@ export const createTaxObj = (
     }
 
     if (foundSgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
 
       if (
         isInsurance &&
@@ -1412,7 +1412,7 @@ export const createTaxObj = (
         }
       }
 
-      let sgstObj = {
+      const sgstObj = {
         taxType: "GOODS",
         taxRate: part.sgst,
         taxName: "SGST",
@@ -1427,14 +1427,14 @@ export const createTaxObj = (
   });
 
   labour.map((work: CurrentLabour) => {
-    let foundCgstObjIndex = taxes.findIndex(
+    const foundCgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "CGST" &&
         obj.taxRate == work.cgst &&
         obj.taxType == "SERVICES"
     );
 
-    let foundSgstObjIndex = taxes.findIndex(
+    const foundSgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "SGST" &&
         obj.taxRate == work.sgst &&
@@ -1442,8 +1442,8 @@ export const createTaxObj = (
     );
 
     if (foundCgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
 
       if (
         isInsurance &&
@@ -1527,7 +1527,7 @@ export const createTaxObj = (
         }
       }
 
-      let cgstObj = {
+      const cgstObj = {
         taxType: "SERVICES",
         taxRate: work.cgst,
         taxName: "CGST",
@@ -1540,8 +1540,8 @@ export const createTaxObj = (
     }
 
     if (foundSgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
 
       if (
         isInsurance &&
@@ -1624,7 +1624,7 @@ export const createTaxObj = (
         }
       }
 
-      let sgstObj = {
+      const sgstObj = {
         taxType: "SERVICES",
         taxRate: work.sgst,
         taxName: "SGST",
@@ -1650,14 +1650,14 @@ export const createTaxObjNew = (
     // if(part.cgst == 14){
     //   console.log("PARTS - ", part)
     // }
-    let foundCgstObjIndex = taxes.findIndex(
+    const foundCgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "CGST" &&
         obj.taxRate == part.cgst &&
         obj.taxType == "GOODS"
     );
 
-    let foundSgstObjIndex = taxes.findIndex(
+    const foundSgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "SGST" &&
         obj.taxRate == part.sgst &&
@@ -1665,8 +1665,8 @@ export const createTaxObjNew = (
     );
 
     if (foundCgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
 
       taxes[foundCgstObjIndex].taxAmt = roundToTwoDecimals(
         taxes[foundCgstObjIndex].taxAmt + part.cgstAmt
@@ -1674,7 +1674,7 @@ export const createTaxObjNew = (
 
       taxes = [...arrayFirstHalf, taxes[foundCgstObjIndex], ...arraySecondHalf];
     } else {
-      let cgstObj = {
+      const cgstObj = {
         taxType: "GOODS",
         taxRate: part.cgst,
         taxName: "CGST",
@@ -1685,8 +1685,8 @@ export const createTaxObjNew = (
     }
 
     if (foundSgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
 
       taxes[foundSgstObjIndex].taxAmt = roundToTwoDecimals(
         taxes[foundSgstObjIndex].taxAmt + part.sgstAmt
@@ -1694,7 +1694,7 @@ export const createTaxObjNew = (
 
       taxes = [...arrayFirstHalf, taxes[foundSgstObjIndex], ...arraySecondHalf];
     } else {
-      let sgstObj = {
+      const sgstObj = {
         taxType: "GOODS",
         taxRate: part.sgst,
         taxName: "SGST",
@@ -1709,14 +1709,14 @@ export const createTaxObjNew = (
   });
 
   labour.map((work: CurrentLabour) => {
-    let foundCgstObjIndex = taxes.findIndex(
+    const foundCgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "CGST" &&
         obj.taxRate == work.cgst &&
         obj.taxType == "SERVICES"
     );
 
-    let foundSgstObjIndex = taxes.findIndex(
+    const foundSgstObjIndex = taxes.findIndex(
       (obj: TaxObj) =>
         obj.taxName == "SGST" &&
         obj.taxRate == work.sgst &&
@@ -1724,8 +1724,8 @@ export const createTaxObjNew = (
     );
 
     if (foundCgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundCgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundCgstObjIndex + 1);
 
       taxes[foundCgstObjIndex].taxAmt = roundToTwoDecimals(
         taxes[foundCgstObjIndex].taxAmt + work.cgstAmt
@@ -1733,7 +1733,7 @@ export const createTaxObjNew = (
 
       taxes = [...arrayFirstHalf, taxes[foundCgstObjIndex], ...arraySecondHalf];
     } else {
-      let cgstObj = {
+      const cgstObj = {
         taxType: "SERVICES",
         taxRate: work.cgst,
         taxName: "CGST",
@@ -1746,8 +1746,8 @@ export const createTaxObjNew = (
     }
 
     if (foundSgstObjIndex != -1) {
-      let arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
-      let arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
+      const arrayFirstHalf = taxes!.slice(0, foundSgstObjIndex);
+      const arraySecondHalf = taxes!.slice(foundSgstObjIndex + 1);
 
       taxes[foundSgstObjIndex].taxAmt = roundToTwoDecimals(
         taxes[foundSgstObjIndex].taxAmt + work.sgstAmt
@@ -1757,7 +1757,7 @@ export const createTaxObjNew = (
 
       taxes = [...arrayFirstHalf, taxes[foundSgstObjIndex], ...arraySecondHalf];
     } else {
-      let sgstObj = {
+      const sgstObj = {
         taxType: "SERVICES",
         taxRate: work.sgst,
         taxName: "SGST",
@@ -1939,7 +1939,7 @@ export const processItem = async (
       tempTotalTax = roundDecimal(tempSgstAmt.plus(tempCgstAmt));
       tempAmount = roundDecimal(liabilitySubtotal.plus(tempTotalTax));
 
-      let updatedItem = {
+      const updatedItem = {
         mrp: item.mrp,
         gst: item.gst,
         hsn: item.hsn,
@@ -2032,7 +2032,7 @@ export const processJobCardItem = async (
       tempTotalTax = roundDecimal(tempSgstAmt.plus(tempCgstAmt));
       tempAmount = roundDecimal(liabilitySubtotal.plus(tempTotalTax));
 
-      let updatedItem = {
+      const updatedItem = {
         mrp: item.mrp,
         gst: item.gst,
         hsn: item.hsn,
@@ -2078,8 +2078,8 @@ export const createInvoiceObj = async (
 ): Promise<Invoice> => {
   return new Promise(async (resolve, reject) => {
     try {
-      let partsArr = stringToObj(jobCard.parts);
-      let labourArr = stringToObj(jobCard.labour);
+      const partsArr = stringToObj(jobCard.parts);
+      const labourArr = stringToObj(jobCard.labour);
 
       let partsTotal = new Decimal(0);
       let labourTotal = new Decimal(0);
@@ -2290,8 +2290,8 @@ export const createInvoiceObjReport = async (
 }> => {
   return new Promise(async (resolve, reject) => {
     try {
-      let partsArr = stringToObj(jobCard.parts);
-      let labourArr = stringToObj(jobCard.labour);
+      const partsArr = stringToObj(jobCard.parts);
+      const labourArr = stringToObj(jobCard.labour);
 
       let partsTotal = new Decimal(0);
       let labourTotal = new Decimal(0);
@@ -2453,8 +2453,8 @@ export const createJobCardObjReport = async (
 }> => {
   return new Promise(async (resolve, reject) => {
     try {
-      let partsArr = stringToObj(jobCard.parts);
-      let labourArr = stringToObj(jobCard.labour);
+      const partsArr = stringToObj(jobCard.parts);
+      const labourArr = stringToObj(jobCard.labour);
 
       // console.log("PARTS - ", jobCard.parts);
       // console.log("LABOUR - ", jobCard.labour);

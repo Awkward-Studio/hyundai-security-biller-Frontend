@@ -81,13 +81,13 @@ export function CurrentPartsDataTable<TData, TValue>({
   // console.log("THIS IS THE CURRENT JOBCARD STATUS - ", currentJobCardStatus);
 
   useEffect(() => {
-    let foundIndexDisc = currentParts?.findIndex(
+    const foundIndexDisc = currentParts?.findIndex(
       (part) => part.discountPercentage && part.discountPercentage != 0
     );
     console.log("FOUND INDEX", foundIndexDisc);
     setIsAlreadyDiscount(foundIndexDisc != -1);
 
-    let foundIndexInsurance = currentParts?.findIndex(
+    const foundIndexInsurance = currentParts?.findIndex(
       (part) => part.insurancePercentage && part.insurancePercentage != 0
     );
     console.log("FOUND INDEX", foundIndexInsurance);
@@ -95,16 +95,16 @@ export function CurrentPartsDataTable<TData, TValue>({
   }, [currentParts]);
 
   const deleteRow = (row: any) => {
-    let arrayFirstHalf = currentParts!.slice(0, row.index);
-    let arraySecondHalf = currentParts!.slice(row.index + 1);
+    const arrayFirstHalf = currentParts!.slice(0, row.index);
+    const arraySecondHalf = currentParts!.slice(row.index + 1);
 
     setCurrentParts([...arrayFirstHalf, ...arraySecondHalf]);
     setIsEdited(true);
   };
 
   const handleQuantityUpdate = (row: any, toUpdate: number) => {
-    let arrayFirstHalf = currentParts!.slice(0, row.index);
-    let arraySecondHalf = currentParts!.slice(row.index + 1);
+    const arrayFirstHalf = currentParts!.slice(0, row.index);
+    const arraySecondHalf = currentParts!.slice(row.index + 1);
 
     const partNumber = row.getValue("partNumber");
     const prevQty = (row.getValue("quantity") as number) ?? 0;
@@ -113,7 +113,7 @@ export function CurrentPartsDataTable<TData, TValue>({
       return deleteRow(row);
     }
 
-    let toUpdateQty = currentParts?.find(
+    const toUpdateQty = currentParts?.find(
       (part) => part.partNumber == partNumber
     );
 
@@ -136,12 +136,12 @@ export function CurrentPartsDataTable<TData, TValue>({
   const handleMRPUpdate = (row: any, mrp: number) => {
     let updatedObj;
 
-    let arrayFirstHalf = currentParts!.slice(0, row.index);
-    let arraySecondHalf = currentParts!.slice(row.index + 1);
+    const arrayFirstHalf = currentParts!.slice(0, row.index);
+    const arraySecondHalf = currentParts!.slice(row.index + 1);
 
     const partNumber = row.getValue("partNumber");
 
-    let toUpdateMRP = currentParts?.find(
+    const toUpdateMRP = currentParts?.find(
       (part) => part.partNumber == partNumber
     );
 
@@ -204,7 +204,7 @@ export function CurrentPartsDataTable<TData, TValue>({
   };
 
   const removeAllDiscount = () => {
-    let newArr: CurrentPart[] = [];
+    const newArr: CurrentPart[] = [];
     currentParts?.map((part: CurrentPart) => {
       const updatedPartObj = removeTempPartObjDiscount(part);
       newArr.push(updatedPartObj!);
@@ -257,12 +257,12 @@ export function CurrentPartsDataTable<TData, TValue>({
     //   toast("Discount more than 15% is not allowed");
     //   return;
     // }
-    let tempObj = currentParts;
+    const tempObj = currentParts;
     console.log("ALL insurance - ", insurance);
     tempObj!.map((part) => {
       part.insurancePercentage = Number(insurance);
       // console.log(splitInsuranceAmt(part.amount, Number(insurance)));
-      let splitAmts = splitInsuranceAmt(
+      const splitAmts = splitInsuranceAmt(
         Number(
           taxAmtHelper(
             part.mrp,
@@ -282,7 +282,7 @@ export function CurrentPartsDataTable<TData, TValue>({
   };
 
   const removeAllInsurance = () => {
-    let tempObj = currentParts;
+    const tempObj = currentParts;
 
     tempObj!.map((part) => {
       part.insurancePercentage = undefined;
@@ -299,8 +299,8 @@ export function CurrentPartsDataTable<TData, TValue>({
     //   toast("Discount more than 15% is not allowed");
     //   return;
     // }
-    let arrayFirstHalf = currentParts!.slice(0, row.index);
-    let arraySecondHalf = currentParts!.slice(row.index + 1);
+    const arrayFirstHalf = currentParts!.slice(0, row.index);
+    const arraySecondHalf = currentParts!.slice(row.index + 1);
 
     const partNumber = row.getValue("partNumber");
 
@@ -311,7 +311,7 @@ export function CurrentPartsDataTable<TData, TValue>({
     if (toUpdateInsurance) {
       toUpdateInsurance.insurancePercentage = Number(insurance);
 
-      let newTaxAmt = taxAmtHelper(
+      const newTaxAmt = taxAmtHelper(
         toUpdateInsurance.mrp,
         toUpdateInsurance.quantity,
         toUpdateInsurance.gst,
@@ -319,7 +319,7 @@ export function CurrentPartsDataTable<TData, TValue>({
         "value"
       );
 
-      let splitAmts = splitInsuranceAmt(Number(newTaxAmt), Number(insurance));
+      const splitAmts = splitInsuranceAmt(Number(newTaxAmt), Number(insurance));
 
       toUpdateInsurance.customerAmt = splitAmts.customerAmt;
       toUpdateInsurance.insuranceAmt = splitAmts.insuranceAmt;
@@ -335,7 +335,7 @@ export function CurrentPartsDataTable<TData, TValue>({
   };
 
   const getAmountSplit = (amount: number, insurance: string) => {
-    let splitAmts = splitInsuranceAmt(amount, Number(insurance));
+    const splitAmts = splitInsuranceAmt(amount, Number(insurance));
 
     return (
       <div className="flex flex-col space-y-4">

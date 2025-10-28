@@ -14,7 +14,7 @@
     "react-hooks/rules-of-hooks": "off",
     // Disable exhaustive dependency checks
     //"react-hooks/exhaustive-deps": "off",
-    "prefer-const": "off",
+    //"prefer-const": "off",
     "curly": "off"
   }
 }

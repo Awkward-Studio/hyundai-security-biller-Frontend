@@ -59,13 +59,13 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
 
 
   useEffect(() => {
-    let foundIndexDisc = currentLabours?.findIndex(
+    const foundIndexDisc = currentLabours?.findIndex(
       (work) => work.discountPercentage && work.discountPercentage != 0
     );
     console.log("FOUND INDEX", foundIndexDisc);
     setIsAlreadyDiscount(foundIndexDisc != -1);
 
-    let foundIndexInsurance = currentLabours?.findIndex(
+    const foundIndexInsurance = currentLabours?.findIndex(
       (work) => work.insurancePercentage && work.insurancePercentage != 0
     );
     console.log("FOUND INDEX", foundIndexInsurance);
@@ -88,7 +88,7 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
   });
 
   const getAmountSplit = (amount: number, insurance: string) => {
-    let splitAmts = splitInsuranceAmt(amount, Number(insurance));
+    const splitAmts = splitInsuranceAmt(amount, Number(insurance));
 
     return (
       <div className="flex flex-col space-y-4">

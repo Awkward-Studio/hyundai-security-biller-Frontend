@@ -37,7 +37,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function NightStockNew({ tempCars }: { tempCars: TempCarRecord[] }) {
-  let totalCars = tempCars.length;
+  const totalCars = tempCars.length;
   const emptySpace = TOTAL_PARKING_SPACE - totalCars;
   chartData[0].empty = emptySpace;
 

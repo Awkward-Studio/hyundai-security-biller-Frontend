@@ -39,7 +39,7 @@ export function SearchSelect({
     setInternalValue(value);
   }, [value]);
 
-  let convertedData: any = [];
+  const convertedData: any = [];
 
   data.map((itemName: string) =>
     convertedData.push({ value: itemName, label: itemName })

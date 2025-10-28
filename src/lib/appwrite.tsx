@@ -39,19 +39,13 @@ export const config = {
 
 
 
-export let client: Client;
-export let account: Account;
-export let databases: Databases;
-export let storage: Storage;
-export let functions: Functions;
-
-client = new Client();
+export const client: Client = new Client();
 client.setEndpoint(config.endpoint).setProject(config.projectId);
 
-account = new Account(client);
-databases = new Databases(client);
-storage = new Storage(client);
-functions = new Functions(client);
+export const account: Account = new Account(client);
+export const databases: Databases = new Databases(client);
+export const storage: Storage = new Storage(client);
+export const functions: Functions = new Functions(client);
 
 /* =========================
    TABLE SHAPES 
@@ -564,7 +558,7 @@ export const getTempCarsBetween = async (from: Date, to: Date) => {
     const newFrom = from.toISOString();
     const newTo = to.toISOString();
 
-    let result = await databases.listDocuments(
+    const result = await databases.listDocuments(
       config.databaseId,
       config.tempCarsCollectionId,
       [

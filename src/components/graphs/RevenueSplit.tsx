@@ -54,7 +54,7 @@ export default function RevenueSplit({
         (jobCard: JobCard) => jobCard.jobCardStatus >= 6
       );
 
-      let tempReturnObj: any = {};
+      const tempReturnObj: any = {};
 
       let totalPartsWithoutTax = new Decimal(0);
       let totalLabourWithoutTax = new Decimal(0);

@@ -50,14 +50,14 @@ export default function LabourSearch({
     let currentLabourObj = createTempLabourObj(item);
 
     if (currentLabours && currentLabourObj) {
-      let findIndex = currentLabours?.findIndex(
+      const findIndex = currentLabours?.findIndex(
         (work) => work.labourCode == item.$id
       );
       // console.log(findIndex);
 
       if (findIndex != -1) {
-        let arrayFirstHalf = currentLabours.slice(0, findIndex);
-        let arraySecondHalf = currentLabours.slice(findIndex + 1);
+        const arrayFirstHalf = currentLabours.slice(0, findIndex);
+        const arraySecondHalf = currentLabours.slice(findIndex + 1);
 
         currentLabourObj = updateTempLabourObjQuantity(currentLabourObj, 1);
 
