@@ -34,12 +34,7 @@ import {
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
-import {
-  CarStatus,
-  updateTempCarById,
-  updateTempCarField,
-  type TempCarRecord,
-} from "@/lib/appwrite";
+import { CarStatus, updateTempCarField, type TempCarRecord } from "@/lib/appwrite";
 import Link from "next/link";
 import { purposeOfVisits } from "@/lib/helper";
 
@@ -50,19 +45,19 @@ const statusLabel = (s: CarStatus) =>
   s === CarStatus.ENTERED
     ? "Entered"
     : s === CarStatus.GATEPASS_GENERATED
-    ? "Gatepass Generated"
-    : s === CarStatus.EXITED
-    ? "Exited"
-    : "Unknown";
+      ? "Gatepass Generated"
+      : s === CarStatus.EXITED
+        ? "Exited"
+        : "Unknown";
 
 const statusDotClass = (s: CarStatus) =>
   s === CarStatus.ENTERED
     ? "bg-[#0040c1]"
     : s === CarStatus.GATEPASS_GENERATED
-    ? "bg-[#107569]"
-    : s === CarStatus.EXITED
-    ? "bg-[#099250]"
-    : "bg-gray-400";
+      ? "bg-[#107569]"
+      : s === CarStatus.EXITED
+        ? "bg-[#099250]"
+        : "bg-gray-400";
 
 function StatusPill({ status }: { status: CarStatus }) {
   return (
@@ -192,7 +187,7 @@ function RowActions({ tempCar }: { tempCar: TempCarRecord }) {
       const parsed = JSON.parse(String(token));
       userAccess = parsed?.labels?.[0] ?? "";
     }
-  } catch {}
+  } catch { }
 
   if (userAccess === "security")
     return <SecurityRowActions tempCar={tempCar} />;
@@ -371,9 +366,9 @@ export function TempCarsDataTable({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 ))}
                 <TableHead /> {/* actions column spacer */}

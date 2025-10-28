@@ -12,7 +12,6 @@ import {
   getTempCarById,
   getCarById,
   updateCarField,
-  updateTempCarById,
   updateTempCarFieldsById,
   CarStatus, // 0 ENTERED, 1 IN_PROGRESS, 2 DONE, 3 GATEPASS_GENERATED, 4 EXITED
 } from "@/lib/appwrite";
@@ -40,7 +39,7 @@ export default function TempCarPage({
   params: { tempCarId: string };
 }) {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { } = useAuth();
 
   // docs
   const [tempCar, setTempCar] = useState<TempCarDoc | null>(null);

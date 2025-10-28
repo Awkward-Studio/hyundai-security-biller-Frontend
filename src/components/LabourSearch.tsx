@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
-import { CurrentLabour, CurrentPart, Labour, Part } from "@/lib/definitions";
-import {
-  createTempLabourObj,
-  taxAmtHelper,
-  updateTempLabourObjQuantity,
-} from "@/lib/helper";
+import { CurrentLabour, Labour } from "@/lib/definitions";
+import { createTempLabourObj, updateTempLabourObjQuantity } from "@/lib/helper";
 
 export default function LabourSearch({
   items,

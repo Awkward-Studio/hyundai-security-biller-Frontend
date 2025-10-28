@@ -1,16 +1,9 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -18,13 +11,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect } from "react";
-import { TempCar } from "@/lib/definitions";
 import { TempCarRecord } from "@/lib/appwrite";
 
 const TOTAL_PARKING_SPACE = 400;
 
-let carsBeingWorkedOn = 0;
-let gatePassGenerated = 0;
+
 
 const chartData = [
   { month: "january", carsBeingWorkedOn: 80, gatePassGenerated: 7, empty: 0 },

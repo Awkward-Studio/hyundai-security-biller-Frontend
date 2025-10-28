@@ -12,7 +12,6 @@ import {
   getSortedRowModel,
   ColumnFiltersState,
   getFilteredRowModel,
-  Row,
 } from "@tanstack/react-table";
 
 import {
@@ -25,7 +24,7 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Check, Minus, Percent, Plus, Shield, Trash2, X } from "lucide-react";
+import { Minus, Percent, Plus, Shield, Trash2, X } from "lucide-react";
 import {
   changeMiscName,
   createTempLabourZeroObj,
@@ -82,10 +81,7 @@ export function CurrentLabourDataTable<TData, TValue>({
   const [isInsurance, setIsInsurance] = useState(false);
   const [isAlreadyInsurance, setIsAlreadyInsurance] = useState(false);
 
-  const [miscUpdateState, setMiscUpdateState] = useState<{
-    row: string;
-    isEditing: true;
-  }>();
+
 
   useEffect(() => {
     let foundIndexDisc = currentLabours?.findIndex(
@@ -433,7 +429,7 @@ export function CurrentLabourDataTable<TData, TValue>({
                     <Button
                       variant="outline"
                       className="border border-blue-600 text-blue-600"
-                      onClick={() => setIsDiscount((prev) => true)}
+                      onClick={() => setIsDiscount(true)}
                       disabled={disable}
                     >
                       <Percent />
@@ -468,7 +464,7 @@ export function CurrentLabourDataTable<TData, TValue>({
                       className="border border-blue-600 text-blue-600"
                       onClick={() => {
                         if (isInsuranceDetails) {
-                          setIsInsurance((prev) => true);
+                          setIsInsurance(true);
                         } else {
                           toast("Add Insurance Details to Proceed");
                         }
@@ -846,7 +842,7 @@ export function CurrentLabourDataTable<TData, TValue>({
               />
               <Button
                 variant="link"
-                onClick={() => setIsAddingLabour((prev) => false)}
+                onClick={() => setIsAddingLabour(false)}
                 disabled={disable}
               >
                 <X />
@@ -855,7 +851,7 @@ export function CurrentLabourDataTable<TData, TValue>({
           ) : (
             <Button
               variant="link"
-              onClick={() => setIsAddingLabour((prev) => true)}
+              onClick={() => setIsAddingLabour(true)}
               disabled={disable}
             >
               <div className="flex flex-row space-x-3 text-blue-600 items-center">

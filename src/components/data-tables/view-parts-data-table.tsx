@@ -24,23 +24,11 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Minus, Percent, Plus, Shield, Trash2, X } from "lucide-react";
-import PartsSearch from "@/components/PartsSearch";
-import {
-  createTempPartZeroObj,
-  getUserAccess,
-  removeTempPartObjDiscount,
-  roundToTwoDecimals,
-  splitInsuranceAmt,
-  taxAmtHelper,
-  updateTempPartObjDiscount,
-  updateTempPartObjMRP,
-  updateTempPartObjQuantity,
-} from "@/lib/helper";
-import { CurrentPart, Part, UserType } from "@/lib/definitions";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { roundToTwoDecimals, splitInsuranceAmt, taxAmtHelper } from "@/lib/helper";
+import { CurrentPart } from "@/lib/definitions";
 import { Input } from "../ui/input";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -60,11 +48,11 @@ export function ViewCurrentPartsDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [isAddingParts, setIsAddingParts] = useState(false);
 
-  const [isDiscount, setIsDiscount] = useState(false);
+
+  const [isDiscount] = useState(false);
   const [isAlreadyDiscount, setIsAlreadyDiscount] = useState(false);
-  const [isInsurance, setIsInsurance] = useState(false);
+  const [isInsurance] = useState(false);
   const [isAlreadyInsurance, setIsAlreadyInsurance] = useState(false);
 
   // console.log("THIS IS THE CURRENT JOBCARD STATUS - ", currentJobCardStatus);

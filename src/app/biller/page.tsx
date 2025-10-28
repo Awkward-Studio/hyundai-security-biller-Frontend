@@ -9,7 +9,7 @@ import {
 import { CarStatus, TempCarRecord, getAllActiveTempCars } from "@/lib/appwrite";
 import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
-import { TempCar } from "@/lib/definitions";
+import { } from "@/lib/definitions";
 import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 import DisplayCard from "@/components/DisplayCard";
 import { Wrench, ArrowRightToLine, ArrowLeftFromLine } from "lucide-react";

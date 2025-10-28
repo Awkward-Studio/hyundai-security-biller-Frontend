@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -10,14 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -26,125 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
 import { JobCard } from "@/lib/definitions";
-import { adminReportTimelineDrop, manageTimelineChange } from "@/lib/helper";
-const chartData = [
-  {
-    insuranceCompany: "Acko General Insurance Co. Ltd.",
-    cases: 120,
-  },
-  {
-    insuranceCompany: "Bajaj Allianz General Insurance",
-    cases: 95,
-  },
-  {
-    insuranceCompany: "Bharti AXA General Insurance Company Ltd.",
-    cases: 110,
-  },
-  {
-    insuranceCompany: "CHOLAMANDALAM MS GENERAL INSURANCE COMPANY LTD",
-    cases: 75,
-  },
-  {
-    insuranceCompany: "Go Digit General Insurance Ltd.",
-    cases: 60,
-  },
-  {
-    insuranceCompany: "Edelweiss General Insurance Co. Ltd.",
-    cases: 85,
-  },
-  {
-    insuranceCompany: "Future Generali General Insurance",
-    cases: 90,
-  },
-  {
-    insuranceCompany: "Iffco Tokio General Insurance Co. Ltd.",
-    cases: 115,
-  },
-  {
-    insuranceCompany: "Kotak Mahindra General Insurance Co. Ltd.",
-    cases: 70,
-  },
-  {
-    insuranceCompany: "LIBERTY GENERAL INSURANCE LIMITED",
-    cases: 55,
-  },
-  {
-    insuranceCompany: "NATIONAL INSURANCE COMPANY LIMITED",
-    cases: 150,
-  },
-  {
-    insuranceCompany: "THE NEW INDIA ASSURANCE CO LTD",
-    cases: 200,
-  },
-  {
-    insuranceCompany: "The Oriental Insurance Co. Ltd.",
-    cases: 145,
-  },
-  {
-    insuranceCompany: "Raheja QBE General Insurance Co. Ltd.",
-    cases: 65,
-  },
-  {
-    insuranceCompany: "Reliance General Insurance Co Ltd",
-    cases: 180,
-  },
-  {
-    insuranceCompany: "SBI General Insurance Co. Ltd.",
-    cases: 130,
-  },
-  {
-    insuranceCompany: "Shriram General Insurance Co. Ltd.",
-    cases: 125,
-  },
-  {
-    insuranceCompany: "Tata AIG General Insurance Co. Ltd.",
-    cases: 170,
-  },
-  {
-    insuranceCompany: "United India Insurance Co. Ltd.",
-    cases: 155,
-  },
-  {
-    insuranceCompany: "Universal Sompo General Insurance Co. Ltd.",
-    cases: 140,
-  },
-  {
-    insuranceCompany: "HDFC ERGO GEN INS CO LTD",
-    cases: 135,
-  },
-  {
-    insuranceCompany: "ICICI LOMBARD GENERAL INS CO LTD",
-    cases: 160,
-  },
-  {
-    insuranceCompany: "Royal Sundaram General Insurance Co. Ltd.",
-    cases: 100,
-  },
-  {
-    insuranceCompany: "OLA FLEET TECHNOLOGIES PVT LTD",
-    cases: 50,
-  },
-  {
-    insuranceCompany: "Magma HDI General Insurance Co. Ltd.",
-    cases: 45,
-  },
-  {
-    insuranceCompany: "Navi General Insurance Ltd.",
-    cases: 40,
-  },
-  {
-    insuranceCompany: "National Insurance Company Ltd",
-    cases: 125,
-  },
-  {
-    insuranceCompany: "ZUNO GENERAL INSURANCE LIMITED",
-    cases: 95,
-  },
-  {
-    insuranceCompany: "ZURICH KOTAK GENERAL INSURANCE COMPANY (INDIA) LIMITED",
-    cases: 85,
-  },
-];
+import { manageTimelineChange } from "@/lib/helper";
 
 const chartConfig = {
   cases: {

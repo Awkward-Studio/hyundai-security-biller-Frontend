@@ -18,30 +18,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect } from "react";
+import { } from "react";
 
-const convertedData = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+// placeholder data removed; data comes from props
 
 export function SearchSelect({
   data,
@@ -78,7 +57,7 @@ export function SearchSelect({
         >
           {value
             ? convertedData.find((dataItem: any) => dataItem.value === value)
-                ?.label
+              ?.label
             : `Search ${type}...`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

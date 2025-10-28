@@ -7,7 +7,6 @@ import {
   Storage,
   Functions,
 } from "appwrite";
-import ImageKit from "imagekit";
 import { BaseRepository } from "./BaseRepo";
 
 /* =========================
@@ -53,23 +52,6 @@ account = new Account(client);
 databases = new Databases(client);
 storage = new Storage(client);
 functions = new Functions(client);
-
-// /* =========================
-//    IMAGEKIT
-//    ========================= */
-// export const imagekit = new ImageKit({
-//   publicKey: "public_YxeQGi/zYRicR5GdhQu7UwOMAYg=",
-//   privateKey: "private_pPkQ38mNRgbbpt9JElST4HPGQfw=",
-//   urlEndpoint: "https://ik.imagekit.io/ztq7tvia1",
-// });
-
-/* =========================
-   ENV
-   ========================= */
-const useDev = false;
-let apiUrl = useDev
-  ? "http://localhost:3000"
-  : "https://hyundai-garage-frontend.vercel.app";
 
 /* =========================
    TABLE SHAPES 

@@ -15,7 +15,7 @@ import {
 
 type Props = {};
 
-function AddCarModel({}: Props) {
+function AddCarModel({ }: Props) {
   const [ModelName, setModelName] = useState<string>(""); // Initialized to an empty string
   const [isAddingCar, setIsAddingCar] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -48,7 +48,7 @@ function AddCarModel({}: Props) {
           models: doc.models || [],
         }));
         setMakes(formattedData);
-      } catch (error) {
+      } catch {
         toast.error("Failed to fetch makes");
       }
     };
@@ -66,7 +66,7 @@ function AddCarModel({}: Props) {
       toast.success("Car model added successfully");
       console.log(result);
       setModelName(""); // Clear the input after success
-    } catch (error) {
+    } catch {
       toast.error("Failed to add car model");
     } finally {
       setIsAddingCar(false);

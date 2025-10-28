@@ -1,7 +1,7 @@
 import { account } from "@/lib/appwrite";
-import { Account, ID, Models } from "appwrite";
+import { Account, ID } from "appwrite";
 
-class UserManager {
+export default class UserManager {
   private account: Account;
 
   constructor() {
@@ -52,8 +52,8 @@ class UserManager {
     }
   }
 
-   // Update the current user's preferences
-   async updatePreferences(preferences: Record<string, any>) {
+  // Update the current user's preferences
+  async updatePreferences(preferences: Record<string, any>) {
     try {
       const updatedUser = await this.account.updatePrefs(preferences);
       console.log("Preferences updated:", updatedUser);
@@ -104,3 +104,4 @@ class UserManager {
     }
   }
 }
+

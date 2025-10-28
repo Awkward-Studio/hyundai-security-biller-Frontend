@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-import { ChevronsUpDown, Wrench, ChevronUp, ChevronDown } from "lucide-react";
+import { Wrench, ChevronUp, ChevronDown } from "lucide-react";
 
 import {
   Collapsible,
@@ -10,14 +10,13 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "./ui/button";
-import { convertStringsToArray } from "@/lib/helper";
 
 export default function JobDetailsCard({ data, jobCardTotal, diagnosis }: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
-  const purposeOfVisitAndAdvisors = convertStringsToArray(
-    data.car.purposeOfVisitAndAdvisors
-  );
+  // const _purposeOfVisitAndAdvisors = convertStringsToArray(
+  //   data.car.purposeOfVisitAndAdvisors
+  // );
 
   useEffect(() => {
     const date = new Date(data.jobCard.$createdAt);

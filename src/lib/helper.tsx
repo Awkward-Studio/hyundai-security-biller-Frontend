@@ -621,7 +621,7 @@ export const stringToObj = (strings: string[]) => {
   try {
     strings.map((a) => newObjArr.push(JSON.parse(a)));
     return newObjArr;
-  } catch (error) {
+  } catch {
     console.log("ERROR IN STRING TO OBJ - ", strings, newObjArr);
     return strings;
   }
@@ -914,8 +914,6 @@ export const updateTempPartObjMRP = (
   mrp: number
 ) => {
   if (currentPartObj && mrp) {
-    let newMRP;
-
     let tempSubTotal, actualSubTotal;
 
     if (
@@ -968,8 +966,6 @@ export const updateTempLabourObjMRP = (
   mrp: number
 ) => {
   if (currentLabourObj && mrp) {
-    let newMRP;
-
     let tempSubTotal, actualSubTotal;
 
     if (
@@ -1792,7 +1788,7 @@ export const curateInvoices = (invoices: Invoice[]) => {
   let total = 0;
 
   Object.keys(groupedByJobCardId).map((key) => {
-    const latestInvoices = getLatestInvoices(groupedByJobCardId[key], key);
+    const latestInvoices = getLatestInvoices(groupedByJobCardId[key]);
     total = total + groupedByJobCardId[key].length;
     invoiceArr = [...invoiceArr, ...latestInvoices];
   });
@@ -1801,14 +1797,14 @@ export const curateInvoices = (invoices: Invoice[]) => {
     a.invoiceNumber > b.invoiceNumber
       ? 1
       : b.invoiceNumber > a.invoiceNumber
-      ? -1
-      : 0
+        ? -1
+        : 0
   );
 
   return invoiceArr;
 };
 
-export const getLatestInvoices = (invoices: Invoice[], key: string) => {
+export const getLatestInvoices = (invoices: Invoice[]) => {
   const latestInvoices: Record<string, any> = {};
 
   invoices.forEach((invoice: any) => {
@@ -2096,11 +2092,10 @@ export const createInvoiceObj = async (
 
       let totalTax = new Decimal(0);
 
-      let insuranceDetails;
-
+      // Populate insurance details locally if needed
+      let insuranceDetails: any | undefined;
       if (invoice.isInsuranceInvoice && invoice.invoiceType != "Quote") {
         insuranceDetails = JSON.parse(jobCard.insuranceDetails);
-        //   console.log(true);
       }
 
       const revisedPartsArr: any = await Promise.all(
@@ -2180,7 +2175,8 @@ export const createInvoiceObj = async (
       if (
         invoice.isInsuranceInvoice &&
         invoice.invoiceType != "Quote" &&
-        invoice.insuranceInvoiceType == "Insurance"
+        invoice.insuranceInvoiceType == "Insurance" &&
+        insuranceDetails
       ) {
         jobCard.gstin = insuranceDetails.policyProviderGST;
         jobCard.customerName = insuranceDetails.policyProvider;
@@ -2473,13 +2469,6 @@ export const createJobCardObjReport = async (
       let labourDiscount = new Decimal(0);
 
       let totalTax = new Decimal(0);
-
-      let insuranceDetails;
-
-      // if (invoice.isInsuranceInvoice && invoice.invoiceType != "Quote") {
-      //   insuranceDetails = JSON.parse(jobCard.insuranceDetails);
-      //   //   console.log(true);
-      // }
 
       const revisedPartsArr: any = await Promise.all(
         partsArr.map(async (part: CurrentPart) => {

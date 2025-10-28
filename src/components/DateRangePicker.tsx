@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { addDays, format, set } from "date-fns";
+import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function DateRangePicker({ dateRange, setCustomDateRange }: any) {
   const [date, setDate] = React.useState<DateRange | undefined>(dateRange);

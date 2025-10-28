@@ -394,7 +394,7 @@ export function CurrentPartsDataTable<TData, TValue>({
                     <Button
                       variant="outline"
                       className="border border-blue-600 text-blue-600"
-                      onClick={() => setIsDiscount((prev) => true)}
+                      onClick={() => setIsDiscount(true)}
                       disabled={disable}
                     >
                       <Percent />
@@ -429,7 +429,7 @@ export function CurrentPartsDataTable<TData, TValue>({
                       className="border border-blue-600 text-blue-600"
                       onClick={() => {
                         if (isInsuranceDetails) {
-                          setIsInsurance((prev) => true);
+                          setIsInsurance(true);
                         } else {
                           toast("Add Insurance Details to Proceed");
                         }
@@ -639,7 +639,7 @@ export function CurrentPartsDataTable<TData, TValue>({
               />
               <Button
                 variant="link"
-                onClick={() => setIsAddingParts((prev) => false)}
+                onClick={() => setIsAddingParts(false)}
                 disabled={disable}
               >
                 <X />
@@ -648,7 +648,7 @@ export function CurrentPartsDataTable<TData, TValue>({
           ) : (
             <Button
               variant="link"
-              onClick={() => setIsAddingParts((prev) => true)}
+              onClick={() => setIsAddingParts(true)}
               disabled={disable}
             >
               <div className="flex flex-row space-x-3 text-blue-600 items-center">

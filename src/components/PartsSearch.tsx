@@ -54,12 +54,12 @@ const SearchComponent = ({
         // return false; // Handle non-string values as needed
       });
       setSearchResults(results);
-      setIsLoading((prev) => false);
+      setIsLoading(false);
     }
   }, [items, searchTerm]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsLoading((prev) => true);
+    setIsLoading(true);
     const value = event.target.value;
     setInputValue(value); // Update input field immediately
     debouncedSetSearchTerm(value); // Debounced update for searchTerm

@@ -2,35 +2,12 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import logo from "../../public/assets/index_hyundai.svg";
 import loader from "../../public/assets/t3-loader.gif";
 // import { Home01Icon, Layers01Icon, Logout04Icon } from "hugeicons-react";
-import {
-  Car,
-  CarFront,
-  ClipboardList,
-  Download,
-  HistoryIcon,
-  House,
-  Layers3,
-  LogOut,
-  Menu,
-  PlusIcon,
-  UmbrellaIcon,
-  UserRoundCog,
-} from "lucide-react";
+import { Car, CarFront, ClipboardList, Download, House, LogOut, Menu, PlusIcon } from "lucide-react";
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
 import {
   HoverCard,
@@ -51,11 +28,11 @@ export default function Sidebar({ home }: any) {
   console.log("THIS IS THE HOME - ", home);
 
   const logout = async () => {
-    setIsLoggingOut((prev) => true);
+    setIsLoggingOut(true);
     await logoutUser();
     deleteCookie("user");
     router.push("/");
-    // setIsLoggingOut((prev) => false);
+    // setIsLoggingOut(false);
   };
 
   const handleNavigation = (path: string) => {
@@ -250,9 +227,8 @@ export default function Sidebar({ home }: any) {
           <div>
             <button
               onClick={logout}
-              className={`border-2 rounded-md shadow-md ${
-                isLoggingOut ? "opacity-50 p-1" : "p-3"
-              }`}
+              className={`border-2 rounded-md shadow-md ${isLoggingOut ? "opacity-50 p-1" : "p-3"
+                }`}
             >
               {isLoggingOut ? (
                 <Image src={loader} width={50} height={50} alt="Logo" />

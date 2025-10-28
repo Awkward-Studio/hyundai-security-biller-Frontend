@@ -21,7 +21,7 @@ type MakeModels = { company: string; models: string[] };
 const indianCarNumberRegex =
   /^(?:[A-Z]{2}\d{2}[A-Z]{1,5}\d{4}|\d{2}BH\d{4}[A-Z]{1,2})$/;
 
-export default function AddCarCards({}: Props) {
+export default function AddCarCards({ }: Props) {
   const router = useRouter();
 
   // form state
@@ -30,9 +30,9 @@ export default function AddCarCards({}: Props) {
 
   const [carMake, setCarMake] = useState<string>("Hyundai");
   const [carModel, setCarModel] = useState<string>("");
-  const [handleModelDisable, setHandleModelDisable] = useState(false);
+  const [handleModelDisable] = useState(false);
 
-  const [carMakeModels, setCarMakeModels] = useState<MakeModels[]>([]);
+  const [, setCarMakeModels] = useState<MakeModels[]>([]);
   const [selectedCarMakeModels, setSelectedCarMakeModels] = useState<string[]>(
     []
   );

@@ -1,16 +1,9 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { } from "lucide-react";
 import { LabelList, Pie, PieChart } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -18,13 +11,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
-import { CurrentLabour, CurrentPart, JobCard } from "@/lib/definitions";
-import {
-  createJobCardObjReport,
-  manageTimelineChange,
-  roundToTwoDecimals,
-  stringToObj,
-} from "@/lib/helper";
+import { JobCard } from "@/lib/definitions";
+import { createJobCardObjReport, manageTimelineChange } from "@/lib/helper";
 import Decimal from "decimal.js";
 const chartData = [
   { itemType: "parts", totalRevenue: 275, fill: "var(--color-parts)" },

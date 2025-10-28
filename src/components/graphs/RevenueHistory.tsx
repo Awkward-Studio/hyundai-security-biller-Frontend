@@ -170,11 +170,11 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
     manageTimelineChange({ currentSelectedTimeline, setSelectedTimeline });
   }, [jobCards, currentSelectedTimeline]);
 
-  const total = React.useMemo(
+  React.useMemo(
     () => ({
-      parts: newChartData.reduce((acc, curr) => acc + curr.desktop, 0),
-      labour: newChartData.reduce((acc, curr) => acc + curr.mobile, 0),
-      total: newChartData.reduce((acc, curr) => acc + curr.total, 0),
+      parts: newChartData.reduce((acc, curr) => acc + (curr.parts ?? 0), 0),
+      labour: newChartData.reduce((acc, curr) => acc + (curr.labour ?? 0), 0),
+      total: newChartData.reduce((acc, curr) => acc + (curr.total ?? 0), 0),
     }),
     [newChartData]
   );
@@ -202,7 +202,7 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
                 <span className="text-lg font-bold leading-none sm:text-3xl">
                   {key != "numberOfJobCards" && <>&#8377;</>}
                   {Math.round(
-                    chartTotals[key as keyof typeof total]
+                    chartTotals[key as keyof typeof chartTotals]
                   ).toLocaleString()}
                 </span>
               </button>

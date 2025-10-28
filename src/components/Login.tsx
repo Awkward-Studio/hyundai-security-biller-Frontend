@@ -1,14 +1,13 @@
 "use client";
 
-import React, { use, useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import T3_Full from "../../public/assets/index_hyundai.svg";
-import loader from "../../public/assets/loader.png";
-import { setCookie, deleteCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 // import { loginUser, listSessions, logoutUser } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
 import PrimaryButton from "./PrimaryButton";
-import { account, listAllUsers, loginUser, logoutUser } from "@/lib/appwrite";
+import { loginUser } from "@/lib/appwrite";
 
 // import { checkUserAccess } from "@/helpers/auth";
 

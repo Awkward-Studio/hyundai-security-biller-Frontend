@@ -1,18 +1,11 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
-import DatePicker from "react-datepicker";
+import React, { useState, useEffect } from "react";
+import { } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { TrendingUp } from "lucide-react";
+import { } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -20,12 +13,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { JobCard } from "@/lib/definitions";
-import {
-  adminReportTimelineDrop,
-  createJobCardObjReport,
-  manageTimelineChange,
-} from "@/lib/helper";
-import { set } from "react-datepicker/dist/date_utils";
+import { createJobCardObjReport, manageTimelineChange } from "@/lib/helper";
+import { } from "react-datepicker/dist/date_utils";
 import Decimal from "decimal.js";
 
 const chartConfig = {
@@ -123,7 +112,7 @@ export default function RevenueSplit({
 
       // Create the formatted dataset
       const formattedDataset = Object.entries(tempReturnObj).map(
-        ([key, value]) => ({
+        ([key]) => ({
           pov: key,
           revenue: Number(tempReturnObj[key].revenue.toFixed(2)), // Round off to 2 decimal places
           fill: tempReturnObj[key].fill,

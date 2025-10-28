@@ -1,15 +1,8 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { PieChart, Pie, Legend } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-  CardDescription,
-} from "@/components/ui/card";
+import { PieChart, Pie } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,

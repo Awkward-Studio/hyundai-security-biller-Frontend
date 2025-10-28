@@ -21,7 +21,7 @@ import {
   type TempCarRecord,
   getAllActiveTempCars,
 } from "@/lib/appwrite";
-import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
+// import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
 import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 import { useAuth } from "@/hooks/useAuth";

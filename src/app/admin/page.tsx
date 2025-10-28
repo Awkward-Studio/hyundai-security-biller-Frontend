@@ -1,9 +1,7 @@
 import React from "react";
 import Biller from "../biller/page";
 
-type Props = {};
-
-const Admin = (props: Props) => {
+const Admin = () => {
   return <Biller />;
 };
 

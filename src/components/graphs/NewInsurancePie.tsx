@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import {
   Card,
   CardContent,
@@ -15,12 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
 import { JobCard } from "@/lib/definitions";
 import { manageTimelineChange } from "@/lib/helper";
@@ -96,36 +84,7 @@ export function InsuranceCasesPie({ jobCards, currentSelectedTimeline }: any) {
     manageTimelineChange({ currentSelectedTimeline, setSelectedTimeline });
   }, [jobCards, currentSelectedTimeline]);
 
-  // Custom renderer for the legend items to truncate long names
-  const renderLegend = (props: any) => {
-    const { payload } = props;
-
-    return (
-      <ul className="flex flex-col gap-2 mt-4 text-sm">
-        {payload.map((entry: any, index: number) => {
-          const companyName = entry.payload.insuranceCompany;
-          // Truncate long company names
-          const displayName =
-            companyName.length > 25
-              ? companyName.substring(0, 25) + "..."
-              : companyName;
-
-          return (
-            <li key={`item-${index}`} className="flex items-center gap-2">
-              <span
-                className="inline-block w-3 h-3 rounded-full"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-foreground">{displayName}</span>
-              <span className="ml-auto font-medium">
-                {entry.payload.cases} ({entry.payload.percentage}%)
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  };
+  // legend renderer removed (unused)
 
   // Custom tooltip content
   const CustomTooltip = ({ active, payload }: any) => {

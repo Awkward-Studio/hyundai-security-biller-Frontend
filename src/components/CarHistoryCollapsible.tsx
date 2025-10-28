@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, ChevronsUpDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +12,6 @@ import {
 import { CurrentLabour, CurrentPart, JobCard } from "@/lib/definitions";
 import { useEffect, useState } from "react";
 import { createDateExpandedObj, stringToObj } from "@/lib/helper";
-import { get } from "http";
-import { set } from "date-fns";
 
 type CarHistoryCollapsibleProps = {
   jobCard: JobCard;

@@ -12,7 +12,6 @@ import {
   getSortedRowModel,
   ColumnFiltersState,
   getFilteredRowModel,
-  Row,
 } from "@tanstack/react-table";
 
 import {
@@ -25,23 +24,10 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Check, Minus, Percent, Plus, Shield, Trash2, X } from "lucide-react";
-import {
-  changeMiscName,
-  createTempLabourZeroObj,
-  getUserAccess,
-  removeTempLabourObjDiscount,
-  roundToTwoDecimals,
-  splitInsuranceAmt,
-  taxAmtHelper,
-  updateTempLabourObjDiscount,
-  updateTempLabourObjMRP,
-  updateTempLabourObjQuantity,
-} from "@/lib/helper";
-import { CurrentLabour, Labour, UserType } from "@/lib/definitions";
-import LabourSearch from "../LabourSearch";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { roundToTwoDecimals, splitInsuranceAmt, taxAmtHelper } from "@/lib/helper";
+import { CurrentLabour } from "@/lib/definitions";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { Input } from "../ui/input";
 
 const MISCELLANEOUS_LABOUR_CODE = "998800";
@@ -63,17 +49,14 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [isAddingLabour, setIsAddingLabour] = useState(false);
 
-  const [isDiscount, setIsDiscount] = useState(false);
+
+  const [isDiscount] = useState(false);
   const [isAlreadyDiscount, setIsAlreadyDiscount] = useState(false);
-  const [isInsurance, setIsInsurance] = useState(false);
+  const [isInsurance] = useState(false);
   const [isAlreadyInsurance, setIsAlreadyInsurance] = useState(false);
 
-  const [miscUpdateState, setMiscUpdateState] = useState<{
-    row: string;
-    isEditing: true;
-  }>();
+
 
   useEffect(() => {
     let foundIndexDisc = currentLabours?.findIndex(
