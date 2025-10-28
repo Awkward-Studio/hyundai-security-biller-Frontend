@@ -40,7 +40,7 @@ export function CarHistoryCollapsible({
 
     setParts(stringToObj(jobCard.parts));
     setLabour(stringToObj(jobCard.labour));
-  }, []);
+  }, [jobCard.$createdAt, jobCard.parts, jobCard.labour]);
 
   return (
     <Collapsible
@@ -49,9 +49,8 @@ export function CarHistoryCollapsible({
       className="w-full space-y-2"
     >
       <div
-        className={`flex flex-col p-3 rounded-xl ${
-          current ? "border border-red-400" : ""
-        }`}
+        className={`flex flex-col p-3 rounded-xl ${current ? "border border-red-400" : ""
+          }`}
       >
         {current && (
           <div className="text-white font-semibold text-sm py-2 px-4 bg-blue-600 rounded-full w-fit">

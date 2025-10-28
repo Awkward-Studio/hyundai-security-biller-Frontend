@@ -63,7 +63,7 @@ export function PartsLabourSplit({ jobCards, currentSelectedTimeline }: any) {
 
   useEffect(() => {
     const refreshData = async () => {
-      jobCards = await jobCards.filter(
+      const filteredJobCards = jobCards.filter(
         (jobCard: JobCard) => jobCard.jobCardStatus >= 6
       );
 
@@ -72,7 +72,7 @@ export function PartsLabourSplit({ jobCards, currentSelectedTimeline }: any) {
       let totalRevenue = new Decimal(0);
 
       await Promise.all(
-        jobCards.map(async (jobCard: JobCard) => {
+        filteredJobCards.map(async (jobCard: JobCard) => {
           let jobCardParts = new Decimal(0);
           let jobCardLabour = new Decimal(0);
           let jobCardRevenue = new Decimal(0);
@@ -155,7 +155,7 @@ export function PartsLabourSplit({ jobCards, currentSelectedTimeline }: any) {
     refreshData();
 
     manageTimelineChange({ currentSelectedTimeline, setSelectedTimeline });
-  }, [jobCards]);
+  }, [jobCards, currentSelectedTimeline]);
 
   return (
     <Card className="flex flex-col">

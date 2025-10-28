@@ -529,9 +529,9 @@ export const InvoicePDF = ({
                 <Image
                   style={styles.Maruti_Logo}
                   src={marutiLogo}
-                  alt-text={".."}
+                  alt={"Maruti logo"}
                 />
-                <Image style={styles.logo} src={logo} alt-text={".."} />
+                <Image style={styles.logo} src={logo} alt={"Company logo"} />
               </View>
               <View style={styles.addressBlock}>
                 <Text style={styles.workShopName}>
@@ -891,16 +891,16 @@ export const InvoicePDF = ({
                       {isInsurance && invoiceType != "Quote" ? (
                         <>
                           {part.insurancePercentage &&
-                          part.insurancePercentage != 0 ? (
+                            part.insurancePercentage != 0 ? (
                             <>
                               {liabilityType == "Customer" ? (
                                 <>
                                   {part.discountAmt &&
-                                  part.discountPercentage != 0 ? (
+                                    part.discountPercentage != 0 ? (
                                     <>
                                       {roundToTwoDecimals(
                                         Number(part.subTotalCust) -
-                                          Number(part.discountAmtCust)
+                                        Number(part.discountAmtCust)
                                       )}
                                     </>
                                   ) : (
@@ -914,11 +914,11 @@ export const InvoicePDF = ({
                               ) : (
                                 <>
                                   {part.discountAmt &&
-                                  part.discountPercentage != 0 ? (
+                                    part.discountPercentage != 0 ? (
                                     <>
                                       {roundToTwoDecimals(
                                         Number(part.subTotalIns) -
-                                          Number(part.discountAmtIns)
+                                        Number(part.discountAmtIns)
                                       )}
                                     </>
                                   ) : (
@@ -936,11 +936,11 @@ export const InvoicePDF = ({
                               {liabilityType == "Customer" ? (
                                 <>
                                   {part.discountAmt &&
-                                  part.discountPercentage != 0 ? (
+                                    part.discountPercentage != 0 ? (
                                     <>
                                       {roundToTwoDecimals(
                                         Number(part.subTotal) -
-                                          Number(part.discountAmt)
+                                        Number(part.discountAmt)
                                       )}
                                     </>
                                   ) : (
@@ -1092,16 +1092,16 @@ export const InvoicePDF = ({
                       {isInsurance && invoiceType != "Quote" ? (
                         <>
                           {work.insurancePercentage &&
-                          work.insurancePercentage != 0 ? (
+                            work.insurancePercentage != 0 ? (
                             <>
                               {liabilityType == "Customer" ? (
                                 <>
                                   {work.discountAmt &&
-                                  work.discountPercentage != 0 ? (
+                                    work.discountPercentage != 0 ? (
                                     <>
                                       {roundToTwoDecimals(
                                         Number(work.subTotalCust) -
-                                          Number(work.discountAmtCust)
+                                        Number(work.discountAmtCust)
                                       )}
                                     </>
                                   ) : (
@@ -1115,11 +1115,11 @@ export const InvoicePDF = ({
                               ) : (
                                 <>
                                   {work.discountAmt &&
-                                  work.discountPercentage != 0 ? (
+                                    work.discountPercentage != 0 ? (
                                     <>
                                       {roundToTwoDecimals(
                                         Number(work.subTotalIns) -
-                                          Number(work.discountAmtIns)
+                                        Number(work.discountAmtIns)
                                       )}
                                     </>
                                   ) : (
@@ -1137,11 +1137,11 @@ export const InvoicePDF = ({
                               {liabilityType == "Customer" ? (
                                 <>
                                   {work.discountAmt &&
-                                  work.discountPercentage != 0 ? (
+                                    work.discountPercentage != 0 ? (
                                     <>
                                       {roundToTwoDecimals(
                                         Number(work.subTotal) -
-                                          Number(work.discountAmt)
+                                        Number(work.discountAmt)
                                       )}
                                     </>
                                   ) : (

@@ -20,7 +20,7 @@ export function DateRangePicker({ dateRange, setCustomDateRange }: any) {
 
   useEffect(() => {
     setCustomDateRange(date);
-  }, [date]);
+  }, [date, setCustomDateRange]);
 
   useEffect(() => {
     setDate(dateRange);

@@ -81,7 +81,7 @@ export function ViewCurrentPartsDataTable<TData, TValue>({
     );
     console.log("FOUND INDEX", foundIndexInsurance);
     setIsAlreadyInsurance(foundIndexInsurance != -1);
-  }, []);
+  }, [currentParts]);
 
   const getAmountSplit = (amount: number, insurance: string) => {
     let splitAmts = splitInsuranceAmt(amount, Number(insurance));
@@ -209,9 +209,9 @@ export function ViewCurrentPartsDataTable<TData, TValue>({
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                       </TableHead>
                     );
                   }

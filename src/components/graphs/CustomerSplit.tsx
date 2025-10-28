@@ -63,16 +63,16 @@ export default function CustomerSplit({
 
   useEffect(() => {
     const calculateVisitors = async () => {
-      const closedJobCards = await jobCards.filter(
+      const closedJobCards = jobCards.filter(
         (jobCard: JobCard) => jobCard.jobCardStatus >= 6
       );
-      jobCards = await jobCards.filter(
+      const openJobCards = jobCards.filter(
         (jobCard: JobCard) => jobCard.jobCardStatus < 6
       );
 
-      console.log("FILTERED", jobCards);
+      console.log("FILTERED", openJobCards);
 
-      const groupedData = jobCards.reduce((acc: any, curr: any) => {
+      const groupedData = openJobCards.reduce((acc: any, curr: any) => {
         acc[curr.purposeOfVisit] = (acc[curr.purposeOfVisit] || 0) + 1;
         return acc;
       }, {});
@@ -98,7 +98,7 @@ export default function CustomerSplit({
     };
 
     calculateVisitors();
-  }, [jobCards]);
+  }, [jobCards, currentSelectedTimeline]);
 
   // console.log("FORMATTED", formattedDataset);
   return (

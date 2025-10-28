@@ -99,7 +99,7 @@ export function CurrentLabourDataTable<TData, TValue>({
     );
     console.log("FOUND INDEX", foundIndexInsurance);
     setIsAlreadyInsurance(foundIndexInsurance != -1);
-  }, []);
+  }, [currentLabours]);
 
   const deleteRow = (row: any) => {
     let arrayFirstHalf = currentLabours!.slice(0, row.index);

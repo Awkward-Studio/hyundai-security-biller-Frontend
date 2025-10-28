@@ -65,13 +65,13 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
         numberOfJobCards: 0,
       };
 
-      jobCards = await jobCards.filter(
+      const filteredJobCards = jobCards.filter(
         (jobCard: JobCard) => jobCard.jobCardStatus >= 6
       );
 
       console.log("HISTORY JOB CARDS BEGINNING", jobCards.length);
 
-      const groupedJobCards = jobCards.reduce((acc: any, card: any) => {
+      const groupedJobCards = filteredJobCards.reduce((acc: any, card: any) => {
         const formattedDate = new Date(card.$updatedAt).toLocaleDateString(
           "en-GB"
         );
@@ -168,7 +168,7 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
 
     refreshData();
     manageTimelineChange({ currentSelectedTimeline, setSelectedTimeline });
-  }, [jobCards]);
+  }, [jobCards, currentSelectedTimeline]);
 
   const total = React.useMemo(
     () => ({
@@ -176,7 +176,7 @@ export function RevenueHistory({ jobCards, currentSelectedTimeline }: any) {
       labour: newChartData.reduce((acc, curr) => acc + curr.mobile, 0),
       total: newChartData.reduce((acc, curr) => acc + curr.total, 0),
     }),
-    []
+    [newChartData]
   );
 
   return (

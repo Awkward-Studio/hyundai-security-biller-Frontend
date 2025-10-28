@@ -87,7 +87,7 @@ export function ViewCurrentLabourDataTable<TData, TValue>({
     );
     console.log("FOUND INDEX", foundIndexInsurance);
     setIsAlreadyInsurance(foundIndexInsurance != -1);
-  }, []);
+  }, [currentLabours]);
 
   const table = useReactTable({
     data,

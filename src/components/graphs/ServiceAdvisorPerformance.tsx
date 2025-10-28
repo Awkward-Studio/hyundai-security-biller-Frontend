@@ -84,7 +84,7 @@ export function ServiceAdvisorPerformance({
     setNewChartData(serviceAdvisors);
 
     manageTimelineChange({ currentSelectedTimeline, setSelectedTimeline });
-  }, [jobCards]);
+  }, [jobCards, currentSelectedTimeline]);
   return (
     <Card className="w-[90%]">
       <CardHeader>

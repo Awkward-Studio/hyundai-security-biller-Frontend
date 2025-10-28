@@ -1,5 +1,8 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-explicit-any": 0,
@@ -10,9 +13,8 @@
     "@typescript-eslint/no-wrapper-object-types": "off",
     "react-hooks/rules-of-hooks": "off",
     // Disable exhaustive dependency checks
-    "react-hooks/exhaustive-deps": "off",
+    //"react-hooks/exhaustive-deps": "off",
     "prefer-const": "off",
     "curly": "off"
-
   }
 }

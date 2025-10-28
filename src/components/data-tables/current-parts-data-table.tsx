@@ -92,7 +92,7 @@ export function CurrentPartsDataTable<TData, TValue>({
     );
     console.log("FOUND INDEX", foundIndexInsurance);
     setIsAlreadyInsurance(foundIndexInsurance != -1);
-  }, []);
+  }, [currentParts]);
 
   const deleteRow = (row: any) => {
     let arrayFirstHalf = currentParts!.slice(0, row.index);
@@ -462,9 +462,9 @@ export function CurrentPartsDataTable<TData, TValue>({
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                       </TableHead>
                     );
                   }

@@ -194,7 +194,7 @@ export function InsuranceCasesBar({ jobCards, currentSelectedTimeline }: any) {
     // console.log(top10Insurers);
 
     manageTimelineChange({ currentSelectedTimeline, setSelectedTimeline });
-  }, [jobCards]);
+  }, [jobCards, currentSelectedTimeline]);
   return (
     <Card>
       <CardHeader>
