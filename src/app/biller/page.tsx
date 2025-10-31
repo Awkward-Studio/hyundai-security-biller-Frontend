@@ -7,7 +7,12 @@ import {
   TempCarsDataTable,
   tempCarsColumns,
 } from "@/components/data-tables/temp-cars-data-table";
-import { CarStatus, TempCarRecord, getAllActiveTempCars } from "@/lib/appwrite";
+import {
+  CarStatus,
+  TempCarRecord,
+  getAllActiveTempCars,
+  getAllTempCarsToday,
+} from "@/lib/appwrite";
 import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
 import { TempCar } from "@/lib/definitions";
@@ -41,6 +46,9 @@ export default function Biller() {
     const loadCars = async () => {
       try {
         const res = await getAllActiveTempCars();
+        const todayRes = await getAllTempCarsToday();
+        const todayTrueInCars = (todayRes?.documents ??
+          []) as unknown as TempCarRecord[];
         const docs = (res?.documents ?? []) as unknown as TempCarRecord[];
 
         setInGarageCount(
@@ -48,16 +56,15 @@ export default function Biller() {
         );
 
         setTodayInCount(
-          docs.filter(
+          todayTrueInCars.filter(
             (c) =>
-              // c.carStatus === CarStatus.ENTERED &&
               c.$createdAt?.split("T")[0] ===
               new Date().toISOString().split("T")[0]
           ).length
         );
 
         setTodayOutCount(
-          docs.filter(
+          todayTrueInCars.filter(
             (c) =>
               c.carStatus === CarStatus.EXITED &&
               c.$updatedAt?.split("T")[0] ===
@@ -65,7 +72,9 @@ export default function Biller() {
           ).length
         );
 
-        setTempCars(docs.filter((c) => c.carStatus !== CarStatus.EXITED));
+        console.log(docs);
+
+        setTempCars(docs);
       } finally {
         setLoading(false);
       }
