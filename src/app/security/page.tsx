@@ -104,7 +104,7 @@ export default function Security({}: Props) {
 
       <div>
         <div className="font-semibold text-3xl">Hello {name || "there"}!</div>
-        <div className="font-medium">T3, Mira Road</div>
+        <div className="font-medium">Index Service Center, Mira Road</div>
       </div>
 
       <div className="flex mt-16 justify-evenly">
