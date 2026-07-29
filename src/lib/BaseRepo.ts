@@ -1,88 +1,48 @@
-import { databases, config } from "@/lib/appwrite";
-import { ID } from "appwrite";
+type ListResult<T = any> = { total: number; documents: T[] };
 
-export class BaseRepository {
-  private readonly collectionId: string;
-  private readonly databaseId: string = config.databaseId;
+export class BaseRepository<T = any> {
+  private readonly basePath: string;
 
-  constructor(collectionId: string) {
-    this.collectionId = collectionId;
+  constructor(basePath: string) {
+    this.basePath = basePath.startsWith("/") ? basePath : `/${basePath}`;
   }
 
-  // Create a document
-  async createDocument(data: any): Promise<any> {
-    try {
-      const createdDoc = await databases.createDocument(
-        this.databaseId,
-        this.collectionId,
-        ID.unique(),
-        data
-      );
-      return createdDoc;
-    } catch (error: any) {
-      return this.handleError(error);
-    }
+  async createDocument(data: T): Promise<T> {
+    return this.request<T>("", { method: "POST", body: JSON.stringify(data) });
   }
 
-  // Get a document by ID
-  async getDocumentById(documentId: string): Promise<any> {
-    try {
-      return await databases.getDocument(
-        this.databaseId,
-        this.collectionId,
-        documentId
-      );
-    } catch (error: any) {
-      return this.handleError(error);
-    }
+  async getDocumentById(documentId: string): Promise<T> {
+    return this.request<T>(`/${documentId}/`);
   }
 
-  // Update a document by ID
-  async updateDocumentById(documentId: string, data: any): Promise<any> {
-    try {
-      const updatedDoc = await databases.updateDocument(
-        this.databaseId,
-        this.collectionId,
-        documentId,
-        data
-      );
-      return updatedDoc;
-    } catch (error: any) {
-      return this.handleError(error);
-    }
+  async updateDocumentById(documentId: string, data: Partial<T>): Promise<T> {
+    return this.request<T>(`/${documentId}/`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
   }
 
-  // List documents with optional queries
-  async listDocuments(query: any[] = []): Promise<any> {
-    try {
-      return await databases.listDocuments(
-        this.databaseId,
-        this.collectionId,
-        query
-      );
-    } catch (error: any) {
-      return this.handleError(error);
-    }
+  async listDocuments(): Promise<ListResult<T>> {
+    return this.request<ListResult<T>>("");
   }
 
-  // Delete a document by ID
-  async deleteDocumentById(documentId: string): Promise<any> {
-    try {
-      const result = await databases.deleteDocument(
-        this.databaseId,
-        this.collectionId,
-        documentId
-      );
-      return result;
-    } catch (error: any) {
-      return this.handleError(error);
-    }
+  async deleteDocumentById(documentId: string): Promise<void> {
+    return this.request<void>(`/${documentId}/`, { method: "DELETE" });
   }
 
-  // Error handler
-  private handleError(error: any): any {
-    const message = error?.message ?? "Unknown error";
-    console.error("Appwrite Error:", message);
-    return { error: message };
+  private async request<R>(suffix: string, init: RequestInit = {}): Promise<R> {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
+    const headers = new Headers(init.headers);
+    headers.set("Content-Type", "application/json");
+    const token =
+      typeof window === "undefined" ? null : window.localStorage.getItem("accessToken");
+    if (token) headers.set("Authorization", `Bearer ${token}`);
+    const response = await fetch(`${apiUrl}${this.basePath}${suffix}`, {
+      ...init,
+      headers,
+    });
+    if (!response.ok) throw new Error(`Request failed (${response.status})`);
+    if (response.status === 204) return undefined as R;
+    return response.json() as Promise<R>;
   }
 }

@@ -1,7 +1,6 @@
 // import React, { useRef, useState } from "react";
 // import Image from "next/image";
 // import { TicketX, Upload, X } from "lucide-react";
-// import { uploadCarImage, uploadImage } from "@/lib/appwrite";
 // import loader from "../../public/assets/t3-loader.gif";
 // import { ImageObj } from "@/lib/definitions";
 

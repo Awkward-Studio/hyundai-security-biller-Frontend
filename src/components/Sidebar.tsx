@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/hover-card";
 
 import { useRouter } from "next/navigation";
-import { logoutUser } from "@/lib/appwrite";
+import { logoutUser } from "@/lib/api";
 import { deleteCookie } from "cookies-next";
 import { Button } from "./ui/button";
 

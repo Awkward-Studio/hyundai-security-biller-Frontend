@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "@/components/PrimaryButton";
 import { Input } from "@/components/ui/input";
-import { addCarModel, fetchCarMakeAndModels } from "@/lib/appwrite";
+import { addCarModel, fetchCarMakeAndModels } from "@/lib/api";
 import { toast } from "sonner";
 import {
   Select,

@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { CarStatus, TempCarRecord } from "@/lib/appwrite";
+import { CarStatus, TempCarRecord } from "@/lib/api";
 
 // Chart configuration mapping CarStatus to chart properties
 export const chartConfig = {

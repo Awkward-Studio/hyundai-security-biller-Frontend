@@ -39,7 +39,7 @@ import {
   updateTempCarById,
   updateTempCarField,
   type TempCarRecord,
-} from "@/lib/appwrite";
+} from "@/lib/api";
 import Link from "next/link";
 import { purposeOfVisits } from "@/lib/helper";
 

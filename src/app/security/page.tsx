@@ -22,7 +22,7 @@ import {
   type TempCarRecord,
   getAllActiveTempCars,
   getAllTempCarsToday,
-} from "@/lib/appwrite";
+} from "@/lib/api";
 import { CurrentCarsPie } from "@/components/graphs/CurrentCarsPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
 import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";

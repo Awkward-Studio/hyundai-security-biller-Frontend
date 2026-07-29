@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { TempCarRecord } from "@/lib/appwrite";
+import { TempCarRecord } from "@/lib/api";
 
 // Chart configuration for the pie chart
 export const chartConfig = {

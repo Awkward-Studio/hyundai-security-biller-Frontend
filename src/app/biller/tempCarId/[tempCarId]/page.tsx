@@ -15,21 +15,13 @@ import {
   updateTempCarById,
   updateTempCarFieldsById,
   CarStatus, // 0 ENTERED, 1 IN_PROGRESS, 2 DONE, 3 GATEPASS_GENERATED, 4 EXITED
-} from "@/lib/appwrite";
+} from "@/lib/api";
 
 import { purposeOfVisits } from "@/lib/helper";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import loader from "../../../../../public/assets/t3-loader.gif";
-
-const useDev = false;
-let apiUrl: string;
-if (useDev) {
-  apiUrl = "http://localhost:3000";
-} else {
-  apiUrl = "https://hyundai-garage-frontend.vercel.app";
-}
 
 type TempCarDoc = any;
 type CarDoc = any;
@@ -299,7 +291,7 @@ export default function TempCarPage({
       return;
     }
 
-    const payloadValue = trimmed; // allow "", Appwrite-safe for string fields
+    const payloadValue = trimmed;
 
     try {
       setBusy(true);
@@ -329,9 +321,16 @@ export default function TempCarPage({
 
     try {
       setBusy(true);
-      const res = await fetch(`${apiUrl}${pathname}/gatePass`, {
+      const accessToken =
+        typeof window === "undefined"
+          ? null
+          : window.localStorage.getItem("accessToken");
+      const res = await fetch(`${pathname}/gatePass`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
         body: JSON.stringify({ car, tempCar }),
       });
       if (!res.ok) throw new Error(`Gatepass API failed (${res.status})`);

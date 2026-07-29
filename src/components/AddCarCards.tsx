@@ -9,7 +9,7 @@ import { SearchSelect } from "./SearchSelect";
 import loader from "../../public/assets/t3-loader.gif";
 import { toast } from "sonner";
 
-import { createCarWithTemp, fetchCarMakeAndModels } from "@/lib/appwrite";
+import { createCarWithTemp, fetchCarMakeAndModels } from "@/lib/api";
 import { purposeOfVisits } from "@/lib/helper";
 import { RadioGroup, RadioGroupItem } from "./ui/radioGroup";
 import { Checkbox } from "@/components/ui/checkbox";

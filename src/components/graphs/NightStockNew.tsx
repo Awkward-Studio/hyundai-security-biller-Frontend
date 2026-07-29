@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { useEffect } from "react";
 import { TempCar } from "@/lib/definitions";
-import { TempCarRecord } from "@/lib/appwrite";
+import { TempCarRecord } from "@/lib/api";
 
 const TOTAL_PARKING_SPACE = 400;
 

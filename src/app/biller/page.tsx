@@ -14,7 +14,7 @@ import {
   TempCarRecord,
   getAllActiveTempCars,
   getAllTempCarsToday,
-} from "@/lib/appwrite";
+} from "@/lib/api";
 import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 import { NightStockNew } from "@/components/graphs/NightStockNew";
 import { TempCar } from "@/lib/definitions";

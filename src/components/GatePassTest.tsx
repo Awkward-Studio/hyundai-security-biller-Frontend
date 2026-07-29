@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import type { CarRecord, TempCarRecord } from "@/lib/appwrite";
+import type { CarRecord, TempCarRecord } from "@/lib/api";
 
 Font.register({
   family: "Open Sans",
