@@ -9,16 +9,10 @@ import loader from "../../public/assets/t3-loader.gif";
 import {
   Car,
   CarFront,
-  ClipboardList,
   Download,
-  HistoryIcon,
   House,
-  Layers3,
   LogOut,
   Menu,
-  PlusIcon,
-  UmbrellaIcon,
-  UserRoundCog,
 } from "lucide-react";
 
 import {
@@ -86,31 +80,6 @@ export default function Sidebar({ home }: any) {
                   <div>Home</div>
                 </Button>
               </DrawerClose>
-              {(home == "/parts" || home == "/biller") && (
-                <DrawerClose>
-                  <Button
-                    className="flex justify-between p-4 border-b w-full"
-                    onClick={() => router.push(`${home}/parts-inventory`)}
-                    variant={"link"}
-                  >
-                    <ClipboardList />
-                    <div>Parts Inventory</div>
-                  </Button>
-                </DrawerClose>
-              )}
-              {home == "/parts" && (
-                <DrawerClose>
-                  <Button
-                    className="flex justify-between p-4 border-b w-full"
-                    onClick={() => router.push(`${home}/addParts`)}
-                    variant={"link"}
-                  >
-                    <PlusIcon />
-                    <div>Add Parts</div>
-                  </Button>
-                </DrawerClose>
-              )}
-
               {home == "/admin" && (
                 <DrawerClose>
                   <Button
@@ -182,22 +151,6 @@ export default function Sidebar({ home }: any) {
               </HoverCardContent>
             </HoverCard>
 
-            {(home == "/parts" || home == "/biller") && (
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <div
-                    className="border-2 rounded-md shadow-md p-3 cursor-pointer"
-                    onClick={() => handleNavigation(`${home}/parts-inventory`)}
-                  >
-                    <ClipboardList />
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
-                  Parts Inventory
-                </HoverCardContent>
-              </HoverCard>
-            )}
-
             {home == "/admin" && (
               <>
                 <HoverCard>
@@ -228,21 +181,6 @@ export default function Sidebar({ home }: any) {
                 </HoverCardTrigger>
                 <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
                   Add Car
-                </HoverCardContent>
-              </HoverCard>
-            )}
-            {home == "/parts" && (
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <div
-                    className="border-2 rounded-md shadow-md p-3 cursor-pointer"
-                    onClick={() => handleNavigation(`${home}/addParts`)}
-                  >
-                    <PlusIcon />
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
-                  Add Parts
                 </HoverCardContent>
               </HoverCard>
             )}
