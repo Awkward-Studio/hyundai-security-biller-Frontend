@@ -19,7 +19,7 @@ type Props = {};
 type MakeModels = { company: string; models: string[] };
 
 const indianCarNumberRegex =
-  /^(?:[A-Z]{2}\d{2}[A-Z]{1,5}\d{4}|\d{2}BH\d{4}[A-Z]{1,2})$/;
+  /^(?:[A-Z]{2}\d{2}[A-Z]{0,5}\d{4}|\d{2}BH\d{4}[A-Z]{1,2})$/;
 
 export default function AddCarCards({}: Props) {
   const router = useRouter();
