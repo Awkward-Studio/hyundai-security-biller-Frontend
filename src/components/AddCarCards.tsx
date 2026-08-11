@@ -10,7 +10,7 @@ import loader from "../../public/assets/t3-loader.gif";
 import { toast } from "sonner";
 
 import { createCarWithTemp, fetchCarMakeAndModels } from "@/lib/api";
-import { purposeOfVisits } from "@/lib/helper";
+import { carMakeModels, purposeOfVisits } from "@/lib/helper";
 import { RadioGroup, RadioGroupItem } from "./ui/radioGroup";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -51,19 +51,30 @@ export default function AddCarCards({}: Props) {
       setIsFetching(true);
       try {
         const data = await fetchCarMakeAndModels();
-        const formatted: MakeModels[] = (data?.documents ?? []).map(
-          (doc: any) => ({
+        const rawData = data as unknown as { documents?: any[] } | any[];
+        const documents = Array.isArray((rawData as { documents?: any[] })?.documents)
+          ? (rawData as { documents: any[] }).documents
+          : Array.isArray(rawData)
+            ? rawData
+            : [];
+        const formatted: MakeModels[] = documents.map((doc: any) => ({
             company: String(doc.make ?? ""),
             models: Array.isArray(doc.models) ? doc.models.map(String) : [],
-          })
-        );
+          })).filter((item: MakeModels) => item.company);
         if (!mounted) return;
-        setCarMakeModels(formatted);
+        // Keep the form usable if the deployed database has not been seeded yet.
+        setCarMakeModels(formatted.length ? formatted : carMakeModels);
         setSelectedCarMakeModels([]);
       } catch (err: unknown) {
         const message =
           err instanceof Error ? err.message : "Unknown error occurred";
         console.error("Failed to fetch car makes/models:", err);
+        // The catalog is also bundled locally so vehicle entry remains available
+        // during a temporary API/database outage.
+        if (mounted) {
+          setCarMakeModels(carMakeModels);
+          setSelectedCarMakeModels([]);
+        }
         toast.error(`Couldn't load car makes/models: ${message}`);
       } finally {
         if (mounted) setIsFetching(false);
