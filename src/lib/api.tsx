@@ -302,6 +302,12 @@ export const addCarModel = async (carMakeId: string, carModel: string) =>
     body: JSON.stringify({ model: carModel }),
   });
 
+export const addCarMake = async (make: string) =>
+  apiFetch<CarModelDoc>("/api/car-models/", {
+    method: "POST",
+    body: JSON.stringify({ make }),
+  });
+
 export const fetchCarMakeAndModels = async () =>
   apiFetch<ListResponse<CarModelDoc>>("/api/car-models/");
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "@/components/PrimaryButton";
 import { Input } from "@/components/ui/input";
-import { addCarModel, fetchCarMakeAndModels } from "@/lib/api";
+import { addCarMake, addCarModel, fetchCarMakeAndModels } from "@/lib/api";
 import { toast } from "sonner";
 import {
   Select,
@@ -16,9 +16,10 @@ import {
 type Props = {};
 
 function AddCarModel({}: Props) {
+  const [makeName, setMakeName] = useState("");
   const [ModelName, setModelName] = useState<string>(""); // Initialized to an empty string
-  const [isAddingCar, setIsAddingCar] = useState(false);
-  const [isValid, setIsValid] = useState(true);
+  const [isAddingMake, setIsAddingMake] = useState(false);
+  const [isAddingModel, setIsAddingModel] = useState(false);
   const [makes, setMakes] = useState<
     { id: string; make: string; models: string[] }[]
   >([]);
@@ -37,49 +38,84 @@ function AddCarModel({}: Props) {
     console.log("Selected Make ID: ", selectedMakeId);
   };
 
+  const loadMakes = async () => {
+    try {
+      const data = await fetchCarMakeAndModels();
+      setMakes(data.documents.map((doc) => ({
+        id: doc.$id,
+        make: doc.make,
+        models: doc.models || [],
+      })));
+    } catch (error) {
+      toast.error("Failed to fetch makes");
+    }
+  };
+
   useEffect(() => {
-    const fetchMakes = async () => {
-      try {
-        const data = await fetchCarMakeAndModels();
-        console.log("Makes: ", data);
-        const formattedData = data.documents.map((doc: any) => ({
-          id: doc.$id,
-          make: doc.make,
-          models: doc.models || [],
-        }));
-        setMakes(formattedData);
-      } catch (error) {
-        toast.error("Failed to fetch makes");
-      }
-    };
-    fetchMakes();
+    loadMakes();
   }, []);
 
-  const addCarModelHandler = async () => {
-    if (!ModelName || !selectedMakeId) {
-      setIsValid(false);
-      return;
-    }
-    setIsAddingCar(true);
+  const addCarMakeHandler = async () => {
+    const name = makeName.trim();
+    if (!name) return toast.error("Enter a make name");
+    setIsAddingMake(true);
     try {
-      const result = await addCarModel(selectedMakeId, ModelName);
-      toast.success("Car model added successfully");
-      console.log(result);
-      setModelName(""); // Clear the input after success
+      await addCarMake(name);
+      toast.success("Car make added successfully");
+      setMakeName("");
+      await loadMakes();
     } catch (error) {
-      toast.error("Failed to add car model");
+      toast.error(error instanceof Error ? error.message : "Failed to add car make");
     } finally {
-      setIsAddingCar(false);
+      setIsAddingMake(false);
+    }
+  };
+
+  const addCarModelHandler = async () => {
+    const name = ModelName.trim();
+    if (!name || !selectedMakeId) {
+      return toast.error(!selectedMakeId ? "Select a make first" : "Enter a model name");
+    }
+    setIsAddingModel(true);
+    try {
+      await addCarModel(selectedMakeId, name);
+      toast.success("Car model added successfully");
+      setModelName("");
+      await loadMakes();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to add car model");
+    } finally {
+      setIsAddingModel(false);
     }
   };
 
   return (
     <div className="flex flex-col w-[90%] mt-10">
       <div>
-        <div className="font-semibold text-3xl">Add Car</div>
-        <div className="font-medium">Add the details of the Model</div>
+        <div className="font-semibold text-3xl">Car Makes &amp; Models</div>
+        <div className="font-medium">Manage the makes and models available when adding a car.</div>
       </div>
-      <div className="flex flex-col mt-8 space-y-8">
+      <div className="flex flex-col mt-8 space-y-8 max-w-2xl">
+        <div>
+          <label className="block mb-2 font-medium">Add Make</label>
+          <div className="flex gap-3">
+            <Input
+              placeholder="e.g. Hyundai"
+              value={makeName}
+              onChange={(e) => setMakeName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && addCarMakeHandler()}
+            />
+            <PrimaryButton
+              className="min-w-32"
+              title="Add Make"
+              handleButtonPress={addCarMakeHandler}
+              isLoading={isAddingMake}
+            />
+          </div>
+        </div>
+
+        <div className="border-t pt-8">
+          <div className="font-semibold text-xl mb-5">Add Model</div>
         {/* Dropdown for selecting car make */}
         <div>
           <label className="block mb-2 font-medium">Select Make</label>
@@ -114,16 +150,25 @@ function AddCarModel({}: Props) {
         {/* Add Car Button */}
         <PrimaryButton
           className="w-full"
-          title={"Add Car"}
+          title={"Add Model"}
           handleButtonPress={addCarModelHandler}
-          isLoading={isAddingCar}
+          isLoading={isAddingModel}
         />
+        </div>
 
-        {!isValid && (
-          <div>
-            <div className="text-red-600">Please Fill All Fields</div>
+        <div className="border-t pt-8">
+          <div className="font-semibold text-xl mb-4">Available makes</div>
+          <div className="space-y-3">
+            {makes.map((item) => (
+              <div key={item.id} className="rounded-md border p-4">
+                <div className="font-medium">{item.make}</div>
+                <div className="text-sm text-gray-600 mt-1">
+                  {item.models.length ? item.models.join(", ") : "No models added yet"}
+                </div>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

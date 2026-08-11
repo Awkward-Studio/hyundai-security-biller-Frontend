@@ -96,7 +96,7 @@ export default function Sidebar({ home }: any) {
                     variant={"link"}
                   >
                     <CarFront />
-                    <div>Add Car Model</div>
+                    <div>Car Makes &amp; Models</div>
                   </Button>
                 </DrawerClose>
               )}
@@ -164,6 +164,19 @@ export default function Sidebar({ home }: any) {
                   </HoverCardTrigger>
                   <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
                     Download Reports
+                  </HoverCardContent>
+                </HoverCard>
+                <HoverCard>
+                  <HoverCardTrigger asChild>
+                    <div
+                      className="border-2 rounded-md shadow-md p-3 cursor-pointer"
+                      onClick={() => handleNavigation(`${home}/add-car`)}
+                    >
+                      <CarFront />
+                    </div>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="ml-10 -mt-5 font-semibold w-fit">
+                    Car Makes &amp; Models
                   </HoverCardContent>
                 </HoverCard>
               </>
