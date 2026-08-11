@@ -90,32 +90,34 @@ function AddCarModel({}: Props) {
   };
 
   return (
-    <div className="flex flex-col w-[90%] mt-10">
-      <div>
-        <div className="font-semibold text-3xl">Car Makes &amp; Models</div>
-        <div className="font-medium">Manage the makes and models available when adding a car.</div>
+    <div className="w-full max-w-5xl px-6 py-12 lg:px-12 lg:py-16">
+      <div className="mb-10">
+        <div className="font-semibold text-3xl tracking-tight">Car Makes &amp; Models</div>
+        <div className="mt-2 text-gray-500">Manage the makes and models available when adding a car.</div>
       </div>
-      <div className="flex flex-col mt-8 space-y-8 max-w-2xl">
-        <div>
-          <label className="block mb-2 font-medium">Add Make</label>
-          <div className="flex gap-3">
+      <div className="grid gap-8 lg:grid-cols-2">
+        <div className="rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="mb-5">
+            <div className="font-semibold text-xl">Add a make</div>
+            <div className="mt-1 text-sm text-gray-500">Create a brand that can be selected for new vehicles.</div>
+          </div>
+          <div className="space-y-3">
+            <label className="block text-sm font-medium">Make name</label>
             <Input
               placeholder="e.g. Hyundai"
               value={makeName}
               onChange={(e) => setMakeName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addCarMakeHandler()}
             />
-            <PrimaryButton
-              className="min-w-32"
-              title="Add Make"
-              handleButtonPress={addCarMakeHandler}
-              isLoading={isAddingMake}
-            />
+            <PrimaryButton className="w-full" title="Add Make" handleButtonPress={addCarMakeHandler} isLoading={isAddingMake} />
           </div>
         </div>
 
-        <div className="border-t pt-8">
-          <div className="font-semibold text-xl mb-5">Add Model</div>
+        <div className="rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="mb-5">
+            <div className="font-semibold text-xl">Add a model</div>
+            <div className="mt-1 text-sm text-gray-500">Attach a model to one of your existing makes.</div>
+          </div>
         {/* Dropdown for selecting car make */}
         <div>
           <label className="block mb-2 font-medium">Select Make</label>
@@ -148,16 +150,14 @@ function AddCarModel({}: Props) {
         </div>
 
         {/* Add Car Button */}
-        <PrimaryButton
-          className="w-full"
-          title={"Add Model"}
-          handleButtonPress={addCarModelHandler}
-          isLoading={isAddingModel}
-        />
+        <PrimaryButton className="w-full" title="Add Model" handleButtonPress={addCarModelHandler} isLoading={isAddingModel} />
         </div>
 
-        <div className="border-t pt-8">
-          <div className="font-semibold text-xl mb-4">Available makes</div>
+        <div className="rounded-2xl border bg-gray-50 p-6 lg:col-span-2">
+          <div className="mb-4">
+            <div className="font-semibold text-xl">Available catalog</div>
+            <div className="mt-1 text-sm text-gray-500">These options are shown to security staff when they add a car.</div>
+          </div>
           <div className="space-y-3">
             {makes.map((item) => (
               <div key={item.id} className="rounded-md border p-4">

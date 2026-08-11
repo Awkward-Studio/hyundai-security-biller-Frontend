@@ -28,9 +28,9 @@ export default function AddCarCards({}: Props) {
   const [carNumber, setCarNumber] = useState("");
   const [isCorrectCarNumber, setIsCorrectCarNumber] = useState(false);
 
-  const [carMake, setCarMake] = useState<string>("Hyundai");
+  const [carMake, setCarMake] = useState<string>("");
   const [carModel, setCarModel] = useState<string>("");
-  const [handleModelDisable, setHandleModelDisable] = useState(false);
+  const [handleModelDisable, setHandleModelDisable] = useState(true);
 
   const [carMakeModels, setCarMakeModels] = useState<MakeModels[]>([]);
   const [selectedCarMakeModels, setSelectedCarMakeModels] = useState<string[]>(
@@ -59,12 +59,7 @@ export default function AddCarCards({}: Props) {
         );
         if (!mounted) return;
         setCarMakeModels(formatted);
-        setCarMake("Hyundai");
-        console.log(formatted);
-        const found = formatted.find((m) => m.company === "Hyundai");
-        const nextModels = found?.models ?? [];
-        setSelectedCarMakeModels(nextModels);
-        console.log(found);
+        setSelectedCarMakeModels([]);
       } catch (err: unknown) {
         const message =
           err instanceof Error ? err.message : "Unknown error occurred";
@@ -85,24 +80,14 @@ export default function AddCarCards({}: Props) {
     setIsCorrectCarNumber(indianCarNumberRegex.test(v));
   }
 
-  // const handleCarMakeChange = (value: string) => {
-  //   try {
-  //     setHandleModelDisable(true);
-  //     setCarMake(value);
-  //     setCarModel("");
-
-  //     const found = carMakeModels.find((m) => m.company === value);
-  //     const nextModels = found?.models ?? [];
-  //     setSelectedCarMakeModels(nextModels);
-  //     setHandleModelDisable(nextModels.length === 0);
-  //   } catch (err) {
-  //     const message = err instanceof Error ? err.message : String(err);
-  //     console.error("Error in handleCarMakeChange:", message);
-  //     setSelectedCarMakeModels([]);
-  //     setHandleModelDisable(true);
-  //     toast.error("Failed to update models for selected make.");
-  //   }
-  // };
+  const handleCarMakeChange = (value: string) => {
+    setCarMake(value);
+    setCarModel("");
+    const found = carMakeModels.find((m) => m.company === value);
+    const nextModels = found?.models ?? [];
+    setSelectedCarMakeModels(nextModels);
+    setHandleModelDisable(nextModels.length === 0);
+  };
 
   const clearPurposes = () => {
     setIncludeCode1(false);
@@ -181,14 +166,14 @@ export default function AddCarCards({}: Props) {
           aria-invalid={!isCorrectCarNumber && carNumber.length > 0}
         />
 
-        {/* <div className="w-full">
+        <div className="w-full">
           <SearchSelect
             data={carMakeModels.map((m) => m.company)}
             type="Car Makes"
             setDataValue={handleCarMakeChange}
             value={carMake}
           />
-        </div> */}
+        </div>
 
         <div className="w-full">
           <SearchSelect
