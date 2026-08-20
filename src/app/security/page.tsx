@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
@@ -16,6 +15,7 @@ import {
   TempCarsDataTable,
   tempCarsColumns,
 } from "@/components/data-tables/temp-cars-data-table";
+import { Button } from "@/components/ui/button";
 
 import {
   CarStatus,
@@ -30,8 +30,6 @@ import { ParkingSplitPie } from "@/components/graphs/ParkingSplitPie";
 type Props = {};
 
 export default function Security({}: Props) {
-  const pathname = usePathname();
-
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
@@ -95,13 +93,6 @@ export default function Security({}: Props) {
 
   return (
     <div className="flex flex-col w-[90%] mt-32">
-      <Link
-        className="fixed z-20 bottom-7 right-7 bg-blue-600 p-3 rounded-xl border-2 border-black"
-        href={`${pathname}/addCar`}
-      >
-        <Plus size={40} color="white" />
-      </Link>
-
       <div>
         <div className="font-semibold text-3xl">Hello {name || "there"}!</div>
         <div className="font-medium">Index Service Center, Mira Road</div>
@@ -128,7 +119,15 @@ export default function Security({}: Props) {
       </div>
 
       <div className="flex flex-col mt-16">
-        <div className="font-semibold text-2xl mb-5">All Cars</div>{" "}
+        <div className="mb-5 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="font-semibold text-2xl">All Cars</h2>
+          <Button asChild className="shrink-0">
+            <Link href="/security/addCar">
+              <Plus aria-hidden="true" />
+              Add Car
+            </Link>
+          </Button>
+        </div>
         <TempCarsDataTable columns={tempCarsColumns} data={tempCars} />
       </div>
     </div>
