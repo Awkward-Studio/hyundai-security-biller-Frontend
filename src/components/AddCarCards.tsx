@@ -9,7 +9,14 @@ import { SearchSelect } from "./SearchSelect";
 import loader from "../../public/assets/t3-loader.gif";
 import { toast } from "sonner";
 
-import { createCarWithTemp, fetchCarMakeAndModels } from "@/lib/api";
+import {
+  createCarWithTemp,
+  fetchCarMakeAndModels,
+  getLocations,
+  getServiceTypes,
+  LocationRecord,
+  ServiceTypeRecord,
+} from "@/lib/api";
 import { carMakeModels, purposeOfVisits } from "@/lib/helper";
 import { RadioGroup, RadioGroupItem } from "./ui/radioGroup";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -30,17 +37,18 @@ export default function AddCarCards({}: Props) {
 
   const [carMake, setCarMake] = useState<string>("");
   const [carModel, setCarModel] = useState<string>("");
+  const [serviceType, setServiceType] = useState<string>("");
+  const [locationId, setLocationId] = useState<string>("");
+
   const [handleModelDisable, setHandleModelDisable] = useState(true);
 
   const [carMakeModels, setCarMakeModels] = useState<MakeModels[]>([]);
-  const [selectedCarMakeModels, setSelectedCarMakeModels] = useState<string[]>(
-    []
-  );
+  const [selectedCarMakeModels, setSelectedCarMakeModels] = useState<string[]>([]);
+  const [locations, setLocations] = useState<LocationRecord[]>([]);
+  const [serviceTypes, setServiceTypes] = useState<ServiceTypeRecord[]>([]);
 
   const [includeCode1, setIncludeCode1] = useState<boolean>(false);
-  const [selectedRadioCode, setSelectedRadioCode] = useState<
-    string | undefined
-  >(undefined);
+  const [selectedRadioCode, setSelectedRadioCode] = useState<string | undefined>(undefined);
 
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
@@ -50,32 +58,38 @@ export default function AddCarCards({}: Props) {
     (async () => {
       setIsFetching(true);
       try {
-        const data = await fetchCarMakeAndModels();
+        const [data, locData, stData] = await Promise.all([
+          fetchCarMakeAndModels(),
+          getLocations().catch(() => ({ documents: [] })),
+          getServiceTypes().catch(() => ({ documents: [] })),
+        ]);
+
         const rawData = data as unknown as { documents?: any[] } | any[];
         const documents = Array.isArray((rawData as { documents?: any[] })?.documents)
           ? (rawData as { documents: any[] }).documents
           : Array.isArray(rawData)
-            ? rawData
-            : [];
-        const formatted: MakeModels[] = documents.map((doc: any) => ({
+          ? rawData
+          : [];
+        const formatted: MakeModels[] = documents
+          .map((doc: any) => ({
             company: String(doc.make ?? ""),
             models: Array.isArray(doc.models) ? doc.models.map(String) : [],
-          })).filter((item: MakeModels) => item.company);
+          }))
+          .filter((item: MakeModels) => item.company);
+
         if (!mounted) return;
-        // Keep the form usable if the deployed database has not been seeded yet.
         setCarMakeModels(formatted.length ? formatted : carMakeModels);
         setSelectedCarMakeModels([]);
+        setLocations(locData.documents || []);
+        setServiceTypes((stData.documents || []).filter((s) => s.active ?? s.isActive));
       } catch (err: unknown) {
-        const message =
-          err instanceof Error ? err.message : "Unknown error occurred";
-        console.error("Failed to fetch car makes/models:", err);
-        // The catalog is also bundled locally so vehicle entry remains available
-        // during a temporary API/database outage.
+        const message = err instanceof Error ? err.message : "Unknown error occurred";
+        console.error("Failed to fetch data:", err);
         if (mounted) {
           setCarMakeModels(carMakeModels);
           setSelectedCarMakeModels([]);
         }
-        toast.error(`Couldn't load car makes/models: ${message}`);
+        toast.error(`Couldn't load car options: ${message}`);
       } finally {
         if (mounted) setIsFetching(false);
       }
@@ -130,21 +144,22 @@ export default function AddCarCards({}: Props) {
 
     setIsButtonLoading(true);
     try {
+      const selectedLoc = locations.find((l) => l.id === locationId);
       const payload = {
         carNumber,
         carMake,
         carModel,
+        serviceType,
         purposesOfVisit: purposes,
       };
 
-      const created = await createCarWithTemp(payload);
+      const created = await createCarWithTemp(payload, selectedLoc?.name, locationId || null);
       if (!created) throw new Error("Create failed");
 
       toast.success("Vehicle added ✅");
       router.push("/security");
     } catch (e: unknown) {
-      const message =
-        e instanceof Error ? e.message : "Unknown error occurred while adding";
+      const message = e instanceof Error ? e.message : "Unknown error occurred while adding";
       console.error("Add vehicle error:", e);
       toast.error(`There was an error adding the vehicle: ${message}`);
     } finally {
@@ -169,15 +184,66 @@ export default function AddCarCards({}: Props) {
       )}
 
       <div className="flex w-full flex-col space-y-5">
-        <Input
-          id="carNumber"
-          placeholder="Car Number"
-          value={carNumber}
-          onChange={(e) => checkIndianCarNumber(e.target.value)}
-          aria-invalid={!isCorrectCarNumber && carNumber.length > 0}
-        />
+        <div>
+          <label className="block mb-1 text-xs font-semibold text-slate-600 uppercase">Vehicle Number *</label>
+          <Input
+            id="carNumber"
+            placeholder="e.g. MH04AB1234"
+            value={carNumber}
+            onChange={(e) => checkIndianCarNumber(e.target.value)}
+            aria-invalid={!isCorrectCarNumber && carNumber.length > 0}
+          />
+        </div>
+
+        {/* Location Dropdown */}
+        {locations.length > 0 && (
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-slate-600 uppercase">Dealership Location</label>
+            <select
+              value={locationId}
+              onChange={(e) => {
+                const locId = e.target.value;
+                setLocationId(locId);
+                const selectedLoc = locations.find((l) => l.id === locId);
+                if (selectedLoc?.isBodyshop || selectedLoc?.is_bodyshop) {
+                  const bsType = serviceTypes.find((s) => s.bodyshopOnly || s.bodyshop_only || /bodyshop/i.test(s.name));
+                  if (bsType) setServiceType(bsType.name);
+                }
+              }}
+              className="w-full p-2 border border-slate-300 rounded text-sm bg-white font-medium text-slate-800"
+            >
+              <option value="">Default Location</option>
+              {locations.map((loc) => (
+                <option key={loc.id} value={loc.id}>
+                  {loc.name} {loc.isBodyshop || loc.is_bodyshop ? "(Bodyshop)" : ""}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Service Type Dropdown */}
+        {serviceTypes.length > 0 && (
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-slate-600 uppercase">Service Type</label>
+            <select
+              value={serviceType}
+              onChange={(e) => setServiceType(e.target.value)}
+              className="w-full p-2 border border-slate-300 rounded text-sm bg-white font-medium text-slate-800"
+            >
+              <option value="">Select Service Type</option>
+              {serviceTypes.map((st) => (
+                <option key={st.id} value={st.name}>
+                  {st.name} {st.bodyshopOnly || st.bodyshop_only ? "(Bodyshop Only)" : ""}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
 
         <div className="w-full">
+          <label className="block mb-1 text-xs font-semibold text-slate-600 uppercase">Car Make *</label>
           <SearchSelect
             data={carMakeModels.map((m) => m.company)}
             type="Car Makes"
@@ -187,6 +253,7 @@ export default function AddCarCards({}: Props) {
         </div>
 
         <div className="w-full">
+          <label className="block mb-1 text-xs font-semibold text-slate-600 uppercase">Car Model *</label>
           <SearchSelect
             data={selectedCarMakeModels}
             type="Car Models"
@@ -196,11 +263,10 @@ export default function AddCarCards({}: Props) {
           />
         </div>
 
-        {/* Purpose of Visit (advisor-free) */}
+        {/* Purpose of Visit */}
         <div className="w-full">
           <label className="block mb-2 font-medium">Purpose of Visit</label>
 
-          {/* code 1 as optional checkbox */}
           <div className="mb-3 flex items-center space-x-2">
             <Checkbox
               id="checkbox-1"
@@ -208,12 +274,10 @@ export default function AddCarCards({}: Props) {
               onCheckedChange={(v) => setIncludeCode1(Boolean(v))}
             />
             <label htmlFor="checkbox-1" className="cursor-pointer">
-              {purposeOfVisits.find((p) => p.code === 1)?.description ??
-                "Option 1"}
+              {purposeOfVisits.find((p) => p.code === 1)?.description ?? "Option 1"}
             </label>
           </div>
 
-          {/* other codes as single-select radio (string-based) */}
           <RadioGroup
             value={selectedRadioCode}
             onValueChange={(val) => setSelectedRadioCode(val)}
@@ -263,3 +327,4 @@ export default function AddCarCards({}: Props) {
     </div>
   );
 }
+

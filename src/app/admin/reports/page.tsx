@@ -1,320 +1,235 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import loader from "../../../../public/assets/t3-loader.gif";
-
-import { DateRangePicker } from "@/components/DateRangePicker";
 import PrimaryButton from "@/components/PrimaryButton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { getReportsData, getLocations, LocationRecord, TempCarRecord } from "@/lib/api";
+import { Download, FileSpreadsheet, Filter } from "lucide-react";
 
-import { getFirstTempCarDate, getTempCarsBetween } from "@/lib/api";
-import {
-  adminReportTimelineDrop,
-  createDateExpandedObj,
-  purposeOfVisits,
-} from "@/lib/helper";
 
 export default function Reports() {
   const [loading, setLoading] = useState(false);
-  const [showOnlyInParking, setShowOnlyInParking] = useState(false);
-  const [customDateRange, setCustomDateRange] = useState<DateRange>();
-  const [currentSelectedTimeline, setCurrentSelectedTimeline] = useState("");
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [locations, setLocations] = useState<LocationRecord[]>([]);
 
-  const TIMELINE_PRESETS = useMemo(() => {
-    const base = [
-      ...adminReportTimelineDrop,
-      { key: "thisQuarter", value: "This Quarter" },
-      { key: "lastSixMonths", value: "Last 6 Months" },
-      { key: "lastYear", value: "Last Year" },
-      { key: "custom", value: "Custom" },
-    ];
-    const map = new Map<string, { key: string; value: string }>();
-    for (const it of base) if (!map.has(it.key)) map.set(it.key, it);
-    return Array.from(map.values());
-  }, []);
+  const [reportType, setReportType] = useState("current_in");
+  const [locationId, setLocationId] = useState("");
+  const [fromDate, setFromDate] = useState(new Date().toISOString().slice(0, 10));
+  const [toDate, setToDate] = useState(new Date().toISOString().slice(0, 10));
+  const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       try {
-        const first = await getFirstTempCarDate();
-        setCustomDateRange({ from: first, to: new Date() });
-        setCurrentSelectedTimeline("custom");
-        setShowDatePicker(true);
-      } catch {
-        const today = new Date();
-        setCustomDateRange({ from: today, to: today });
-      } finally {
-        setLoading(false);
+        const res = await getLocations();
+        setLocations(res.documents || []);
+      } catch (e) {
+        console.error(e);
       }
     })();
   }, []);
 
-  const modifyReportsTimeline = async (timeline: string) => {
-    setShowDatePicker(false);
-    const today = await createDateExpandedObj(new Date());
-    const y = Number(today.year);
-    const m = Number(today.month) - 1;
-
-    switch (timeline) {
-      case "thisQuarter": {
-        const qStartMonth = m - (m % 3);
-        setCustomDateRange({
-          from: new Date(y, qStartMonth, 1),
-          to: new Date(),
-        });
-        break;
-      }
-      case "lastSixMonths":
-        setCustomDateRange({ from: new Date(y, m - 5, 1), to: new Date() });
-        break;
-      case "lastYear":
-        setCustomDateRange({
-          from: new Date(y - 1, 0, 1),
-          to: new Date(y - 1, 11, 31),
-        });
-        break;
-      case "custom":
-        setShowDatePicker(true);
-        break;
-      case "thisMonth":
-        setCustomDateRange({ from: new Date(y, m, 1), to: new Date() });
-        break;
-      case "lastMonth":
-        setCustomDateRange(
-          m === 0
-            ? { from: new Date(y - 1, 11, 1), to: new Date(y - 1, 11, 31) }
-            : { from: new Date(y, m - 1, 1), to: new Date(y, m, 0) }
-        );
-        break;
-      default:
-        break;
-    }
-    setCurrentSelectedTimeline(timeline);
-  };
-
-  const downloadTempCarsReport = async () => {
-    if (!customDateRange?.from || !customDateRange?.to) {
-      toast("Please select a date range");
-      return;
-    }
-
+  const downloadReport = async (format: "csv" | "xls") => {
     setLoading(true);
     try {
-      const res = await getTempCarsBetween(
-        customDateRange.from,
-        customDateRange.to
-      );
-      let docs = res?.documents ?? [];
+      const res = await getReportsData({
+        reportType,
+        locationId: locationId || undefined,
+        from: reportType === "gate_in_date" || reportType === "gate_out_date" || reportType === "date_range" ? fromDate : undefined,
+        to: reportType === "date_range" ? toDate : undefined,
+        month: reportType === "monthly" ? month : undefined,
+      });
 
-      if (showOnlyInParking)
-        docs = docs.filter((d: any) => d?.inParking === true);
-
+      const docs = res.documents || [];
       if (docs.length === 0) {
-        toast("No data in this range");
+        alert("No vehicle records found for the selected report filters.");
         return;
       }
 
-      const rows: ReportRow[] = docs.map((d: any) => {
-        const inDateObj = d?.$createdAt ? new Date(d.$createdAt) : null;
+      const headers = [
+        "S.No",
+        "Vehicle Number",
+        "Model",
+        "Service Type",
+        "Location",
+        "Status",
+        "Gate-In Date",
+        "Gate-In Time",
+        "Cashier Clearance Date",
+        "Cashier Clearance Time",
+        "Delivery By",
+        "Driver Name",
+        "Gate-Out Date",
+        "Gate-Out Time",
+        "Exit Type",
+      ];
 
-        // show out-date/time ONLY when truly exited (explicit)
-        const status = String(d?.carStatus ?? "")
-          .trim()
-          .toUpperCase();
-        const isExited = status === "EXITED";
-        const outDateObj =
-          isExited && d?.$updatedAt ? new Date(d.$updatedAt) : null;
+      const rows = docs.map((d: TempCarRecord, i: number) => {
+        const inDT = d.entryTime ? new Date(d.entryTime) : null;
+        const clDT = d.clearanceTime ? new Date(d.clearanceTime) : null;
+        const outDT = d.exitTime ? new Date(d.exitTime) : null;
 
-        return {
-          carNumber: d?.carNumber ?? "",
-          carMake: d?.carMake ?? "",
-          carModel: d?.carModel ?? "",
-          location: d?.location ?? "",
-          carsTableId: d?.carsTableId ?? "",
-          purposesOfVisit: mapPurposes(d?.purposesOfVisit ?? []),
-          carStatus: d?.carStatus ?? "",
-          gatePassPDF: d?.gatePassPDF ?? "",
-          inParking: d?.inParking ? "Yes" : "No",
-          "in-date": formatDate(inDateObj),
-          "in-time": formatTime(inDateObj),
-          "out-date": isExited ? formatDate(outDateObj) : "",
-          "out-time": isExited ? formatTime(outDateObj) : "",
-        };
+        return [
+          i + 1,
+          `"${d.carNumber}"`,
+          `"${d.carModel || ""}"`,
+          `"${d.serviceType || ""}"`,
+          `"${d.location || ""}"`,
+          `"${d.carStatus || ""}"`,
+          inDT ? inDT.toLocaleDateString("en-IN") : "",
+          inDT ? inDT.toLocaleTimeString("en-IN") : "",
+          clDT ? clDT.toLocaleDateString("en-IN") : "",
+          clDT ? clDT.toLocaleTimeString("en-IN") : "",
+          `"${d.deliveryBy || ""}"`,
+          `"${d.driverName || ""}"`,
+          outDT ? outDT.toLocaleDateString("en-IN") : "",
+          outDT ? outDT.toLocaleTimeString("en-IN") : "",
+          `"${d.exitType || ""}"`,
+        ];
       });
 
-      const csv = convertArrayToCSVWithHeaders(rows);
-      downloadCSV(
-        csv,
-        `reports_tempcars_${formatRangeForName(customDateRange)}.csv`
+      const csvContent =
+        "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute(
+        "download",
+        `Hyundai_Report_${reportType}_${new Date().toISOString().slice(0, 10)}.${format}`
       );
-      toast("Report Generated ✅");
-    } catch (e) {
-      console.error(e);
-      toast("Could not generate report");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e: any) {
+      alert(e.message || "Failed to download report");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-      {/* FULL-PAGE LOADER OVERLAY */}
-      {loading && (
-        <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm grid place-items-center">
-          <Image
-            src={loader}
-            width={120}
-            height={120}
-            alt="Loading..."
-            priority
-          />
-        </div>
-      )}
+    <div className="w-full max-w-5xl px-6 py-8">
+        {loading && (
+          <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm grid place-items-center">
+            <Image src={loader} width={120} height={120} alt="Loading..." priority />
+          </div>
+        )}
 
-      <div className="flex flex-col w-[90%] mt-20">
-        <div>
-          <div className="font-semibold text-3xl">Reports</div>
-
-          <div className="mt-5">
-            <Select onValueChange={(v) => modifyReportsTimeline(v)}>
-              <SelectTrigger className="w-full mb-10">
-                <SelectValue placeholder="Select Reports Timeline" />
-              </SelectTrigger>
-              <SelectContent>
-                {TIMELINE_PRESETS.map((item) => (
-                  <SelectItem key={item.key} value={item.key}>
-                    <div className="flex space-x-5 items-center">
-                      <div>{item.value}</div>
-                      {currentSelectedTimeline === item.key && (
-                        <div className="text-xs font-semibold text-red-500">
-                          Current
-                        </div>
-                      )}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        <div className="max-w-4xl">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+              <FileSpreadsheet className="text-blue-900" /> Executive Vehicle Reports
+            </h1>
+            <p className="text-sm text-slate-500">
+              Generate detailed XLS / CSV operational reports across all dealership locations.
+            </p>
           </div>
 
-          {currentSelectedTimeline === "custom" && showDatePicker && (
-            <DateRangePicker
-              dateRange={customDateRange}
-              setCustomDateRange={setCustomDateRange}
-            />
-          )}
-        </div>
+          <div className="bg-white rounded-xl shadow border border-slate-200 p-6 space-y-6">
+            {/* Report Type */}
+            <div>
+              <label className="text-xs font-bold uppercase text-slate-600 mb-2 block">
+                Select Report Type *
+              </label>
+              <select
+                value={reportType}
+                onChange={(e) => setReportType(e.target.value)}
+                className="w-full p-3 border border-slate-300 rounded-lg text-sm bg-white font-semibold text-slate-800"
+              >
+                <option value="current_in">🚗 Current In-Vehicles (In Facility Now)</option>
+                <option value="gate_in_date">📅 By Gate-In Date</option>
+                <option value="gate_out_date">🚪 By Gate-Out Date</option>
+                <option value="date_range">🗓️ Date Range Report</option>
+                <option value="monthly">📊 Monthly Report</option>
+              </select>
+            </div>
 
-        {/* Checkbox + button row */}
-        <div className="flex items-center w-full mt-10">
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={showOnlyInParking}
-              onChange={(e) => setShowOnlyInParking(e.target.checked)}
-            />
-            <span>Show only cars currently in parking</span>
-          </label>
-        </div>
-        <div className="flex w-full justify-end mt-10">
-          <div className="w-full max-w-sm">
-            <PrimaryButton
-              title="Download Reports"
-              handleButtonPress={downloadTempCarsReport}
-              disabled={loading}
-              className="w-full"
-            />
+            {/* Location Filter */}
+            <div>
+              <label className="text-xs font-bold uppercase text-slate-600 mb-2 block">
+                Location Filter
+              </label>
+              <select
+                value={locationId}
+                onChange={(e) => setLocationId(e.target.value)}
+                className="w-full p-3 border border-slate-300 rounded-lg text-sm bg-white font-semibold text-slate-800"
+              >
+                <option value="">All Dealership Locations (Global)</option>
+                {locations.map((loc) => (
+                  <option key={loc.id} value={loc.id}>
+                    {loc.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Date Filters based on Report Type */}
+            {(reportType === "gate_in_date" || reportType === "gate_out_date") && (
+              <div>
+                <label className="text-xs font-bold uppercase text-slate-600 mb-2 block">Target Date</label>
+                <input
+                  type="date"
+                  value={fromDate}
+                  onChange={(e) => setFromDate(e.target.value)}
+                  className="w-full p-3 border border-slate-300 rounded-lg text-sm"
+                />
+              </div>
+            )}
+
+            {reportType === "date_range" && (
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold uppercase text-slate-600 mb-2 block">From Date</label>
+                  <input
+                    type="date"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                    className="w-full p-3 border border-slate-300 rounded-lg text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-bold uppercase text-slate-600 mb-2 block">To Date</label>
+                  <input
+                    type="date"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                    className="w-full p-3 border border-slate-300 rounded-lg text-sm"
+                  />
+                </div>
+              </div>
+            )}
+
+            {reportType === "monthly" && (
+              <div>
+                <label className="text-xs font-bold uppercase text-slate-600 mb-2 block">Select Month</label>
+                <input
+                  type="month"
+                  value={month}
+                  onChange={(e) => setMonth(e.target.value)}
+                  className="w-full p-3 border border-slate-300 rounded-lg text-sm"
+                />
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="pt-4 border-t flex flex-wrap gap-4 justify-end">
+              <Button
+                onClick={() => downloadReport("csv")}
+                className="bg-emerald-700 hover:bg-emerald-600 text-white font-semibold px-6 py-3 flex items-center gap-2"
+              >
+                <Download size={18} /> Export CSV Report
+              </Button>
+              <Button
+                onClick={() => downloadReport("xls")}
+                className="bg-blue-900 hover:bg-blue-800 text-white font-semibold px-6 py-3 flex items-center gap-2"
+              >
+                <Download size={18} /> Export XLS Report
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </>
   );
 }
-
-/* ------------------ helpers ------------------ */
-
-const povMap = new Map<number, string>(
-  purposeOfVisits.map((p) => [p.code, p.description])
-);
-
-const mapPurposes = (arr: unknown): string => {
-  if (!Array.isArray(arr)) return "";
-  const labels = arr.map((v) => {
-    if (typeof v === "number") return povMap.get(v) ?? String(v);
-    if (typeof v === "string") {
-      const n = Number(v);
-      if (!Number.isNaN(n) && povMap.has(n)) return povMap.get(n)!;
-      return v;
-    }
-    return String(v ?? "");
-  });
-  return labels.join(" | ");
-};
-
-const REPORT_HEADERS = [
-  "carNumber",
-  "carMake",
-  "carModel",
-  "location",
-  "carsTableId",
-  "purposesOfVisit",
-  "carStatus",
-  "gatePassPDF",
-  "inParking",
-  "in-date",
-  "in-time",
-  "out-date",
-  "out-time",
-] as const;
-
-type ReportRow = Record<
-  (typeof REPORT_HEADERS)[number],
-  string | number | boolean
->;
-
-const convertArrayToCSVWithHeaders = (rows: ReportRow[]) => {
-  const headerLine = REPORT_HEADERS.join(",") + "\n";
-  const body = rows
-    .map((row) =>
-      REPORT_HEADERS.map((h) => {
-        const value = row[h] ?? "";
-        return `"${String(value).replace(/"/g, '""')}"`;
-      }).join(",")
-    )
-    .join("\n");
-  return headerLine + body;
-};
-
-const downloadCSV = (csvContent: string, fileName: string) => {
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.setAttribute("href", url);
-  link.setAttribute("download", fileName);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-
-const pad2 = (n: number) => String(n).padStart(2, "0");
-const formatDate = (d: Date | null) =>
-  d ? `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}` : "";
-const formatTime = (d: Date | null) =>
-  d ? `${pad2(d.getHours())}:${pad2(d.getMinutes())}` : "";
-
-const formatRangeForName = (range: DateRange) => {
-  const f = range.from!;
-  const t = range.to!;
-  return `${formatDate(f)}_to_${formatDate(t)}`;
-};

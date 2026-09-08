@@ -23,7 +23,10 @@ export const chartConfig = {
     label: "Entered",
     color: "hsl(var(--chart-1))",
   },
-
+  [CarStatus.CLEARED]: {
+    label: "Cashier Cleared",
+    color: "hsl(var(--chart-2))",
+  },
   [CarStatus.GATEPASS_GENERATED]: {
     label: "Gate Pass Generated",
     color: "hsl(var(--chart-4))",
@@ -32,7 +35,12 @@ export const chartConfig = {
     label: "Exited",
     color: "hsl(var(--chart-5))",
   },
-} as const;
+  [CarStatus.COMPLETED]: {
+    label: "Completed",
+    color: "hsl(var(--chart-3))",
+  },
+};
+
 
 interface CurrentCarsPieProps {
   tempCars: TempCarRecord[];

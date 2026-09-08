@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   const loginPath = "/";
 
   // Protected areas by prefix
-  const protectedPrefixes = ["/biller", "/security", "/admin"];
+  const protectedPrefixes = ["/biller", "/security", "/admin", "/cashier", "/transfer", "/vehicle-logs", "/reception"];
 
   // Try to read & parse cookie safely
   const tokenStr = request.cookies.get("user")?.value;
@@ -28,7 +28,9 @@ export async function middleware(request: NextRequest) {
     biller: "/biller",
     security: "/security",
     admin: "/admin",
-   
+    cashier: "/cashier",
+    reception: "/reception",
+    manager: "/admin/reports",
   };
 
   const isProtected = protectedPrefixes.some((p) => path.startsWith(p));
@@ -42,16 +44,21 @@ export async function middleware(request: NextRequest) {
   }
 
   // ---- Valid user exists ----
-  const home = roleHome[role] ?? loginPath;
+  const home = roleHome[role] ?? "/security";
 
   // If they’re at login, send them to their home
   if (path === loginPath) {
     return NextResponse.redirect(new URL(home, request.nextUrl));
   }
 
-  // If they’re in a protected area that doesn’t match their role, redirect to their home
+  // If they’re in a protected area that doesn’t match their role, allow access if permitted or fallback to home
+  // Note: users with permissions can access shared routes like /cashier, /transfer, /vehicle-logs, /admin/*
   if (isProtected && !path.startsWith(home)) {
-    return NextResponse.redirect(new URL(home, request.nextUrl));
+    const sharedRoutes = ["/cashier", "/transfer", "/vehicle-logs", "/admin"];
+    const isShared = sharedRoutes.some((s) => path.startsWith(s));
+    if (!isShared && role !== "admin") {
+      return NextResponse.redirect(new URL(home, request.nextUrl));
+    }
   }
 
   // Otherwise, allow
@@ -63,6 +70,11 @@ export const config = {
     "/biller/:path*",
     "/security/:path*",
     "/admin/:path*",
+    "/cashier/:path*",
+    "/transfer/:path*",
+    "/vehicle-logs/:path*",
+    "/reception/:path*",
     "/",
   ],
 };
+
